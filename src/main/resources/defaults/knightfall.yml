@@ -1,0 +1,49 @@
+name: "Падший рыцарь"
+lore-description:
+- "Молот павшего защитника. Победы возвращают ему утраченные силу, цепь и боевую ярость."
+lore-abilities:
+- "Убийства — развивать оружие, F — подтвердить улучшение."
+- "F — использовать крюк после его открытия."
+- "Shift + F — метнуть молот после последнего улучшения."
+item:
+  material: "MACE"
+  tooltip-style: "minecraft:pure"
+  levels:
+    level-1:
+      custom-model-data: 1
+      item-model: ""
+    level-2:
+      custom-model-data: 2
+      item-model: ""
+    level-3:
+      custom-model-data: 3
+      item-model: ""
+abilities:
+  chain:
+    segment-length: 0.22
+    use-particles: true
+  cloak:
+    chance: 0.07
+    duration: 2
+    cooldown: 8
+  grapple:
+    cooldown: 10
+    max-charges: 2
+    range: 20.0
+  throw:
+    cooldown: 20
+    damage: 7.0
+    range: 28.0
+    flight-speed: 1.7
+    return-speed: 1.7
+    interpolation-ticks: 2
+  knightfall-damage-cap:
+    enabled: true
+    max-damage-hearts: 6.0
+name-en: "Knightfall"
+lore-description-en:
+- "A fallen guardian's hammer. Victories restore its lost strength, chain and battle fury."
+lore-abilities-en:
+- "Kills — evolve the weapon; F confirms an upgrade."
+- "F — use the grapple after unlocking it."
+- "Shift + F — throw the hammer after the final upgrade."

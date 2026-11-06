@@ -1,0 +1,35 @@
+name: "Жажда крови"
+lore-description:
+- "Меч из застывшей крови. Каждая победа пробуждает его голод и открывает новые силы."
+lore-abilities:
+- "Удар — заразить противника кровотечением."
+- "Shift + F — кровавый след, доступен с 3 убийств."
+- "F — кровавый крюк, доступен с 5 убийств."
+item:
+  material: "NETHERITE_SWORD"
+  custom-model-data: 3
+  item-model: ""
+  tooltip-style: "minecraft:red"
+abilities:
+  infection:
+    cooldown: 15
+    damage: 2.0
+    hits: 4
+  blood-trail:
+    cooldown: 60
+    duration: 10
+  blood-hook:
+    damage: 8
+    cooldown: 30
+    range: 12.0
+    speed: 1.3
+  passive:
+    speed-amplifier: 0
+    strength-amplifier: 0
+name-en: "Bloodlust"
+lore-description-en:
+- "A sword of hardened blood. Every victory awakens its hunger and unlocks new power."
+lore-abilities-en:
+- "Hit — infect an enemy with bleeding."
+- "Shift + F — leave a blood trail after 3 kills."
+- "F — launch a blood hook after 5 kills."

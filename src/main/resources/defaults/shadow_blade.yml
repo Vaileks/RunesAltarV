@@ -1,0 +1,39 @@
+name: "Теневой клинок"
+lore-description:
+- "Лезвие, выкованное на границе света. Его хозяин исчезает в рывке и возвращается за спиной врага."
+lore-abilities:
+- "Shift + ПКМ — теневой рывок."
+- "F — метнуть теневые кинжалы."
+- "Удар в спину — шанс усиленной атаки."
+item:
+  material: "NETHERITE_SWORD"
+  custom-model-data: 10
+  item-model: ""
+  tooltip-style: "minecraft:pure"
+abilities:
+  leap:
+    cooldown: 30
+    burst-distance: 3.5
+    trail-speed: 0.6
+    head-particle-count: 8
+    tail-length: 2.2
+    end-impulse: 0.85
+  daggers:
+    cooldown: 45
+    damage: 2.0
+    speed: 1.0
+    gravity: 0.035
+    spin-speed: 0.10
+    interpolation-ticks: 3
+    spark-count: 8
+    trail-offset-back: 0.85
+  passive:
+    backstab-chance: 0.15
+    backstab-cooldown: 4
+name-en: "Shadow Blade"
+lore-description-en:
+- "Forged on the edge of light. Its wielder vanishes in a dash and returns behind the enemy."
+lore-abilities-en:
+- "Shift + right click — perform a shadow leap."
+- "F — throw shadow daggers."
+- "Backstab — chance of an empowered strike."

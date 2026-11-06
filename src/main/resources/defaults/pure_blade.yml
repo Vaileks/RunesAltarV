@@ -1,0 +1,28 @@
+name: "Чистый клинок"
+lore-description:
+- "Клинок безупречной стали. Он рассекает не только плоть, но и тени, скрывающие душу."
+lore-abilities:
+- "F — выпустить тень души, наносящую урон и замедляющую."
+- "Shift + F — вихревой разрез с ускорением."
+item:
+  material: "NETHERITE_SWORD"
+  custom-model-data: 7
+  item-model: ""
+  tooltip-style: "minecraft:pure"
+abilities:
+  shade-soul:
+    cooldown: 45
+    damage: 4.0
+    effect-duration: 3
+    slowness-amplifier: 0
+  cyclone-slash:
+    cooldown: 30
+    damage: 12.0
+    speed-duration: 2
+    speed-amplifier: 2
+name-en: "Pure Blade"
+lore-description-en:
+- "A flawless steel blade that cuts through flesh and the shadows concealing the soul."
+lore-abilities-en:
+- "F — release a shade soul that damages and slows enemies."
+- "Shift + F — perform a cyclone slash and gain speed."

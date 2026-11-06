@@ -1,0 +1,36 @@
+name: "Безумные слоты"
+lore-description:
+- "Оружие, заключившее сделку со случаем. Один поворот судьбы меняет и его облик, и правила боя."
+lore-abilities:
+- "ПКМ — временно превратить оружие в случайную легу."
+item:
+  material: "CLAY_BALL"
+  custom-model-data: 4
+  item-model: ""
+  tooltip-style: "minecraft:gold"
+abilities:
+  transform-duration: 20
+  cooldown: 60
+  bloodlust-kills: 5
+  knightfall-kills: 10
+  weapons-pool:
+    - "bloodlust"
+    - "boneblade"
+    - "cutlass"
+    - "earth_gauntlet"
+    - "frost_scythe"
+    - "hyperion"
+    - "knightfall"
+    - "nightpiercer"
+    - "paladins_battle_axe"
+    - "pale_gun"
+    - "pure_blade"
+    - "shadow_blade"
+    - "vulcans_crossbow"
+    - "windweaver"
+    - "wither_blade"
+name-en: "Crazy Slots"
+lore-description-en:
+- "A weapon bound to chance. A single twist of fate changes its form and the rules of battle."
+lore-abilities-en:
+- "Right click — temporarily transform into a random legendary weapon."

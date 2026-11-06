@@ -1,0 +1,29 @@
+name: "Иссушенный костяной клинок"
+lore-description:
+- "Древняя кость, пропитанная силой иссушения. Её тёмное дыхание угасает лишь вместе с врагом."
+lore-abilities:
+- "F — рывок с боевыми зарядами."
+- "Shift + F — аура иссушения вокруг владельца."
+item:
+  material: "NETHERITE_SWORD"
+  custom-model-data: 9
+  item-model: ""
+  tooltip-style: "minecraft:pure"
+abilities:
+  dash:
+    cooldown: 30
+    velocity: 1.3
+    speed-duration: 3
+    speed-amplifier: 0
+  aura:
+    cooldown: 50
+    max-damage: 10.0
+    radius: 4.0
+    wither-duration-ticks: 60
+    wither-amplifier: 0
+name-en: "Withered Bone Blade"
+lore-description-en:
+- "Ancient bone infused with withering power. Its dark breath fades only when the enemy falls."
+lore-abilities-en:
+- "F — dash using combat charges."
+- "Shift + F — surround yourself with a withering aura."

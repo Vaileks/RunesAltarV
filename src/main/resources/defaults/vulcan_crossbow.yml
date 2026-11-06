@@ -1,0 +1,26 @@
+name: "Арбалет Вулкана"
+lore-description:
+- "Арбалет, закалённый в сердце вулкана. Его гнев оставляет после себя огонь и расплавленный камень."
+lore-abilities:
+- "Выстрел — усиленная стрела."
+- "Shift + выстрел — магматический снаряд после накопления заряда."
+item:
+  material: "CROSSBOW"
+  custom-model-data: 1
+  item-model: ""
+  tooltip-style: "minecraft:vulcan"
+abilities:
+  damage: 18.0
+  magma-attack:
+    auto-reset: false
+    reset-delay: 20
+    cooldown: 25
+    explosion-power: 2.5
+    radius: 2
+    spread-chance: 0.35
+name-en: "Vulcan's Crossbow"
+lore-description-en:
+- "Tempered in the heart of a volcano, its fury leaves fire and molten stone behind."
+lore-abilities-en:
+- "Shoot — fire an empowered arrow."
+- "Shift + shoot — unleash a charged magma projectile."

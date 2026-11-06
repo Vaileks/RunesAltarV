@@ -1,0 +1,38 @@
+name: "Боевой топор паладина"
+lore-description:
+- "Тяжёлый топор древнего ордена. Он принимает вражескую ярость и возвращает её ударной волной."
+lore-abilities:
+- "F — обрушить топор в выбранную точку и расколоть землю."
+- "Shift + F — поглотить урон и высвободить его ударной волной."
+item:
+  material: "NETHERITE_AXE"
+  custom-model-data: 2
+  item-model: ""
+  tooltip-style: "minecraft:gold"
+abilities:
+  base:
+    damage: 10.0
+    attack-speed: 1.0
+  earth-shatter:
+    cooldown: 45
+    damage: 7.0
+    radius: 5
+    range: 24.0
+    direct-damage: 12.0
+    direct-radius: 1.4
+  stalwart-absorption:
+    cooldown: 45
+    duration-seconds: 4
+    absorption-ratio: 0.5
+    damage-cap: 30.0
+    min-shockwave-damage: 4.0
+    release-radius: 3.5
+    knockback: 1.1
+    max-shockwave-damage: 10.0
+    release-multiplier: 0.65
+name-en: "Paladin's Battle Axe"
+lore-description-en:
+- "The heavy axe of an ancient order. It absorbs the enemy's fury and returns it as a shockwave."
+lore-abilities-en:
+- "F — slam the axe at your target and shatter the ground."
+- "Shift + F — absorb damage and release a shockwave."

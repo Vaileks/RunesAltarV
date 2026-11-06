@@ -1,0 +1,6 @@
+# ru_RU or en_US. Weapon settings: items/<weapon>.yml.
+lang: en_US
+limits:
+  enabled: false
+  max-legendary-weapons: 4
+  max-y-height: 200

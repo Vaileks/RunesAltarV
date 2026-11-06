@@ -1,0 +1,28 @@
+name: "Пронзатель ночи"
+lore-description:
+- "Оружие ночного охотника. Его лезвие ищет чужую жизнь среди теней."
+lore-abilities:
+- "F — подготовить укус, ЛКМ — выпустить его и похитить здоровье."
+- "Shift + F — превратиться в летучую мышь и устремиться вперёд."
+item:
+  material: "NETHERITE_SWORD"
+  custom-model-data: 5
+  item-model: ""
+  tooltip-style: "minecraft:red"
+abilities:
+  bite:
+    cooldown: 45
+    damage: 4.0
+    health-steal: 2.0
+    duration: 6
+  transformation:
+    cooldown: 20
+    duration: 2
+    speed: 1.0
+    damage: 4.0
+name-en: "Nightpiercer"
+lore-description-en:
+- "The weapon of a nocturnal hunter. Its edge seeks life among the shadows."
+lore-abilities-en:
+- "F — prepare a bite; left click to release it and steal health."
+- "Shift + F — transform into a bat and surge forward."

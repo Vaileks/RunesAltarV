@@ -1,0 +1,31 @@
+name: "Гиперион"
+lore-description:
+- "Солнечный клинок, в котором застыл жар звезды. Его свет обращается в обжигающее лезвие и небесное копьё."
+lore-abilities:
+- "F — призвать святое копьё в выбранную точку."
+- "Shift + F — зарядить обжигающий клинок."
+item:
+  material: "NETHERITE_SWORD"
+  custom-model-data: 6
+  item-model: ""
+  tooltip-style: "minecraft:gold"
+abilities:
+  scorching-blade:
+    cooldown: 30
+    pure-damage: 2.0
+    magma-chance: 0.15
+    place-real-lava: false
+  holy-lance:
+    cooldown: 60
+    radius-damage: 2.5
+    center-damage: 6.0
+    radius: 2.5
+  hallowed-flames:
+    damage-per-second: 1.35
+    duration-ticks: 60
+name-en: "Hyperion"
+lore-description-en:
+- "A solar blade holding the heat of a star. Its light becomes a scorching edge and a heavenly lance."
+lore-abilities-en:
+- "F — summon a holy lance at the targeted location."
+- "Shift + F — charge the scorching blade."

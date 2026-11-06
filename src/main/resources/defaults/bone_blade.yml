@@ -1,0 +1,28 @@
+name: "Костяной клинок"
+lore-description:
+- "Клинок из древних костей. В нём ещё живёт воля тех, кто не покорился смерти."
+lore-abilities:
+- "F — рывок вперёд со скоростью."
+- "Shift + F — снаряд, запирающий врага в костяной клетке."
+item:
+  material: "NETHERITE_SWORD"
+  custom-model-data: 1
+  item-model: ""
+  tooltip-style: "minecraft:bone"
+abilities:
+  dash:
+    cooldown: 15
+    velocity: 1.5
+    speed-duration: 3
+    speed-amplifier: 2
+    damage: 4.0
+    knockback-y: 0.6
+  cage:
+    cooldown: 45
+    stun-duration: 2
+name-en: "Bone Blade"
+lore-description-en:
+- "Forged from ancient bones, this blade carries the will of those who defied death."
+lore-abilities-en:
+- "F — dash forward with a burst of speed."
+- "Shift + F — fire a projectile that traps enemies in a bone cage."

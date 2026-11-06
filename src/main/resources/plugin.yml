@@ -1,0 +1,19 @@
+name: RunesAltarV
+version: '1.0.0'
+main: dev.vaileks.runesaltarv.RunesAltarV
+api-version: '1.21.11'
+author: Vaileks
+softdepend: [WorldGuard]
+commands:
+  runesaltarv:
+    description: Legendary weapons menu and administration
+    aliases: [rav, altarv]
+    usage: /rav [give <player> <weapon>|reload|cooldown reset <player>]
+  friendlist:
+    description: Protect friends from your weapon abilities
+    aliases: [fl, trust]
+permissions:
+  runesaltarv.admin:
+    default: op
+  runesaltarv.menu:
+    default: true

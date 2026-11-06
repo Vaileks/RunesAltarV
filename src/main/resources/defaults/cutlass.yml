@@ -1,0 +1,32 @@
+name: "Абордажная сабля"
+lore-description:
+- "Сабля капитана, не знавшего поражений. Её быстрые удары не оставляют времени на ответ."
+lore-abilities:
+- "F — серия из тысячи порезов."
+- "Shift + F — парировать атаки и отбросить нападающего."
+item:
+  material: "NETHERITE_SWORD"
+  custom-model-data: 11
+  item-model: ""
+  tooltip-style: "minecraft:tidebreaker"
+abilities:
+  thousand-cuts:
+    cooldown: 45
+    duration-ticks: 32
+    hit-damage: 1.0
+    attack-speed-bonus: 2.0
+    slowness-amplifier: 0
+    slowness-duration: 2
+    speed-amplifier: 2
+  parry:
+    cooldown: 30
+    max-duration-seconds: 4
+    max-charges: 2
+    slowness-amplifier: 0
+    knockback-power: 0.65
+name-en: "Cutlass"
+lore-description-en:
+- "The blade of an undefeated captain. Its swift strikes leave no time to answer."
+lore-abilities-en:
+- "F — unleash a thousand cuts."
+- "Shift + F — parry attacks and knock the attacker back."

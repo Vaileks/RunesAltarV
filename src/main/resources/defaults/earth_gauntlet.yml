@@ -1,0 +1,35 @@
+name: "Земляная перчатка"
+lore-description:
+- "Перчатка, несущая тяжесть гор. Под её ударом почва трескается, а вязкая земля удерживает врага."
+lore-abilities:
+- "F — подготовить метеоритный удар; следующий удар оглушает и отбрасывает."
+- "Shift + F — оползень, замедляющий и помечающий цель."
+- "F по помеченной цели — притянуть её."
+item:
+  material: "NETHERITE_SWORD"
+  custom-model-data: 8
+  item-model: ""
+  tooltip-style: "minecraft:earth"
+abilities:
+  meteor_strike:
+    cooldown: 35
+    active_window: 12
+    damage: 4.0
+    knockback: 1.6
+    stun_duration_ticks: 10
+  mudslide:
+    cooldown: 40
+    delay_ticks: 15
+    range: 24.0
+    speed: 0.9
+    damage: 4.0
+    knockback: 1.1
+    debuff_time_seconds: 3
+    pull_speed: 1.0
+name-en: "Earth Gauntlet"
+lore-description-en:
+- "A gauntlet carrying the weight of mountains. Its blows crack the soil and hold enemies in the earth."
+lore-abilities-en:
+- "F — prepare a meteor strike; your next hit stuns and knocks back."
+- "Shift + F — unleash a mudslide that slows and marks a target."
+- "F on a marked target — pull them towards you."

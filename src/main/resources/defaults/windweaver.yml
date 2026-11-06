@@ -1,0 +1,29 @@
+name: "Ветроплёт"
+lore-description:
+- "Оружие странника небес. Невидимые потоки поднимают владельца и сметают тех, кто преграждает путь."
+lore-abilities:
+- "F — воздушный рывок."
+- "Shift + F — накопить и выпустить порыв ветра."
+item:
+  material: "NETHERITE_SWORD"
+  custom-model-data: 12
+  item-model: ""
+  tooltip-style: "minecraft:pure"
+abilities:
+  wind-leap:
+    cooldown: 15
+    velocity: 1.3
+    burst-distance: 4.2
+    speed-duration: 2
+    speed-amplifier: 2
+  wind-burst:
+    cooldown: 15
+    knockback-power: 2.0
+    upward-power: 0.6
+    radius: 6.0
+name-en: "Windweaver"
+lore-description-en:
+- "The weapon of a sky wanderer. Invisible currents lift its wielder and sweep enemies away."
+lore-abilities-en:
+- "F — perform an aerial leap."
+- "Shift + F — charge and release a wind burst."
