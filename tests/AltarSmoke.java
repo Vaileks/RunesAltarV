@@ -23,6 +23,11 @@ public class AltarSmoke extends JavaPlugin {
    }
   }
   plugin.getConfig().set("lang","en_US");assertTrue(ids.size()==16,"16 weapons");
+  var commands=new AltarLegendaryCommand(plugin);
+  var listed=commands.onTabComplete(Bukkit.getConsoleSender(),plugin.getCommand("rav"),"rav",new String[]{"give","Player",""});
+  assertTrue(listed.size()==16 && new HashSet<>(listed).equals(ids),"all give-command IDs available");
+  assertTrue(commands.onCommand(Bukkit.getConsoleSender(),plugin.getCommand("rav"),"rav",new String[]{"give","DefinitelyNotOnline","bone_blade"}),"missing player handled");
+  assertTrue(commands.onCommand(Bukkit.getConsoleSender(),plugin.getCommand("rav"),"rav",new String[]{"reload"}),"reload command succeeds");
   var menu=new AltarLegendaryCommand.Menu(plugin).getInventory();assertTrue(menu.getSize()==27,"menu capacity");int shown=0;for(var item:menu.getContents())if(item!=null){assertTrue(AltarCatalog.find(item)!=null,"weapons only in menu");shown++;}assertTrue(shown==16,"all weapons in menu");
   for(String name:List.of("weapons.yml","models.yml","altars.yml","items.yml"))assertTrue(!Files.exists(plugin.getDataFolder().toPath().resolve(name)),"no duplicate or unused configuration: "+name);
   assertTrue(plugin.getCommand("rav")!=null,"own command available");
