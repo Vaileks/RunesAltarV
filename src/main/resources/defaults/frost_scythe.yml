@@ -1,18 +1,25 @@
-name: "Морозная коса"
+# Weapon settings. Damage: HP (2 HP = 1 heart). Durations ending in -ticks: 20 ticks = 1 second.
+# Existing ability durations/cooldowns retain their original units. Potion amplifiers are zero-based unless stated otherwise.
+# Tuning/visual fields keep original values by default. Reload with /al reload (integrated) or /rav reload (standalone).
+# Sounds: enum names, relative volume/pitch multipliers. Particle density: 0..4. Attributes: additive main-hand bonuses.
+
+name: Морозная коса
 lore-description:
-- "Коса вечной зимы. Холод следует за каждым взмахом и повинуется её владельцу."
+- Коса вечной зимы. Холод следует за каждым взмахом и повинуется её владельцу.
 lore-abilities:
-- "ПКМ — метнуть косу с возвращением."
-- "Shift + F — направить лёд в противников."
+- ПКМ — метнуть косу с возвращением.
+- Shift + F — направить лёд в противников.
 item:
-  material: "TRIDENT"
+  material: TRIDENT
   custom-model-data: 4
-  item-model: "minecraft:netherite_sword"
-  tooltip-style: "minecraft:frost"
+  item-model: minecraft:netherite_sword
+  tooltip-style: minecraft:frost
   projectile:
-    material: "NETHERITE_AXE"
+    material: NETHERITE_AXE
     custom-model-data: 1
-    item-model: ""
+    item-model: ''
+  attack-damage-bonus: 0.0
+  attack-speed-bonus: 0.0
 abilities:
   throw:
     cooldown: 45
@@ -27,9 +34,57 @@ abilities:
     speed: 1.25
   freeze:
     damage: 3.5
-name-en: "Frost Scythe"
+name-en: Frost Scythe
 lore-description-en:
-- "The scythe of an endless winter. Cold follows every swing and obeys its wielder."
+- The scythe of an endless winter. Cold follows every swing and obeys its wielder.
 lore-abilities-en:
-- "Right click — throw the scythe and call it back."
-- "Shift + F — command ice to strike your enemies."
+- Right click — throw the scythe and call it back.
+- Shift + F — command ice to strike your enemies.
+tuning:
+  frost-ability-manager:
+    hit-radius-x: 1.0
+    hit-radius-y: 1.0
+    hit-radius-z: 1.0
+  frost-scythe-task:
+    hit-radius-x: 1.5
+    hit-radius-y: 1.5
+    hit-radius-z: 1.5
+visuals:
+  sounds:
+    item-trident-throw:
+      sound: ITEM_TRIDENT_THROW
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    block-glass-break:
+      sound: BLOCK_GLASS_BREAK
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    block-trial-spawner-about-to-spawn-item:
+      sound: BLOCK_TRIAL_SPAWNER_ABOUT_TO_SPAWN_ITEM
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    block-trial-spawner-spawn-item:
+      sound: BLOCK_TRIAL_SPAWNER_SPAWN_ITEM
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-witch-throw:
+      sound: ENTITY_WITCH_THROW
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-player-hurt-freeze:
+      sound: ENTITY_PLAYER_HURT_FREEZE
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-item-pickup:
+      sound: ENTITY_ITEM_PICKUP
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+  particle-density: 1.0
+messages:
+  frost-boss-bar-manager:
+    message-1:
+      ru: §b§lброᴄоᴋ ᴋоᴄы
+      en: §b§lsᴄʏᴛʜᴇ ᴛʜʀᴏᴡ
+    message-2:
+      ru: §b§lпоʙᴇлᴇниᴇ льдᴀ
+      en: §b§lᴄᴏᴍᴍᴀɴᴅ ᴏғ ɪᴄᴇ

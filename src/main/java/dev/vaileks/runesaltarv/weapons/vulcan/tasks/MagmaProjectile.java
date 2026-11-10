@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.vulcan.tasks;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.RunesAltarV;
 import java.util.HashMap;
@@ -77,7 +78,7 @@ public class MagmaProjectile extends BukkitRunnable {
             this.display.teleport(this.currentLoc);
             Vector particleOffset = this.velocity.clone().normalize().multiply(0.9);
             Location trailLoc = this.currentLoc.clone().subtract(particleOffset);
-            this.currentLoc.getWorld().spawnParticle(Particle.FLAME, trailLoc, 5, 0.02, 0.02, 0.02, 0.05);
+            this.currentLoc.getWorld().spawnParticle(Particle.FLAME, trailLoc,AltarTuning.particles("vulcan_crossbow",5), 0.02, 0.02, 0.02, 0.05);
          }
       } else {
          this.cancel();
@@ -89,13 +90,13 @@ public class MagmaProjectile extends BukkitRunnable {
       RunesAltarV plugin = RunesAltarV.getInstance();
       float power = (float)plugin.getWeaponsConfig().getDouble("vulcan_crossbow.magma-attack.explosion-power", 2.0);
       loc.getWorld().createExplosion(loc, power, false, false, this.shooter);
-      loc.getWorld().playSound(loc, Sound.BLOCK_SCULK_SPREAD, 1.0F, 1.0F);
-      loc.getWorld().playSound(loc, Sound.BLOCK_FIRE_EXTINGUISH, 1.0F, 0.8F);
+      loc.getWorld().playSound(loc,AltarTuning.sound("vulcan_crossbow","visuals.sounds.block-sculk-spread.sound",Sound.BLOCK_SCULK_SPREAD),AltarTuning.volume("vulcan_crossbow","visuals.sounds.block-sculk-spread",1.0F),AltarTuning.pitch("vulcan_crossbow","visuals.sounds.block-sculk-spread",1.0F));
+      loc.getWorld().playSound(loc,AltarTuning.sound("vulcan_crossbow","visuals.sounds.block-fire-extinguish.sound",Sound.BLOCK_FIRE_EXTINGUISH),AltarTuning.volume("vulcan_crossbow","visuals.sounds.block-fire-extinguish",1.0F),AltarTuning.pitch("vulcan_crossbow","visuals.sounds.block-fire-extinguish",0.8F));
       int radius = plugin.getWeaponsConfig().getInt("vulcan_crossbow.magma-attack.radius", 3);
       double spreadChance = plugin.getWeaponsConfig().getDouble("vulcan_crossbow.magma-attack.spread-chance", 0.8);
       boolean autoReset = plugin.getWeaponsConfig().getBoolean("vulcan_crossbow.magma-attack.auto-reset", false);
-      loc.getWorld().spawnParticle(Particle.FLAME, loc, 150, (double)radius / 1.5, (double)radius / 1.5, (double)radius / 1.5, 1.2);
-      loc.getWorld().spawnParticle(Particle.EXPLOSION_EMITTER, loc, 1);
+      loc.getWorld().spawnParticle(Particle.FLAME, loc,AltarTuning.particles("vulcan_crossbow",150), (double)radius / 1.5, (double)radius / 1.5, (double)radius / 1.5, 1.2);
+      loc.getWorld().spawnParticle(Particle.EXPLOSION_EMITTER, loc,AltarTuning.particles("vulcan_crossbow",1));
       Map<Location, Material> oldBlocks = new HashMap<>();
       boolean isFloor = hitFace == BlockFace.UP;
       if (autoReset) {

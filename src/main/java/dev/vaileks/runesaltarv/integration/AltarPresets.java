@@ -19,7 +19,11 @@ public final class AltarPresets {
     if (in == null) throw new IOException("Missing defaults: " + entry.id());
     var defaults = YamlConfiguration.loadConfiguration(new InputStreamReader(in,StandardCharsets.UTF_8));
     if (!Files.exists(file)) { Files.createDirectories(file.getParent()); defaults.save(file.toFile()); }
-    var yaml = new YamlConfiguration(); yaml.load(file.toFile()); yaml.setDefaults(defaults);
+    var yaml = new YamlConfiguration(); yaml.load(file.toFile());
+    boolean changed=false;
+    for(String key:defaults.getKeys(true))if(!defaults.isConfigurationSection(key)&&!yaml.contains(key)){yaml.set(key,defaults.get(key));changed=true;}
+    if(changed)yaml.save(file.toFile());
+    yaml.setDefaults(defaults);
     loaded.put(entry.id(), yaml);
    } catch (Exception e) { throw new IllegalStateException("Cannot load " + file, e); }
   }

@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.frostscythe.managers;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.RunesAltarV;
 import dev.vaileks.runesaltarv.utils.CombatUtils;
@@ -49,7 +50,7 @@ public class FrostAbilityManager {
    }
 
    public void playSweepEffect(Location center, Vector dir) {
-      center.getWorld().playSound(center, Sound.ITEM_TRIDENT_THROW, 1.0F, 0.2F);
+      center.getWorld().playSound(center,AltarTuning.sound("frost_scythe","visuals.sounds.item-trident-throw.sound",Sound.ITEM_TRIDENT_THROW),AltarTuning.volume("frost_scythe","visuals.sounds.item-trident-throw",1.0F),AltarTuning.pitch("frost_scythe","visuals.sounds.item-trident-throw",0.2F));
       Vector forward = dir.clone().normalize();
       if (forward.lengthSquared() == 0.0) {
          forward = new Vector(1, 0, 0);
@@ -71,12 +72,12 @@ public class FrostAbilityManager {
          double z = -(i * i) * 0.25;
          Vector point = right.clone().multiply(x).add(up.clone().multiply(y)).add(forward.clone().multiply(z));
          Location pLoc = center.clone().add(point);
-         center.getWorld().spawnParticle(Particle.BLOCK, pLoc, 1, 0.0, 0.0, 0.0, 0.0, this.blueIceData);
+         center.getWorld().spawnParticle(Particle.BLOCK, pLoc,AltarTuning.particles("frost_scythe",1), 0.0, 0.0, 0.0, 0.0, this.blueIceData);
       }
    }
 
    public void playMassiveDustSweep(Location center, Vector dir) {
-      center.getWorld().playSound(center, Sound.ITEM_TRIDENT_THROW, 1.1F, 0.55F);
+      center.getWorld().playSound(center,AltarTuning.sound("frost_scythe","visuals.sounds.item-trident-throw.sound",Sound.ITEM_TRIDENT_THROW),AltarTuning.volume("frost_scythe","visuals.sounds.item-trident-throw",1.1F),AltarTuning.pitch("frost_scythe","visuals.sounds.item-trident-throw",0.55F));
       Vector forward = dir.clone().setY(0).normalize();
       if (forward.lengthSquared() == 0.0) {
          forward = new Vector(1, 0, 0);
@@ -88,16 +89,16 @@ public class FrostAbilityManager {
          double z = -(i * i) * 0.25;
          Vector point = right.clone().multiply(i).add(forward.clone().multiply(z));
          Location spawnLoc = center.clone().add(point);
-         center.getWorld().spawnParticle(Particle.SNOWFLAKE, spawnLoc, 1, 0.0, 0.0, 0.0, 0.0);
-         center.getWorld().spawnParticle(Particle.ENCHANTED_HIT, spawnLoc, 1, 0.0, 0.0, 0.0, 0.0);
+         center.getWorld().spawnParticle(Particle.SNOWFLAKE, spawnLoc,AltarTuning.particles("frost_scythe",1), 0.0, 0.0, 0.0, 0.0);
+         center.getWorld().spawnParticle(Particle.ENCHANTED_HIT, spawnLoc,AltarTuning.particles("frost_scythe",1), 0.0, 0.0, 0.0, 0.0);
       }
    }
 
    public void playImpactBurst(Location center, Vector dir) {
-      center.getWorld().playSound(center, Sound.ITEM_TRIDENT_THROW, 1.15F, 0.4F);
-      center.getWorld().playSound(center, Sound.BLOCK_GLASS_BREAK, 1.5F, 1.0F);
+      center.getWorld().playSound(center,AltarTuning.sound("frost_scythe","visuals.sounds.item-trident-throw.sound",Sound.ITEM_TRIDENT_THROW),AltarTuning.volume("frost_scythe","visuals.sounds.item-trident-throw",1.15F),AltarTuning.pitch("frost_scythe","visuals.sounds.item-trident-throw",0.4F));
+      center.getWorld().playSound(center,AltarTuning.sound("frost_scythe","visuals.sounds.block-glass-break.sound",Sound.BLOCK_GLASS_BREAK),AltarTuning.volume("frost_scythe","visuals.sounds.block-glass-break",1.5F),AltarTuning.pitch("frost_scythe","visuals.sounds.block-glass-break",1.0F));
       Location baseLoc = center.clone().add(0.0, 0.2, 0.0);
-      center.getWorld().spawnParticle(Particle.SNOWFLAKE, baseLoc, 30, 0.4, 0.4, 0.4, 0.08);
+      center.getWorld().spawnParticle(Particle.SNOWFLAKE, baseLoc,AltarTuning.particles("frost_scythe",30), 0.4, 0.4, 0.4, 0.08);
       ParticleUtils.spawnBlockDispersion(this.plugin, baseLoc, this.blueIceData, 4.2, 85);
    }
 
@@ -135,7 +136,7 @@ public class FrostAbilityManager {
       } else if (!this.isOnCooldown(p, "CommandOfIce")) {
          int cd = this.plugin.getWeaponsConfig().getInt("frost-scythe.ice-command.cooldown", 45);
          this.bossBarManager.setCooldown(p, "CommandOfIce", "§b§lᴄᴏᴍᴍᴀɴᴅ ᴏғ ɪᴄᴇ", cd);
-         p.getWorld().playSound(p.getLocation(), Sound.BLOCK_TRIAL_SPAWNER_ABOUT_TO_SPAWN_ITEM, 1.0F, 1.0F);
+         p.getWorld().playSound(p.getLocation(),AltarTuning.sound("frost_scythe","visuals.sounds.block-trial-spawner-about-to-spawn-item.sound",Sound.BLOCK_TRIAL_SPAWNER_ABOUT_TO_SPAWN_ITEM),AltarTuning.volume("frost_scythe","visuals.sounds.block-trial-spawner-about-to-spawn-item",1.0F),AltarTuning.pitch("frost_scythe","visuals.sounds.block-trial-spawner-about-to-spawn-item",1.0F));
          final List<BlockDisplay> iceBlocks = new ArrayList<>();
          final java.util.Set<UUID> volleyHits = new java.util.HashSet<>();
          final Vector[] targetOffsets = new Vector[]{new Vector(1.2, 3.0, 1.2), new Vector(0.0, 3.6, 1.5), new Vector(-1.2, 3.0, 1.2)};
@@ -149,7 +150,7 @@ public class FrostAbilityManager {
                   if (p.isOnline() && !p.isDead()) {
                      if (!this.allSpawned) {
                         if (this.spawnTick % 10 == 0 && iceBlocks.size() < 3) {
-                           p.getWorld().playSound(p.getLocation(), Sound.BLOCK_TRIAL_SPAWNER_SPAWN_ITEM, 1.0F, 1.0F);
+                           p.getWorld().playSound(p.getLocation(),AltarTuning.sound("frost_scythe","visuals.sounds.block-trial-spawner-spawn-item.sound",Sound.BLOCK_TRIAL_SPAWNER_SPAWN_ITEM),AltarTuning.volume("frost_scythe","visuals.sounds.block-trial-spawner-spawn-item",1.0F),AltarTuning.pitch("frost_scythe","visuals.sounds.block-trial-spawner-spawn-item",1.0F));
                            BlockDisplay block = p.getWorld().spawn(p.getLocation().add(0.0, 1.0, 0.0), BlockDisplay.class, ent -> {
                               ent.setBlock(FrostAbilityManager.this.packedIceData);
                               Transformation t = ent.getTransformation();
@@ -199,9 +200,9 @@ public class FrostAbilityManager {
                               .add(pDir.clone().multiply(offset.getZ()));
                            b.teleport(targetLoc);
                            if (this.spawnTick % 5 == 0) {
-                              b.getWorld().spawnParticle(Particle.SNOWFLAKE, targetLoc, 2, 0.3, 0.3, 0.3, 0.0);
-                              b.getWorld().spawnParticle(Particle.ENCHANTED_HIT, targetLoc, 6, 0.9, 0.9, 0.9, 0.0);
-                              b.getWorld().spawnParticle(Particle.TRIAL_SPAWNER_DETECTION_OMINOUS, targetLoc, 2, 0.3, 0.3, 0.3, 0.0);
+                              b.getWorld().spawnParticle(Particle.SNOWFLAKE, targetLoc,AltarTuning.particles("frost_scythe",2), 0.3, 0.3, 0.3, 0.0);
+                              b.getWorld().spawnParticle(Particle.ENCHANTED_HIT, targetLoc,AltarTuning.particles("frost_scythe",6), 0.9, 0.9, 0.9, 0.0);
+                              b.getWorld().spawnParticle(Particle.TRIAL_SPAWNER_DETECTION_OMINOUS, targetLoc,AltarTuning.particles("frost_scythe",2), 0.3, 0.3, 0.3, 0.0);
                            }
                         }
 
@@ -236,7 +237,7 @@ public class FrostAbilityManager {
    }
 
    private void launchIceMissile(final Player p, final BlockDisplay block, final Vector offset, final java.util.Set<UUID> volleyHits) {
-      p.getWorld().playSound(p.getLocation(), Sound.ENTITY_WITCH_THROW, 1.0F, 1.0F);
+      p.getWorld().playSound(p.getLocation(),AltarTuning.sound("frost_scythe","visuals.sounds.entity-witch-throw.sound",Sound.ENTITY_WITCH_THROW),AltarTuning.volume("frost_scythe","visuals.sounds.entity-witch-throw",1.0F),AltarTuning.pitch("frost_scythe","visuals.sounds.entity-witch-throw",1.0F));
       final float rotX = (ThreadLocalRandom.current().nextFloat() * 0.6F + 0.2F) * (float)(ThreadLocalRandom.current().nextBoolean() ? 1 : -1);
       final float rotY = (ThreadLocalRandom.current().nextFloat() * 0.6F + 0.2F) * (float)(ThreadLocalRandom.current().nextBoolean() ? 1 : -1);
       final float rotZ = (ThreadLocalRandom.current().nextFloat() * 0.6F + 0.2F) * (float)(ThreadLocalRandom.current().nextBoolean() ? 1 : -1);
@@ -282,13 +283,13 @@ public class FrostAbilityManager {
                   trans.mul(-1.0F);
                   t.getTranslation().set(trans);
                   block.setTransformation(t);
-                  current.getWorld().spawnParticle(Particle.SNOWFLAKE, current, 10, 0.4, 0.4, 0.4, 0.05);
+                  current.getWorld().spawnParticle(Particle.SNOWFLAKE, current,AltarTuning.particles("frost_scythe",10), 0.4, 0.4, 0.4, 0.05);
                   if (!current.getBlock().getType().isSolid()
                      && (
                         FrostAbilityManager.this.plugin.getWorldGuardManager() == null
                            || FrostAbilityManager.this.plugin.getWorldGuardManager().isLocationAllowed(current, p)
                      )) {
-                     for (Entity e : current.getWorld().getNearbyEntities(current, 1.0, 1.0, 1.0)) {
+                     for (Entity e : current.getWorld().getNearbyEntities(current,AltarTuning.number("frost_scythe","tuning.frost-ability-manager.hit-radius-x",1.0,0,128),AltarTuning.number("frost_scythe","tuning.frost-ability-manager.hit-radius-y",1.0,0,128),AltarTuning.number("frost_scythe","tuning.frost-ability-manager.hit-radius-z",1.0,0,128))) {
                         if (e instanceof LivingEntity victim
                            && e != p
                            && !volleyHits.contains(victim.getUniqueId())
@@ -330,9 +331,9 @@ public class FrostAbilityManager {
    }
 
    private void breakIce(Location loc) {
-      loc.getWorld().playSound(loc, Sound.BLOCK_GLASS_BREAK, 1.5F, 1.0F);
+      loc.getWorld().playSound(loc,AltarTuning.sound("frost_scythe","visuals.sounds.block-glass-break.sound",Sound.BLOCK_GLASS_BREAK),AltarTuning.volume("frost_scythe","visuals.sounds.block-glass-break",1.5F),AltarTuning.pitch("frost_scythe","visuals.sounds.block-glass-break",1.0F));
       Location baseLoc = loc.clone().add(0.0, 0.2, 0.0);
-      loc.getWorld().spawnParticle(Particle.SNOWFLAKE, baseLoc, 25, 0.35, 0.35, 0.35, 0.06);
+      loc.getWorld().spawnParticle(Particle.SNOWFLAKE, baseLoc,AltarTuning.particles("frost_scythe",25), 0.35, 0.35, 0.35, 0.06);
       ParticleUtils.spawnBlockDispersion(this.plugin, baseLoc, this.blueIceData, 4.2, 85);
    }
 
@@ -350,7 +351,7 @@ public class FrostAbilityManager {
                      CombatUtils.runSyntheticDamage(
                         () -> victim.damage(FrostAbilityManager.this.plugin.getWeaponsConfig().getDouble("frost-scythe.freeze.damage", 2.0), p)
                      );
-                     victim.getWorld().playSound(victim.getLocation(), Sound.ENTITY_PLAYER_HURT_FREEZE, 1.0F, 1.0F);
+                     victim.getWorld().playSound(victim.getLocation(),AltarTuning.sound("frost_scythe","visuals.sounds.entity-player-hurt-freeze.sound",Sound.ENTITY_PLAYER_HURT_FREEZE),AltarTuning.volume("frost_scythe","visuals.sounds.entity-player-hurt-freeze",1.0F),AltarTuning.pitch("frost_scythe","visuals.sounds.entity-player-hurt-freeze",1.0F));
                   }
 
                   this.ticks++;

@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.palegun.tasks;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.RunesAltarV;
 import dev.vaileks.runesaltarv.utils.ParticleUtils;
@@ -89,7 +90,7 @@ public class PaleRootsTask extends BukkitRunnable {
                }
 
                this.archCenters.add(this.currentArchBase.clone());
-               this.currentArchBase.getWorld().playSound(this.currentArchBase, Sound.ENTITY_CREAKING_ATTACK, 1.0F, 1.0F);
+               this.currentArchBase.getWorld().playSound(this.currentArchBase,AltarTuning.sound("pale_gun","visuals.sounds.entity-creaking-attack.sound",Sound.ENTITY_CREAKING_ATTACK),AltarTuning.volume("pale_gun","visuals.sounds.entity-creaking-attack",1.0F),AltarTuning.pitch("pale_gun","visuals.sounds.entity-creaking-attack",1.0F));
             }
 
             this.spawnArchPart(partIndex);
@@ -113,7 +114,7 @@ public class PaleRootsTask extends BukkitRunnable {
          BlockData paleOakData = Material.PALE_OAK_WOOD.createBlockData();
          if (!this.spawnedDisplays.isEmpty()) {
             Location soundLoc = this.spawnedDisplays.get(0).getLocation();
-            soundLoc.getWorld().playSound(soundLoc, Sound.ENTITY_CREAKING_ATTACK, 1.0F, 0.8F);
+            soundLoc.getWorld().playSound(soundLoc,AltarTuning.sound("pale_gun","visuals.sounds.entity-creaking-attack.sound",Sound.ENTITY_CREAKING_ATTACK),AltarTuning.volume("pale_gun","visuals.sounds.entity-creaking-attack",1.0F),AltarTuning.pitch("pale_gun","visuals.sounds.entity-creaking-attack",0.8F));
          }
 
          for (BlockDisplay display : this.spawnedDisplays) {
@@ -197,7 +198,7 @@ public class PaleRootsTask extends BukkitRunnable {
 
    private void applyContacts() {
       for (Location center : this.archCenters) {
-         for (Entity entity : center.getWorld().getNearbyEntities(center, 1.0, 1.0, 1.0)) {
+         for (Entity entity : center.getWorld().getNearbyEntities(center,AltarTuning.number("pale_gun","tuning.pale-roots-task.hit-radius-x",1.0,0,128),AltarTuning.number("pale_gun","tuning.pale-roots-task.hit-radius-y",1.0,0,128),AltarTuning.number("pale_gun","tuning.pale-roots-task.hit-radius-z",1.0,0,128))) {
             if (entity instanceof LivingEntity) {
                LivingEntity target = (LivingEntity)entity;
                if (!target.equals(this.owner) && !this.hitCooldowns.containsKey(target.getUniqueId())
@@ -211,8 +212,8 @@ public class PaleRootsTask extends BukkitRunnable {
                      }
                   }
 
-                  target.addPotionEffect(new PotionEffect(PotionEffectType.LUCK, 600, 1, false, false, true));
-                  target.getWorld().playSound(target.getLocation(), Sound.ENCHANT_THORNS_HIT, 1.0F, 1.0F);
+                  target.addPotionEffect(new PotionEffect(PotionEffectType.LUCK, AltarTuning.integer("pale_gun","tuning.pale-roots-task.effects.luck.duration-ticks",600,1,72000), AltarTuning.integer("pale_gun","tuning.pale-roots-task.effects.luck.amplifier",1,0,10), false, false, true));
+                  target.getWorld().playSound(target.getLocation(),AltarTuning.sound("pale_gun","visuals.sounds.enchant-thorns-hit.sound",Sound.ENCHANT_THORNS_HIT),AltarTuning.volume("pale_gun","visuals.sounds.enchant-thorns-hit",1.0F),AltarTuning.pitch("pale_gun","visuals.sounds.enchant-thorns-hit",1.0F));
                   Vector knockback = target.getLocation().toVector().subtract(center.toVector()).setY(0);
                   if (knockback.lengthSquared() < 1.0E-4) {
                      knockback = this.currentForward.clone();

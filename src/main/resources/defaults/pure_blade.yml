@@ -1,14 +1,21 @@
-name: "Чистый клинок"
+# Weapon settings. Damage: HP (2 HP = 1 heart). Durations ending in -ticks: 20 ticks = 1 second.
+# Existing ability durations/cooldowns retain their original units. Potion amplifiers are zero-based unless stated otherwise.
+# Tuning/visual fields keep original values by default. Reload with /al reload (integrated) or /rav reload (standalone).
+# Sounds: enum names, relative volume/pitch multipliers. Particle density: 0..4. Attributes: additive main-hand bonuses.
+
+name: Чистый клинок
 lore-description:
-- "Клинок безупречной стали. Он рассекает не только плоть, но и тени, скрывающие душу."
+- Клинок безупречной стали. Он рассекает не только плоть, но и тени, скрывающие душу.
 lore-abilities:
-- "F — выпустить тень души, наносящую урон и замедляющую."
-- "Shift + F — вихревой разрез с ускорением."
+- F — выпустить тень души, наносящую урон и замедляющую.
+- Shift + F — вихревой разрез с ускорением.
 item:
-  material: "NETHERITE_SWORD"
+  material: NETHERITE_SWORD
   custom-model-data: 7
-  item-model: ""
-  tooltip-style: "minecraft:pure"
+  item-model: ''
+  tooltip-style: minecraft:pure
+  attack-damage-bonus: 0.0
+  attack-speed-bonus: 0.0
 abilities:
   shade-soul:
     cooldown: 45
@@ -20,9 +27,59 @@ abilities:
     damage: 12.0
     speed-duration: 2
     speed-amplifier: 2
-name-en: "Pure Blade"
+name-en: Pure Blade
 lore-description-en:
-- "A flawless steel blade that cuts through flesh and the shadows concealing the soul."
+- A flawless steel blade that cuts through flesh and the shadows concealing the soul.
 lore-abilities-en:
-- "F — release a shade soul that damages and slows enemies."
-- "Shift + F — perform a cyclone slash and gain speed."
+- F — release a shade soul that damages and slows enemies.
+- Shift + F — perform a cyclone slash and gain speed.
+tuning:
+  pure-blade-manager:
+    effects:
+      glowing:
+        amplifier: 0.0
+    num-cubes: 20.0
+    current-scale: 12.0
+    min-scale: 3.0
+    shrink-duration: 40.0
+    total-duration: 50.0
+    trail-steps: 14.0
+    hit-radius-x: 1.2
+    hit-radius-y: 1.2
+    hit-radius-z: 1.2
+    hit-radius-y-2: 2.0
+visuals:
+  sounds:
+    entity-player-attack-sweep:
+      sound: ENTITY_PLAYER_ATTACK_SWEEP
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-warden-sonic-charge:
+      sound: ENTITY_WARDEN_SONIC_CHARGE
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-warden-sonic-boom:
+      sound: ENTITY_WARDEN_SONIC_BOOM
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-vex-hurt:
+      sound: ENTITY_VEX_HURT
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    block-trial-spawner-ominous-activate:
+      sound: BLOCK_TRIAL_SPAWNER_OMINOUS_ACTIVATE
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-breeze-charge:
+      sound: ENTITY_BREEZE_CHARGE
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+  particle-density: 1.0
+messages:
+  pure-blade-manager:
+    message-1:
+      ru: §f§lТень души
+      en: §f§lsʜᴀᴅᴇ ᴏꜰ sᴏᴜʟ
+    message-2:
+      ru: §f§lВихревой Разрез
+      en: §f§lᴄʏᴄʟᴏɴᴇ sʟᴀsʜ

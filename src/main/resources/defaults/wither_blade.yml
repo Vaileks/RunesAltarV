@@ -1,14 +1,22 @@
-name: "Иссушенный костяной клинок"
+# Weapon settings. Damage: HP (2 HP = 1 heart). Durations ending in -ticks: 20 ticks = 1 second.
+# Existing ability durations/cooldowns retain their original units. Potion amplifiers are zero-based unless stated otherwise.
+# Tuning/visual fields keep original values by default. Reload with /al reload (integrated) or /rav reload (standalone).
+# Sounds: enum names, relative volume/pitch multipliers. Particle density: 0..4. Attributes: additive main-hand bonuses.
+
+name: Иссушенный костяной клинок
 lore-description:
-- "Древняя кость, пропитанная силой иссушения. Её тёмное дыхание угасает лишь вместе с врагом."
+- Древняя кость, пропитанная силой иссушения. Её тёмное дыхание угасает лишь вместе
+  с врагом.
 lore-abilities:
-- "F — рывок с боевыми зарядами."
-- "Shift + F — аура иссушения вокруг владельца."
+- F — рывок с боевыми зарядами.
+- Shift + F — аура иссушения вокруг владельца.
 item:
-  material: "NETHERITE_SWORD"
+  material: NETHERITE_SWORD
   custom-model-data: 9
-  item-model: ""
-  tooltip-style: "minecraft:pure"
+  item-model: ''
+  tooltip-style: minecraft:pure
+  attack-damage-bonus: 0.0
+  attack-speed-bonus: 0.0
 abilities:
   dash:
     cooldown: 30
@@ -21,9 +29,79 @@ abilities:
     radius: 4.0
     wither-duration-ticks: 60
     wither-amplifier: 0
-name-en: "Withered Bone Blade"
+name-en: Withered Bone Blade
 lore-description-en:
-- "Ancient bone infused with withering power. Its dark breath fades only when the enemy falls."
+- Ancient bone infused with withering power. Its dark breath fades only when the enemy
+  falls.
 lore-abilities-en:
-- "F — dash using combat charges."
-- "Shift + F — surround yourself with a withering aura."
+- F — dash using combat charges.
+- Shift + F — surround yourself with a withering aura.
+visuals:
+  sounds:
+    entity-wither-skeleton-death:
+      sound: ENTITY_WITHER_SKELETON_DEATH
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-wither-shoot:
+      sound: ENTITY_WITHER_SHOOT
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-wither-skeleton-hurt:
+      sound: ENTITY_WITHER_SKELETON_HURT
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-wither-break-block:
+      sound: ENTITY_WITHER_BREAK_BLOCK
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-wither-ambient:
+      sound: ENTITY_WITHER_AMBIENT
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-slime-jump:
+      sound: ENTITY_SLIME_JUMP
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-slime-squish:
+      sound: ENTITY_SLIME_SQUISH
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-slime-hurt:
+      sound: ENTITY_SLIME_HURT
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-slime-attack:
+      sound: ENTITY_SLIME_ATTACK
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+  particle-density: 1.0
+tuning:
+  wither-tasks:
+    effects:
+      wither:
+        duration-ticks: 120.0
+        amplifier: 3.0
+        duration-ticks-100: 100.0
+        amplifier-1: 1.0
+        duration-ticks-40: 40.0
+      slowness:
+        amplifier: 1.0
+        duration-ticks: 100.0
+        duration-ticks-40: 40.0
+    hit-radius-x: 1.5
+    hit-radius-y: 1.5
+    hit-radius-z: 1.5
+    hit-radius-x-2: 0.6
+    hit-radius-y-2: 0.6
+    hit-radius-z-2: 0.6
+    hit-radius-x-3: 0.7
+    hit-radius-y-3: 0.7
+    hit-radius-z-3: 0.7
+messages:
+  wither-manager:
+    message-1:
+      ru: иссушительный прыжок
+      en: ᴡɪᴛʜᴇʀ ʟᴇᴀᴘ
+    message-2:
+      ru: иссушительное высвобождение
+      en: ᴡɪᴛʜᴇʀ ʀᴇʟᴇᴀsᴇ

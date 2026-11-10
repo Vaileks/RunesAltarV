@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.earthgauntlet.managers;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.RunesAltarV;
 import dev.vaileks.runesaltarv.utils.TextUtils;
@@ -203,8 +204,8 @@ public class EarthBossBarManager {
 
    private String resolveCooldownTitle(String ability, String fallback) {
       return switch (ability) {
-         case "MeteorStrike" -> this.plugin.tr("§e§lмᴇᴛᴇориᴛный удᴀр", "§e§lᴍᴇᴛᴇᴏʀ sᴛʀɪᴋᴇ");
-         case "Mudslide" -> this.plugin.tr("§e§lоползᴇнь", "§e§lᴍᴜᴅsʟɪᴅᴇ");
+         case "MeteorStrike" -> AltarTuning.text("earth_gauntlet","messages.earth-boss-bar-manager.message-1","§e§lмᴇᴛᴇориᴛный удᴀр","§e§lᴍᴇᴛᴇᴏʀ sᴛʀɪᴋᴇ");
+         case "Mudslide" -> AltarTuning.text("earth_gauntlet","messages.earth-boss-bar-manager.message-2","§e§lоползᴇнь","§e§lᴍᴜᴅsʟɪᴅᴇ");
          default -> fallback;
       };
    }

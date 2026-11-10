@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.cutlass.managers;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.RunesAltarV;
 import dev.vaileks.runesaltarv.utils.CombatUtils;
@@ -124,7 +125,7 @@ public class CutlassManager {
          player.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, durationSeconds * 20 + 10, slownessAmplifier - 1, false, false, true));
       }
 
-      player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ILLUSIONER_PREPARE_MIRROR, 1.0F, 1.2F);
+      player.getWorld().playSound(player.getLocation(),AltarTuning.sound("cutlass","visuals.sounds.entity-illusioner-prepare-mirror.sound",Sound.ENTITY_ILLUSIONER_PREPARE_MIRROR),AltarTuning.volume("cutlass","visuals.sounds.entity-illusioner-prepare-mirror",1.0F),AltarTuning.pitch("cutlass","visuals.sounds.entity-illusioner-prepare-mirror",1.2F));
       final DustOptions blueDust = new DustOptions(Color.fromRGB(0, 191, 255), 0.6F);
       (new BukkitRunnable() {
          @Override
@@ -132,15 +133,15 @@ public class CutlassManager {
             CutlassManager.ParryData current = CutlassManager.this.activeParries.get(player.getUniqueId());
             if (current != null && player.isOnline()) {
                Location waistLoc = player.getLocation().add(0.0, 0.9, 0.0);
-               double radius = 0.85;
-               int points = 24;
+               double radius = AltarTuning.number("cutlass","tuning.cutlass-manager.parry-radius",0.85,0.01,128);
+               int points = AltarTuning.integer("cutlass","tuning.cutlass-manager.points",24,1,512);
 
                for (int i = 0; i < points; i++) {
                   double angle = (Math.PI * 2) * (double)i / (double)points;
                   double x = radius * Math.cos(angle);
                   double z = radius * Math.sin(angle);
                   waistLoc.add(x, 0.0, z);
-                  player.getWorld().spawnParticle(Particle.DUST, waistLoc, 1, 0.0, 0.0, 0.0, 0.0, blueDust);
+                  player.getWorld().spawnParticle(Particle.DUST, waistLoc,AltarTuning.particles("cutlass",1), 0.0, 0.0, 0.0, 0.0, blueDust);
                   waistLoc.subtract(x, 0.0, z);
                }
 
@@ -155,7 +156,7 @@ public class CutlassManager {
                      this.cancel();
                   } else {
                      current.bar.setTitle(CutlassManager.this.parryTitle(current.charges));
-                     player.playSound(player.getLocation(), Sound.BLOCK_GLASS_BREAK, 1.0F, 1.2F);
+                     player.playSound(player.getLocation(),AltarTuning.sound("cutlass","visuals.sounds.block-glass-break.sound",Sound.BLOCK_GLASS_BREAK),AltarTuning.volume("cutlass","visuals.sounds.block-glass-break",1.0F),AltarTuning.pitch("cutlass","visuals.sounds.block-glass-break",1.2F));
                   }
                }
             } else {
@@ -169,9 +170,9 @@ public class CutlassManager {
    public void endParry(Player player) {
       this.activeParries.remove(player.getUniqueId());
       this.removeOldBar(player.getUniqueId() + ":parry_active");
-      player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ILLUSIONER_CAST_SPELL, 1.0F, 1.0F);
+      player.getWorld().playSound(player.getLocation(),AltarTuning.sound("cutlass","visuals.sounds.entity-illusioner-cast-spell.sound",Sound.ENTITY_ILLUSIONER_CAST_SPELL),AltarTuning.volume("cutlass","visuals.sounds.entity-illusioner-cast-spell",1.0F),AltarTuning.pitch("cutlass","visuals.sounds.entity-illusioner-cast-spell",1.0F));
       this.applyCooldown(
-         player, "parry", this.plugin.getWeaponsConfig().getInt("cutlass.parry.cooldown", 30), this.plugin.tr("Пиратское отражение", "Pɪʀᴀᴛᴇ's ᴘᴀʀʀʏ")
+         player, "parry", this.plugin.getWeaponsConfig().getInt("cutlass.parry.cooldown", 30), AltarTuning.text("cutlass","messages.cutlass-manager.message-1","Пиратское отражение","Pɪʀᴀᴛᴇ's ᴘᴀʀʀʏ")
       );
    }
 
@@ -180,8 +181,8 @@ public class CutlassManager {
       final int durationTicks = this.plugin.getWeaponsConfig().getInt("cutlass.thousand-cuts.duration-ticks", 42);
       final int slownessAmplifier = Math.max(0, this.plugin.getWeaponsConfig().getInt("cutlass.thousand-cuts.slowness-amplifier", 1));
       final int slownessDurationTicks = this.plugin.getWeaponsConfig().getInt("cutlass.thousand-cuts.slowness-duration", 3) * 20;
-      this.applyCooldown(player, "thousand_cuts", cooldown, this.plugin.tr("Сто царапин", "Hᴜɴᴅʀᴇᴅ ᴄᴜᴛs"));
-      player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_FLAP, 1.0F, 1.5F);
+      this.applyCooldown(player, "thousand_cuts", cooldown, AltarTuning.text("cutlass","messages.cutlass-manager.message-2","Сто царапин","Hᴜɴᴅʀᴇᴅ ᴄᴜᴛs"));
+      player.getWorld().playSound(player.getLocation(),AltarTuning.sound("cutlass","visuals.sounds.entity-ender-dragon-flap.sound",Sound.ENTITY_ENDER_DRAGON_FLAP),AltarTuning.volume("cutlass","visuals.sounds.entity-ender-dragon-flap",1.0F),AltarTuning.pitch("cutlass","visuals.sounds.entity-ender-dragon-flap",1.5F));
       BukkitTask task = (new BukkitRunnable() {
             int ticks = 0;
 
@@ -193,7 +194,7 @@ public class CutlassManager {
                      CutlassManager.this.cancelThousandCuts(player);
                   } else {
                      if (this.ticks <= 10) {
-                        for (Entity entity : player.getNearbyEntities(1.5, 1.5, 1.5)) {
+                        for (Entity entity : player.getNearbyEntities(AltarTuning.number("cutlass","tuning.cutlass-manager.hit-radius-x",1.5,0,128),AltarTuning.number("cutlass","tuning.cutlass-manager.hit-radius-y",1.5,0,128),AltarTuning.number("cutlass","tuning.cutlass-manager.hit-radius-z",1.5,0,128))) {
                            if (entity instanceof LivingEntity) {
                               LivingEntity target = (LivingEntity)entity;
                               if (!target.equals(player) && CombatUtils.clearPath(player.getEyeLocation(),target)) {
@@ -240,7 +241,7 @@ public class CutlassManager {
                   if (player.isOnline() && this.ticks >= durationTicks) {
                      Vector dash = player.getLocation().getDirection().normalize().multiply(1.5).setY(0.2);
                      player.setVelocity(dash);
-                     player.getWorld().playSound(player.getLocation(), Sound.ITEM_TRIDENT_THROW, 1.0F, 1.0F);
+                     player.getWorld().playSound(player.getLocation(),AltarTuning.sound("cutlass","visuals.sounds.item-trident-throw.sound",Sound.ITEM_TRIDENT_THROW),AltarTuning.volume("cutlass","visuals.sounds.item-trident-throw",1.0F),AltarTuning.pitch("cutlass","visuals.sounds.item-trident-throw",1.0F));
                   }
 
                   CutlassManager.this.cancelThousandCuts(player);
@@ -278,23 +279,23 @@ public class CutlassManager {
    }
 
    public void playCutlassSwingFX(Player player) {
-      player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, 1.6F);
+      player.getWorld().playSound(player.getLocation(),AltarTuning.sound("cutlass","visuals.sounds.entity-player-attack-sweep.sound",Sound.ENTITY_PLAYER_ATTACK_SWEEP),AltarTuning.volume("cutlass","visuals.sounds.entity-player-attack-sweep",1.0F),AltarTuning.pitch("cutlass","visuals.sounds.entity-player-attack-sweep",1.6F));
       Location eyeLoc = player.getEyeLocation();
       Vector look = eyeLoc.getDirection().normalize();
       Vector right = look.clone().crossProduct(new Vector(0, 1, 0)).normalize();
       Vector up = look.clone().crossProduct(right).normalize();
       double tiltRad = Math.toRadians((Math.random() * 60.0 + 15.0) * (double)(Math.random() > 0.5 ? 1 : -1));
       Vector diagonalAxis = right.clone().multiply(Math.cos(tiltRad)).add(up.clone().multiply(Math.sin(tiltRad)));
-      double radius = 2.0;
-      double arcHalfWidth = 65.0;
-      int particleCount = 35;
+      double radius = AltarTuning.number("cutlass","tuning.cutlass-manager.radius",2.0,0.01,128);
+      double arcHalfWidth = AltarTuning.number("cutlass","tuning.cutlass-manager.arc-half-width",65.0,0.01,128);
+      int particleCount = AltarTuning.integer("cutlass","tuning.cutlass-manager.particle-count",35,1,512);
 
       for (int i = 0; i < particleCount; i++) {
          double angle = Math.toRadians(-arcHalfWidth + (double)i * (arcHalfWidth * 2.0 / (double)(particleCount - 1)));
          Vector offset = look.clone().multiply(Math.cos(angle)).add(diagonalAxis.clone().multiply(Math.sin(angle))).multiply(radius);
          Location particleLoc = eyeLoc.clone().add(offset);
-         player.getWorld().spawnParticle(Particle.ELECTRIC_SPARK, particleLoc, 1, 0.02, 0.02, 0.02, 0.0);
-         player.getWorld().spawnParticle(Particle.CRIT, particleLoc, 1, 0.03, 0.03, 0.03, 0.0);
+         player.getWorld().spawnParticle(Particle.ELECTRIC_SPARK, particleLoc,AltarTuning.particles("cutlass",1), 0.02, 0.02, 0.02, 0.0);
+         player.getWorld().spawnParticle(Particle.CRIT, particleLoc,AltarTuning.particles("cutlass",1), 0.03, 0.03, 0.03, 0.0);
       }
    }
 
@@ -335,7 +336,7 @@ public class CutlassManager {
    }
 
    public String parryTitle(int charges) {
-      return "§6§l!! §c§l" + this.plugin.tr("ОТРАЖЕНИЕ", "ᴘᴀʀʀʏ") + " §6x" + charges + " §6§l!!";
+      return "§6§l!! §c§l" + AltarTuning.text("cutlass","messages.cutlass-manager.message-3","ОТРАЖЕНИЕ","ᴘᴀʀʀʏ") + " §6x" + charges + " §6§l!!";
    }
 
    public String yellowTitle(String title) {

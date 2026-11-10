@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.bloodlust.listeners;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.RunesAltarV;
 import dev.vaileks.runesaltarv.utils.CombatUtils;
@@ -50,7 +51,7 @@ public class BloodLustListener implements Listener {
          if (isBloodLust(item)) {
             int kills = getKills(item) + 1;
             this.updateItemLore(item, kills);
-            TextUtils.sendActionBar(p, TextUtils.legacy(this.plugin.tr("&cЖажда крови пополняется новыми жертвами", "&cʙʟᴏᴏᴅʟᴜsᴛ feeds on new victims")));
+            TextUtils.sendActionBar(p, TextUtils.legacy(AltarTuning.text("bloodlust","messages.blood-lust-listener.message-1","&cЖажда крови пополняется новыми жертвами","&cʙʟᴏᴏᴅʟᴜsᴛ feeds on new victims")));
             this.abilityManager.playKillVisual(p, e.getEntity().getLocation());
          }
       }
@@ -91,10 +92,10 @@ public class BloodLustListener implements Listener {
          if (isBloodLust(item)) {
             e.setCancelled(true);
             if (p.isSneaking()) {
-               if (getKills(item) >= 3) {
+               if (getKills(item) >= AltarTuning.integer("bloodlust","abilities.progression.blood-trail-kills",3,0,1000)) {
                   this.abilityManager.castBloodTrail(p);
                }
-            } else if (getKills(item) >= 5) {
+            } else if (getKills(item) >= AltarTuning.integer("bloodlust","abilities.progression.blood-hook-kills",5,0,1000)) {
                this.abilityManager.castBloodHook(p);
             }
          }

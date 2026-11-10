@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.shadowblade.listeners;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.RunesAltarV;
 import dev.vaileks.runesaltarv.utils.WeaponFactory;
@@ -90,7 +91,7 @@ public class ShadowBladeListener implements Listener {
    private void playShadowSweep(Player player, LivingEntity victim) {
       Vector dir = player.getLocation().getDirection().normalize();
       Location center = victim.getLocation().add(0.0, 1.0, 0.0).subtract(dir.clone().multiply(0.8));
-      center.getWorld().playSound(center, Sound.ITEM_TRIDENT_THROW, 1.0F, 1.2F);
+      center.getWorld().playSound(center,AltarTuning.sound("shadow_blade","visuals.sounds.item-trident-throw.sound",Sound.ITEM_TRIDENT_THROW),AltarTuning.volume("shadow_blade","visuals.sounds.item-trident-throw",1.0F),AltarTuning.pitch("shadow_blade","visuals.sounds.item-trident-throw",1.2F));
       Vector right = dir.clone().crossProduct(new Vector(0, 1, 0)).normalize();
       Vector up = right.clone().crossProduct(dir).normalize();
       double rotAngle = Math.random() * Math.PI;
@@ -106,9 +107,9 @@ public class ShadowBladeListener implements Listener {
          Vector point = right.clone().multiply(x).add(up.clone().multiply(y)).add(dir.clone().multiply(z));
          point.multiply(1.15);
          Location particleLoc = center.clone().add(point);
-         center.getWorld().spawnParticle(Particle.BLOCK, particleLoc, 1, 0.0, 0.0, 0.0, 0.0, blockData);
+         center.getWorld().spawnParticle(Particle.BLOCK, particleLoc,AltarTuning.particles("shadow_blade",1), 0.0, 0.0, 0.0, 0.0, blockData);
          if (step % 2 == 0) {
-            center.getWorld().spawnParticle(Particle.CRIT, particleLoc, 1, 0.0, 0.0, 0.0, 0.0);
+            center.getWorld().spawnParticle(Particle.CRIT, particleLoc,AltarTuning.particles("shadow_blade",1), 0.0, 0.0, 0.0, 0.0);
          }
 
          step++;

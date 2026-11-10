@@ -1,14 +1,22 @@
-name: "Арбалет Вулкана"
+# Weapon settings. Damage: HP (2 HP = 1 heart). Durations ending in -ticks: 20 ticks = 1 second.
+# Existing ability durations/cooldowns retain their original units. Potion amplifiers are zero-based unless stated otherwise.
+# Tuning/visual fields keep original values by default. Reload with /al reload (integrated) or /rav reload (standalone).
+# Sounds: enum names, relative volume/pitch multipliers. Particle density: 0..4. Attributes: additive main-hand bonuses.
+
+name: Арбалет Вулкана
 lore-description:
-- "Арбалет, закалённый в сердце вулкана. Его гнев оставляет после себя огонь и расплавленный камень."
+- Арбалет, закалённый в сердце вулкана. Его гнев оставляет после себя огонь и расплавленный
+  камень.
 lore-abilities:
-- "Выстрел — усиленная стрела."
-- "Shift + выстрел — магматический снаряд после накопления заряда."
+- Выстрел — усиленная стрела.
+- Shift + выстрел — магматический снаряд после накопления заряда.
 item:
-  material: "CROSSBOW"
+  material: CROSSBOW
   custom-model-data: 1
-  item-model: ""
-  tooltip-style: "minecraft:vulcan"
+  item-model: ''
+  tooltip-style: minecraft:vulcan
+  attack-damage-bonus: 0.0
+  attack-speed-bonus: 0.0
 abilities:
   damage: 18.0
   magma-attack:
@@ -18,9 +26,31 @@ abilities:
     explosion-power: 2.5
     radius: 2
     spread-chance: 0.35
-name-en: "Vulcan's Crossbow"
+name-en: Vulcan's Crossbow
 lore-description-en:
-- "Tempered in the heart of a volcano, its fury leaves fire and molten stone behind."
+- Tempered in the heart of a volcano, its fury leaves fire and molten stone behind.
 lore-abilities-en:
-- "Shoot — fire an empowered arrow."
-- "Shift + shoot — unleash a charged magma projectile."
+- Shoot — fire an empowered arrow.
+- Shift + shoot — unleash a charged magma projectile.
+visuals:
+  sounds:
+    entity-warden-sonic-boom:
+      sound: ENTITY_WARDEN_SONIC_BOOM
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    block-fire-extinguish:
+      sound: BLOCK_FIRE_EXTINGUISH
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    block-sculk-spread:
+      sound: BLOCK_SCULK_SPREAD
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    block-lava-extinguish:
+      sound: BLOCK_LAVA_EXTINGUISH
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+  particle-density: 1.0
+tuning:
+  vulcan-restore-task:
+    blocks-per-tick: 5.0

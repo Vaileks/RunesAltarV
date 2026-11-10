@@ -1,36 +1,77 @@
-name: "Безумные слоты"
+# Weapon settings. Damage: HP (2 HP = 1 heart). Durations ending in -ticks: 20 ticks = 1 second.
+# Existing ability durations/cooldowns retain their original units. Potion amplifiers are zero-based unless stated otherwise.
+# Tuning/visual fields keep original values by default. Reload with /al reload (integrated) or /rav reload (standalone).
+# Sounds: enum names, relative volume/pitch multipliers. Particle density: 0..4. Attributes: additive main-hand bonuses.
+
+name: Безумные слоты
 lore-description:
-- "Оружие, заключившее сделку со случаем. Один поворот судьбы меняет и его облик, и правила боя."
+- Оружие, заключившее сделку со случаем. Один поворот судьбы меняет и его облик, и
+  правила боя.
 lore-abilities:
-- "ПКМ — временно превратить оружие в случайную легу."
+- ПКМ — временно превратить оружие в случайную легу.
 item:
-  material: "CLAY_BALL"
+  material: CLAY_BALL
   custom-model-data: 4
-  item-model: ""
-  tooltip-style: "minecraft:gold"
+  item-model: ''
+  tooltip-style: minecraft:gold
+  attack-damage-bonus: 0.0
+  attack-speed-bonus: 0.0
 abilities:
   transform-duration: 20
   cooldown: 60
   bloodlust-kills: 5
   knightfall-kills: 10
   weapons-pool:
-    - "bloodlust"
-    - "boneblade"
-    - "cutlass"
-    - "earth_gauntlet"
-    - "frost_scythe"
-    - "hyperion"
-    - "knightfall"
-    - "nightpiercer"
-    - "paladins_battle_axe"
-    - "pale_gun"
-    - "pure_blade"
-    - "shadow_blade"
-    - "vulcans_crossbow"
-    - "windweaver"
-    - "wither_blade"
-name-en: "Crazy Slots"
+  - bloodlust
+  - boneblade
+  - cutlass
+  - earth_gauntlet
+  - frost_scythe
+  - hyperion
+  - knightfall
+  - nightpiercer
+  - paladins_battle_axe
+  - pale_gun
+  - pure_blade
+  - shadow_blade
+  - vulcans_crossbow
+  - windweaver
+  - wither_blade
+name-en: Crazy Slots
 lore-description-en:
-- "A weapon bound to chance. A single twist of fate changes its form and the rules of battle."
+- A weapon bound to chance. A single twist of fate changes its form and the rules
+  of battle.
 lore-abilities-en:
-- "Right click — temporarily transform into a random legendary weapon."
+- Right click — temporarily transform into a random legendary weapon.
+visuals:
+  sounds:
+    block-note-block-bass:
+      sound: BLOCK_NOTE_BLOCK_BASS
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-enderman-teleport:
+      sound: ENTITY_ENDERMAN_TELEPORT
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    item-armor-equip-generic:
+      sound: ITEM_ARMOR_EQUIP_GENERIC
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    block-note-block-pling:
+      sound: BLOCK_NOTE_BLOCK_PLING
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    ui-button-click:
+      sound: UI_BUTTON_CLICK
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-player-levelup:
+      sound: ENTITY_PLAYER_LEVELUP
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+  particle-density: 1.0
+messages:
+  crazy-slots-manager:
+    message-1:
+      ru: бᴇзумныᴇ ᴄлоᴛы
+      en: ᴄʀᴀᴢʏ sʟᴏᴛs

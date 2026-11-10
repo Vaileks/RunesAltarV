@@ -1,14 +1,21 @@
-name: "Костяной клинок"
+# Weapon settings. Damage: HP (2 HP = 1 heart). Durations ending in -ticks: 20 ticks = 1 second.
+# Existing ability durations/cooldowns retain their original units. Potion amplifiers are zero-based unless stated otherwise.
+# Tuning/visual fields keep original values by default. Reload with /al reload (integrated) or /rav reload (standalone).
+# Sounds: enum names, relative volume/pitch multipliers. Particle density: 0..4. Attributes: additive main-hand bonuses.
+
+name: Костяной клинок
 lore-description:
-- "Клинок из древних костей. В нём ещё живёт воля тех, кто не покорился смерти."
+- Клинок из древних костей. В нём ещё живёт воля тех, кто не покорился смерти.
 lore-abilities:
-- "F — рывок вперёд со скоростью."
-- "Shift + F — снаряд, запирающий врага в костяной клетке."
+- F — рывок вперёд со скоростью.
+- Shift + F — снаряд, запирающий врага в костяной клетке.
 item:
-  material: "NETHERITE_SWORD"
+  material: NETHERITE_SWORD
   custom-model-data: 1
-  item-model: ""
-  tooltip-style: "minecraft:bone"
+  item-model: ''
+  tooltip-style: minecraft:bone
+  attack-damage-bonus: 0.0
+  attack-speed-bonus: 0.0
 abilities:
   dash:
     cooldown: 15
@@ -20,9 +27,51 @@ abilities:
   cage:
     cooldown: 45
     stun-duration: 2
-name-en: "Bone Blade"
+name-en: Bone Blade
 lore-description-en:
-- "Forged from ancient bones, this blade carries the will of those who defied death."
+- Forged from ancient bones, this blade carries the will of those who defied death.
 lore-abilities-en:
-- "F — dash forward with a burst of speed."
-- "Shift + F — fire a projectile that traps enemies in a bone cage."
+- F — dash forward with a burst of speed.
+- Shift + F — fire a projectile that traps enemies in a bone cage.
+tuning:
+  blade-listener:
+    current-scale: 0.35
+    target-radius: 1.2
+    height-y: 1.0
+    hit-radius-x: 1.5
+    hit-radius-y: 1.5
+    hit-radius-z: 1.5
+    hit-radius-x-2: 0.9
+    hit-radius-y-2: 0.9
+    hit-radius-z-2: 0.9
+visuals:
+  sounds:
+    entity-skeleton-death:
+      sound: ENTITY_SKELETON_DEATH
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-skeleton-hurt:
+      sound: ENTITY_SKELETON_HURT
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-zombie-attack-iron-door:
+      sound: ENTITY_ZOMBIE_ATTACK_IRON_DOOR
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-skeleton-step:
+      sound: ENTITY_SKELETON_STEP
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+  particle-density: 1.0
+messages:
+  bone-cooldown-manager:
+    message-1:
+      ru: Скелетный прыжок
+      en: Sᴋᴇʟᴇᴛᴏɴ ʟᴇᴀᴘ
+    message-2:
+      ru: Костяная клетка
+      en: Bᴏɴᴇ ᴄᴀɢᴇ
+  blade-listener:
+    message-1:
+      ru: '&eОглушен!'
+      en: '&eStunned!'

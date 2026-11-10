@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.hyperion.tasks;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.RunesAltarV;
 import dev.vaileks.runesaltarv.utils.CombatUtils;
@@ -76,7 +77,7 @@ public class HyperionTasks {
                   CombatUtils.runSyntheticDamage(() -> this.target.damage(reducedFireDamage));
                }
 
-               this.target.getWorld().playSound(this.target.getLocation(), Sound.ENTITY_PLAYER_HURT_ON_FIRE, 1.0F, 0.6F);
+               this.target.getWorld().playSound(this.target.getLocation(),AltarTuning.sound("hyperion","visuals.sounds.entity-player-hurt-on-fire.sound",Sound.ENTITY_PLAYER_HURT_ON_FIRE),AltarTuning.volume("hyperion","visuals.sounds.entity-player-hurt-on-fire",1.0F),AltarTuning.pitch("hyperion","visuals.sounds.entity-player-hurt-on-fire",0.6F));
             }
 
             if (this.bar != null) {
@@ -84,8 +85,8 @@ public class HyperionTasks {
             }
 
             if (this.ticks % 4 == 0) {
-               this.target.getWorld().spawnParticle(Particle.FLAME, this.target.getLocation().add(0.0, 1.0, 0.0), 4, 0.3, 0.4, 0.3, 0.02);
-               this.target.getWorld().spawnParticle(Particle.SOUL_FIRE_FLAME, this.target.getLocation().add(0.0, 1.0, 0.0), 3, 0.3, 0.4, 0.3, 0.02);
+               this.target.getWorld().spawnParticle(Particle.FLAME, this.target.getLocation().add(0.0, 1.0, 0.0),AltarTuning.particles("hyperion",4), 0.3, 0.4, 0.3, 0.02);
+               this.target.getWorld().spawnParticle(Particle.SOUL_FIRE_FLAME, this.target.getLocation().add(0.0, 1.0, 0.0),AltarTuning.particles("hyperion",3), 0.3, 0.4, 0.3, 0.02);
             }
 
             this.ticks++;
@@ -110,7 +111,7 @@ public class HyperionTasks {
       public HolyLanceTask(Player shooter) {
          this.shooter = shooter;
          Entity targetEntity = shooter.getTargetEntity(30);
-         Block targetBlock = shooter.getTargetBlockExact(30, FluidCollisionMode.NEVER);
+         Block targetBlock = shooter.getTargetBlockExact(AltarTuning.integer("hyperion","tuning.hyperion-tasks.target-range",30,1,128), FluidCollisionMode.NEVER);
          if (targetEntity instanceof LivingEntity living && CombatUtils.clearPath(shooter.getEyeLocation(),living)) {
             this.targetLoc = targetEntity.getLocation().clone().add(0.0, targetEntity.getHeight() / 2.0, 0.0);
          } else if (targetBlock != null) {
@@ -121,17 +122,17 @@ public class HyperionTasks {
 
          this.targetLoc.setYaw(0.0F);
          this.targetLoc.setPitch(0.0F);
-         this.targetLoc.getWorld().playSound(this.targetLoc, Sound.BLOCK_BEACON_ACTIVATE, 1.5F, 1.0F);
+         this.targetLoc.getWorld().playSound(this.targetLoc,AltarTuning.sound("hyperion","visuals.sounds.block-beacon-activate.sound",Sound.BLOCK_BEACON_ACTIVATE),AltarTuning.volume("hyperion","visuals.sounds.block-beacon-activate",1.5F),AltarTuning.pitch("hyperion","visuals.sounds.block-beacon-activate",1.0F));
          double radius = RunesAltarV.getInstance().getWeaponsConfig().getDouble("hyperion.holy-lance.radius",2.5);
 
          for (int i = 0; i < 360; i += 12) {
             double rad = Math.toRadians((double)i);
             this.targetLoc
                .getWorld()
-               .spawnParticle(Particle.FIREWORK, this.targetLoc.clone().add(Math.cos(rad) * radius, 0.2, Math.sin(rad) * radius), 1, 0.0, 0.0, 0.0, 0.0);
+               .spawnParticle(Particle.FIREWORK, this.targetLoc.clone().add(Math.cos(rad) * radius, 0.2, Math.sin(rad) * radius),AltarTuning.particles("hyperion",1), 0.0, 0.0, 0.0, 0.0);
          }
 
-         this.targetLoc.getWorld().spawnParticle(Particle.FIREWORK, this.targetLoc.clone().add(0.0, 0.2, 0.0), 15, 0.2, 0.2, 0.2, 0.05);
+         this.targetLoc.getWorld().spawnParticle(Particle.FIREWORK, this.targetLoc.clone().add(0.0, 0.2, 0.0),AltarTuning.particles("hyperion",15), 0.2, 0.2, 0.2, 0.05);
       }
 
       @Override
@@ -140,25 +141,25 @@ public class HyperionTasks {
             RunesAltarV plugin = RunesAltarV.getInstance();
             double radDmg = plugin.getWeaponsConfig().getDouble("hyperion.holy-lance.radius-damage", 10.0);
             double centerDmg = plugin.getWeaponsConfig().getDouble("hyperion.holy-lance.center-damage", 14.0);
-            this.targetLoc.getWorld().playSound(this.targetLoc, Sound.BLOCK_CONDUIT_DEACTIVATE, 1.0F, 1.0F);
+            this.targetLoc.getWorld().playSound(this.targetLoc,AltarTuning.sound("hyperion","visuals.sounds.block-conduit-deactivate.sound",Sound.BLOCK_CONDUIT_DEACTIVATE),AltarTuning.volume("hyperion","visuals.sounds.block-conduit-deactivate",1.0F),AltarTuning.pitch("hyperion","visuals.sounds.block-conduit-deactivate",1.0F));
             Block hitBlock = this.targetLoc.clone().subtract(0.0, 1.0, 0.0).getBlock();
             Location effectLoc = this.targetLoc.clone().add(0.0, 0.5, 0.0);
 
             try {
-               this.targetLoc.getWorld().spawnParticle(Particle.valueOf("BLOCK_CRACK"), effectLoc, 150, 1.2, 0.5, 1.2, 0.15, hitBlock.getBlockData());
+               this.targetLoc.getWorld().spawnParticle(Particle.valueOf("BLOCK_CRACK"), effectLoc,AltarTuning.particles("hyperion",150), 1.2, 0.5, 1.2, 0.15, hitBlock.getBlockData());
             } catch (Exception var17) {
-               this.targetLoc.getWorld().spawnParticle(Particle.valueOf("BLOCK"), effectLoc, 150, 1.2, 0.5, 1.2, 0.15, hitBlock.getBlockData());
+               this.targetLoc.getWorld().spawnParticle(Particle.valueOf("BLOCK"), effectLoc,AltarTuning.particles("hyperion",150), 1.2, 0.5, 1.2, 0.15, hitBlock.getBlockData());
             }
 
             DustOptions yellowDust = new DustOptions(Color.YELLOW, 1.5F);
 
             try {
-               this.targetLoc.getWorld().spawnParticle(Particle.DUST, effectLoc, 100, 1.5, 1.0, 1.5, 0.1, yellowDust);
+               this.targetLoc.getWorld().spawnParticle(Particle.DUST, effectLoc,AltarTuning.particles("hyperion",100), 1.5, 1.0, 1.5, 0.1, yellowDust);
             } catch (IllegalArgumentException var16) {
-               this.targetLoc.getWorld().spawnParticle(Particle.valueOf("REDSTONE"), effectLoc, 100, 1.5, 1.0, 1.5, 0.1, yellowDust);
+               this.targetLoc.getWorld().spawnParticle(Particle.valueOf("REDSTONE"), effectLoc,AltarTuning.particles("hyperion",100), 1.5, 1.0, 1.5, 0.1, yellowDust);
             }
 
-            for (Entity e : this.targetLoc.getWorld().getNearbyEntities(this.targetLoc, plugin.getWeaponsConfig().getDouble("hyperion.holy-lance.radius",2.5), 3.5, plugin.getWeaponsConfig().getDouble("hyperion.holy-lance.radius",2.5))) {
+            for (Entity e : this.targetLoc.getWorld().getNearbyEntities(this.targetLoc, plugin.getWeaponsConfig().getDouble("hyperion.holy-lance.radius",2.5),AltarTuning.number("hyperion","tuning.hyperion-tasks.hit-radius-y",3.5,0,128), plugin.getWeaponsConfig().getDouble("hyperion.holy-lance.radius",2.5))) {
                if (e instanceof LivingEntity) {
                   LivingEntity victim = (LivingEntity)e;
                   if (e != this.shooter && CombatUtils.clearPath(this.targetLoc.clone().add(0,0.5,0),victim)) {
@@ -192,8 +193,8 @@ public class HyperionTasks {
             tStart.getScale().set(0.01F, 0.01F, 0.01F);
             tStart.getTranslation().set(0.0F, 0.0F, 0.0F);
             this.lance.setTransformation(tStart);
-            float lanceScale = 16.0F;
-            float yOffset = 8.0F;
+            float lanceScale = (float)AltarTuning.number("hyperion","tuning.hyperion-tasks.lance-scale",16.0F,0.01,128);
+            float yOffset = (float)AltarTuning.number("hyperion","tuning.hyperion-tasks.y-offset",8.0F,0.01,128);
             Bukkit.getScheduler().runTaskLater(RunesAltarV.getInstance(), () -> {
                if (this.lance != null && this.lance.isValid()) {
                   this.lance.setInterpolationDelay(0);
@@ -250,7 +251,7 @@ public class HyperionTasks {
       private final Vector dir;
       private final Vector tiltRight;
       private int ticks = 0;
-      private double totalWidth = 1.25;
+      private double totalWidth = AltarTuning.number("hyperion","tuning.hyperion-tasks.total-width",1.25,0.01,128);
       private boolean isLavaPhase = false;
       private final Set<UUID> hitVictims = new HashSet<>();
 
@@ -272,7 +273,7 @@ public class HyperionTasks {
          double cosAngle = Math.cos(radAngle);
          double sinAngle = Math.sin(radAngle);
          this.tiltRight = right.clone().multiply(cosAngle).add(up.clone().multiply(sinAngle)).normalize();
-         shooter.getWorld().playSound(this.currentLoc, Sound.ENTITY_BLAZE_SHOOT, 2.0F, 0.8F);
+         shooter.getWorld().playSound(this.currentLoc,AltarTuning.sound("hyperion","visuals.sounds.entity-blaze-shoot.sound",Sound.ENTITY_BLAZE_SHOOT),AltarTuning.volume("hyperion","visuals.sounds.entity-blaze-shoot",2.0F),AltarTuning.pitch("hyperion","visuals.sounds.entity-blaze-shoot",0.8F));
 
          for (int i = 0; i < 45; i++) {
             BlockDisplay bd = shooter.getWorld().spawn(this.currentLoc, BlockDisplay.class);
@@ -293,8 +294,8 @@ public class HyperionTasks {
 
       @Override
       public void run() {
-         int maxTicks = 32;
-         int lavaPhaseTick = 24;
+         int maxTicks = AltarTuning.integer("hyperion","tuning.hyperion-tasks.max-ticks",32,1,512);
+         int lavaPhaseTick = AltarTuning.integer("hyperion","tuning.hyperion-tasks.lava-phase-tick",24,1,512);
          if (this.ticks >= maxTicks) {
             for (int i = 0; i < 45; i++) {
                if (this.blocks[i] != null && this.blocks[i].isValid()) {
@@ -311,7 +312,7 @@ public class HyperionTasks {
          } else {
             if (this.ticks >= lavaPhaseTick && !this.isLavaPhase) {
                this.isLavaPhase = true;
-               this.currentLoc.getWorld().playSound(this.currentLoc, Sound.ITEM_BUCKET_EMPTY_LAVA, 1.2F, 0.8F);
+               this.currentLoc.getWorld().playSound(this.currentLoc,AltarTuning.sound("hyperion","visuals.sounds.item-bucket-empty-lava.sound",Sound.ITEM_BUCKET_EMPTY_LAVA),AltarTuning.volume("hyperion","visuals.sounds.item-bucket-empty-lava",1.2F),AltarTuning.pitch("hyperion","visuals.sounds.item-bucket-empty-lava",0.8F));
 
                for (int ix = 0; ix < 45; ix++) {
                   if (this.blocks[ix] != null && this.blocks[ix].isValid()) {
@@ -322,7 +323,7 @@ public class HyperionTasks {
 
             this.currentLoc.add(this.dir.clone().multiply(1.2));
             this.totalWidth += 0.95;
-            float lengthShrink = 1.0F;
+            float lengthShrink = (float)AltarTuning.number("hyperion","tuning.hyperion-tasks.length-shrink",1.0F,0.01,128);
             if (this.ticks >= maxTicks - 4) {
                lengthShrink = (float)(maxTicks - this.ticks) / 4.0F;
                if (lengthShrink < 0.05F) {
@@ -331,7 +332,7 @@ public class HyperionTasks {
             }
 
             double pureDamage = RunesAltarV.getInstance().getWeaponsConfig().getDouble("hyperion.scorching-blade.pure-damage", 6.0);
-            double curveDepth = 1.3;
+            double curveDepth = AltarTuning.number("hyperion","tuning.hyperion-tasks.curve-depth",1.3,0.01,128);
 
             for (int ixx = 0; ixx < 45; ixx++) {
                if (this.blocks[ixx] != null && this.blocks[ixx].isValid()) {
@@ -384,11 +385,11 @@ public class HyperionTasks {
                   }
                }
 
-               this.currentLoc.getWorld().spawnParticle(Particle.DRIPPING_LAVA, this.currentLoc, 25, this.totalWidth / 2.0, 0.8, this.totalWidth / 2.0, 0.1);
-               this.currentLoc.getWorld().spawnParticle(Particle.FALLING_LAVA, this.currentLoc, 15, this.totalWidth / 2.0, 0.8, this.totalWidth / 2.0, 0.1);
+               this.currentLoc.getWorld().spawnParticle(Particle.DRIPPING_LAVA, this.currentLoc,AltarTuning.particles("hyperion",25), this.totalWidth / 2.0, 0.8, this.totalWidth / 2.0, 0.1);
+               this.currentLoc.getWorld().spawnParticle(Particle.FALLING_LAVA, this.currentLoc,AltarTuning.particles("hyperion",15), this.totalWidth / 2.0, 0.8, this.totalWidth / 2.0, 0.1);
             } else {
-               this.currentLoc.getWorld().spawnParticle(Particle.FLAME, this.currentLoc, 30, this.totalWidth / 2.0, 0.8, this.totalWidth / 2.0, 0.1);
-               this.currentLoc.getWorld().spawnParticle(Particle.CRIT, this.currentLoc, 25, this.totalWidth / 2.0, 0.8, this.totalWidth / 2.0, 0.1);
+               this.currentLoc.getWorld().spawnParticle(Particle.FLAME, this.currentLoc,AltarTuning.particles("hyperion",30), this.totalWidth / 2.0, 0.8, this.totalWidth / 2.0, 0.1);
+               this.currentLoc.getWorld().spawnParticle(Particle.CRIT, this.currentLoc,AltarTuning.particles("hyperion",25), this.totalWidth / 2.0, 0.8, this.totalWidth / 2.0, 0.1);
             }
 
             this.ticks++;
@@ -398,10 +399,10 @@ public class HyperionTasks {
       private void spawnRealLavaColumn(Location loc, int index, int maxIndex) {
          if (!RunesAltarV.getInstance().getWeaponsConfig().getBoolean("hyperion.scorching-blade.place-real-lava",false)) return;
          Block baseBlock = loc.getBlock();
-         int edgeMargin = 4;
+         int edgeMargin = AltarTuning.integer("hyperion","tuning.hyperion-tasks.edge-margin",4,1,512);
          boolean isEdge = index < edgeMargin || index > maxIndex - edgeMargin;
-         loc.getWorld().playSound(loc, Sound.BLOCK_LAVA_EXTINGUISH, 0.5F, 1.2F);
-         loc.getWorld().playSound(loc, Sound.ENTITY_MAGMA_CUBE_HURT, 0.5F, 0.8F);
+         loc.getWorld().playSound(loc,AltarTuning.sound("hyperion","visuals.sounds.block-lava-extinguish.sound",Sound.BLOCK_LAVA_EXTINGUISH),AltarTuning.volume("hyperion","visuals.sounds.block-lava-extinguish",0.5F),AltarTuning.pitch("hyperion","visuals.sounds.block-lava-extinguish",1.2F));
+         loc.getWorld().playSound(loc,AltarTuning.sound("hyperion","visuals.sounds.entity-magma-cube-hurt.sound",Sound.ENTITY_MAGMA_CUBE_HURT),AltarTuning.volume("hyperion","visuals.sounds.entity-magma-cube-hurt",0.5F),AltarTuning.pitch("hyperion","visuals.sounds.entity-magma-cube-hurt",0.8F));
          this.setTempLava(baseBlock);
          if (!isEdge) {
             Block topBlock = baseBlock.getRelative(BlockFace.UP);
@@ -440,7 +441,7 @@ public class HyperionTasks {
          this.bar.addPlayer(p);
          this.bar.setProgress(1.0);
          this.startLoc = p.getLocation().clone();
-         p.getWorld().playSound(this.startLoc, Sound.BLOCK_FIRE_AMBIENT, 1.0F, 1.0F);
+         p.getWorld().playSound(this.startLoc,AltarTuning.sound("hyperion","visuals.sounds.block-fire-ambient.sound",Sound.BLOCK_FIRE_AMBIENT),AltarTuning.volume("hyperion","visuals.sounds.block-fire-ambient",1.0F),AltarTuning.pitch("hyperion","visuals.sounds.block-fire-ambient",1.0F));
       }
 
       @Override
@@ -448,16 +449,16 @@ public class HyperionTasks {
          if (this.p.isOnline() && !this.p.isDead() && this.ticks < 20) {
             if (this.ticks == 0) {
                Location center = this.startLoc.clone().add(0.0, 0.3, 0.0);
-               int rays = 64;
+               int rays = AltarTuning.integer("hyperion","tuning.hyperion-tasks.rays",64,1,512);
 
                for (int i = 0; i < rays; i++) {
                   double angle = (double)i * (Math.PI * 2) / (double)rays;
                   double dx = Math.cos(angle);
                   double dz = Math.sin(angle);
                   Location spawnPoint = center.clone().add(dx * 0.4, 0.0, dz * 0.4);
-                  center.getWorld().spawnParticle(Particle.SOUL_FIRE_FLAME, spawnPoint, 0, dx, 0.02, dz, 0.15);
-                  center.getWorld().spawnParticle(Particle.FLAME, spawnPoint, 0, dx, 0.02, dz, 0.25);
-                  center.getWorld().spawnParticle(Particle.FLAME, spawnPoint, 0, dx, 0.02, dz, 0.35);
+                  center.getWorld().spawnParticle(Particle.SOUL_FIRE_FLAME, spawnPoint,AltarTuning.particles("hyperion",0), dx, 0.02, dz, 0.15);
+                  center.getWorld().spawnParticle(Particle.FLAME, spawnPoint,AltarTuning.particles("hyperion",0), dx, 0.02, dz, 0.25);
+                  center.getWorld().spawnParticle(Particle.FLAME, spawnPoint,AltarTuning.particles("hyperion",0), dx, 0.02, dz, 0.35);
                }
             }
 
@@ -475,8 +476,8 @@ public class HyperionTasks {
 
                Location eyeLoc = this.p.getEyeLocation();
                Location sweepLoc = eyeLoc.clone().add(eyeLoc.getDirection().multiply(1.5));
-               this.p.getWorld().spawnParticle(Particle.SWEEP_ATTACK, sweepLoc, 1, 0.0, 0.0, 0.0, 0.0);
-               this.p.getWorld().playSound(this.p.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, 1.0F);
+               this.p.getWorld().spawnParticle(Particle.SWEEP_ATTACK, sweepLoc,AltarTuning.particles("hyperion",1), 0.0, 0.0, 0.0, 0.0);
+               this.p.getWorld().playSound(this.p.getLocation(),AltarTuning.sound("hyperion","visuals.sounds.entity-player-attack-sweep.sound",Sound.ENTITY_PLAYER_ATTACK_SWEEP),AltarTuning.volume("hyperion","visuals.sounds.entity-player-attack-sweep",1.0F),AltarTuning.pitch("hyperion","visuals.sounds.entity-player-attack-sweep",1.0F));
                HyperionCooldownManager.setScorchingCooldown(this.p);
                new HyperionTasks.ScorchingBladeTask(this.p).runTaskTimer(RunesAltarV.getInstance(), 0L, 1L);
             }

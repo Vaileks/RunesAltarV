@@ -1,14 +1,21 @@
-name: "Пронзатель ночи"
+# Weapon settings. Damage: HP (2 HP = 1 heart). Durations ending in -ticks: 20 ticks = 1 second.
+# Existing ability durations/cooldowns retain their original units. Potion amplifiers are zero-based unless stated otherwise.
+# Tuning/visual fields keep original values by default. Reload with /al reload (integrated) or /rav reload (standalone).
+# Sounds: enum names, relative volume/pitch multipliers. Particle density: 0..4. Attributes: additive main-hand bonuses.
+
+name: Пронзатель ночи
 lore-description:
-- "Оружие ночного охотника. Его лезвие ищет чужую жизнь среди теней."
+- Оружие ночного охотника. Его лезвие ищет чужую жизнь среди теней.
 lore-abilities:
-- "F — подготовить укус, ЛКМ — выпустить его и похитить здоровье."
-- "Shift + F — превратиться в летучую мышь и устремиться вперёд."
+- F — подготовить укус, ЛКМ — выпустить его и похитить здоровье.
+- Shift + F — превратиться в летучую мышь и устремиться вперёд.
 item:
-  material: "NETHERITE_SWORD"
+  material: NETHERITE_SWORD
   custom-model-data: 5
-  item-model: ""
-  tooltip-style: "minecraft:red"
+  item-model: ''
+  tooltip-style: minecraft:red
+  attack-damage-bonus: 0.0
+  attack-speed-bonus: 0.0
 abilities:
   bite:
     cooldown: 45
@@ -20,9 +27,67 @@ abilities:
     duration: 2
     speed: 1.0
     damage: 4.0
-name-en: "Nightpiercer"
+name-en: Nightpiercer
 lore-description-en:
-- "The weapon of a nocturnal hunter. Its edge seeks life among the shadows."
+- The weapon of a nocturnal hunter. Its edge seeks life among the shadows.
 lore-abilities-en:
-- "F — prepare a bite; left click to release it and steal health."
-- "Shift + F — transform into a bat and surge forward."
+- F — prepare a bite; left click to release it and steal health.
+- Shift + F — transform into a bat and surge forward.
+tuning:
+  night-ability-listener:
+    effects:
+      invisibility:
+        duration-ticks: 5.0
+        amplifier: 1.0
+    range: 2.5
+    size: 2.5
+    hit-radius-x: 1.5
+    hit-radius-y: 1.5
+    hit-radius-z: 1.5
+  night-passive-task:
+    effects:
+      regeneration:
+        duration-ticks: 50.0
+        amplifier: 0.0
+visuals:
+  sounds:
+    entity-phantom-ambient:
+      sound: ENTITY_PHANTOM_AMBIENT
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-phantom-bite:
+      sound: ENTITY_PHANTOM_BITE
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-illusioner-mirror-move:
+      sound: ENTITY_ILLUSIONER_MIRROR_MOVE
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-firework-rocket-launch:
+      sound: ENTITY_FIREWORK_ROCKET_LAUNCH
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-zombie-break-wooden-door:
+      sound: ENTITY_ZOMBIE_BREAK_WOODEN_DOOR
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-bat-ambient:
+      sound: ENTITY_BAT_AMBIENT
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-zombie-attack-iron-door:
+      sound: ENTITY_ZOMBIE_ATTACK_IRON_DOOR
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+  particle-density: 1.0
+messages:
+  night-ability-listener:
+    message-1:
+      ru: багровый укус
+      en: ᴄʀɪᴍsᴏɴ ʙɪᴛᴇ
+    message-2:
+      ru: §6§l!! §c§lУКУШЕН §6§l!!
+      en: §6§l!! §c§lBITTEN §6§l!!
+    message-3:
+      ru: трансформация
+      en: ᴛʀᴀɴsꜰᴏʀᴍᴀᴛɪᴏɴ

@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.knightfall.managers;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.RunesAltarV;
 import dev.vaileks.runesaltarv.utils.CombatUtils;
@@ -70,15 +71,15 @@ public class KnightfallManager {
       int cooldown = this.plugin.getWeaponsConfig().getInt("knightfall.cloak.cooldown", 8);
       this.cloakCooldowns.put(player.getUniqueId(), System.currentTimeMillis() + (long)cooldown * 1000L);
       this.startCloakCooldownBar(player, cooldown);
-      player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ILLUSIONER_MIRROR_MOVE, 1.0F, 1.2F);
-      player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ILLUSIONER_PREPARE_BLINDNESS, 1.0F, 1.2F);
+      player.getWorld().playSound(player.getLocation(),AltarTuning.sound("knightfall","visuals.sounds.entity-illusioner-mirror-move.sound",Sound.ENTITY_ILLUSIONER_MIRROR_MOVE),AltarTuning.volume("knightfall","visuals.sounds.entity-illusioner-mirror-move",1.0F),AltarTuning.pitch("knightfall","visuals.sounds.entity-illusioner-mirror-move",1.2F));
+      player.getWorld().playSound(player.getLocation(),AltarTuning.sound("knightfall","visuals.sounds.entity-illusioner-prepare-blindness.sound",Sound.ENTITY_ILLUSIONER_PREPARE_BLINDNESS),AltarTuning.volume("knightfall","visuals.sounds.entity-illusioner-prepare-blindness",1.0F),AltarTuning.pitch("knightfall","visuals.sounds.entity-illusioner-prepare-blindness",1.2F));
       this.spawnBlackDust(player.getLocation());
       WorldBorder border = Bukkit.createWorldBorder();
       border.setCenter(player.getLocation());
       border.setSize(10000.0);
       border.setWarningDistance(10000);
       player.setWorldBorder(border);
-      player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, duration, 0, false, false, false));
+      player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, duration, AltarTuning.integer("knightfall","tuning.knightfall-manager.effects.invisibility.amplifier",0,0,10), false, false, false));
 
       for (Player online : Bukkit.getOnlinePlayers()) {
          online.hidePlayer(this.plugin, player);
@@ -90,7 +91,7 @@ public class KnightfallManager {
          @Override
          public void run() {
             if (player.isOnline() && !player.isDead() && this.ticks < duration) {
-               TextUtils.sendActionBar(player, TextUtils.legacy(KnightfallManager.this.plugin.tr("&c[ &c&lнᴇʙидимоᴄᴛь &c]", "&c[ &c&lɪɴᴠɪsɪʙɪʟɪᴛʏ &c]")));
+               TextUtils.sendActionBar(player, TextUtils.legacy(AltarTuning.text("knightfall","messages.knightfall-manager.message-1","&c[ &c&lнᴇʙидимоᴄᴛь &c]","&c[ &c&lɪɴᴠɪsɪʙɪʟɪᴛʏ &c]")));
                this.ticks++;
             } else {
                player.setWorldBorder(null);
@@ -101,8 +102,8 @@ public class KnightfallManager {
                }
 
                if (player.isOnline()) {
-                  player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ILLUSIONER_MIRROR_MOVE, 1.0F, 1.2F);
-                  player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ILLUSIONER_PREPARE_BLINDNESS, 1.0F, 1.2F);
+                  player.getWorld().playSound(player.getLocation(),AltarTuning.sound("knightfall","visuals.sounds.entity-illusioner-mirror-move.sound",Sound.ENTITY_ILLUSIONER_MIRROR_MOVE),AltarTuning.volume("knightfall","visuals.sounds.entity-illusioner-mirror-move",1.0F),AltarTuning.pitch("knightfall","visuals.sounds.entity-illusioner-mirror-move",1.2F));
+                  player.getWorld().playSound(player.getLocation(),AltarTuning.sound("knightfall","visuals.sounds.entity-illusioner-prepare-blindness.sound",Sound.ENTITY_ILLUSIONER_PREPARE_BLINDNESS),AltarTuning.volume("knightfall","visuals.sounds.entity-illusioner-prepare-blindness",1.0F),AltarTuning.pitch("knightfall","visuals.sounds.entity-illusioner-prepare-blindness",1.2F));
                   KnightfallManager.this.spawnBlackDust(player.getLocation());
                }
 
@@ -113,7 +114,7 @@ public class KnightfallManager {
    }
 
    private void startCloakCooldownBar(final Player player, final int seconds) {
-      final BossBar bar = dev.vaileks.runesaltarv.integration.AltarCooldowns.cooldownBar(this.yellowTitle(this.plugin.tr("плᴀщ", "ᴄʟᴏᴀᴋ")), BarColor.YELLOW, BarStyle.SOLID);
+      final BossBar bar = dev.vaileks.runesaltarv.integration.AltarCooldowns.cooldownBar(this.yellowTitle(AltarTuning.text("knightfall","messages.knightfall-manager.message-2","плᴀщ","ᴄʟᴏᴀᴋ")), BarColor.YELLOW, BarStyle.SOLID);
       bar.addPlayer(player);
       this.cloakCooldownBars.put(player.getUniqueId(), bar);
       (new BukkitRunnable() {
@@ -144,7 +145,7 @@ public class KnightfallManager {
 
    private void spawnBlackDust(Location loc) {
       DustOptions blackDust = new DustOptions(Color.fromRGB(0, 0, 0), 2.5F);
-      loc.getWorld().spawnParticle(Particle.DUST, loc.clone().add(0.0, 1.0, 0.0), 60, 0.5, 1.0, 0.5, blackDust);
+      loc.getWorld().spawnParticle(Particle.DUST, loc.clone().add(0.0, 1.0, 0.0),AltarTuning.particles("knightfall",60), 0.5, 1.0, 0.5, blackDust);
    }
 
    public int getCharges(Player player) {
@@ -190,7 +191,7 @@ public class KnightfallManager {
       }
 
       BossBar bar = this.hookBars.get(player.getUniqueId());
-      bar.setTitle(this.yellowTitle(this.plugin.tr("ᴀбордᴀжный ᴋрюᴋ x", "ɢʀᴀᴘᴘʟɪɴɢ ʜᴏᴏᴋ x") + usedCharges));
+      bar.setTitle(this.yellowTitle(AltarTuning.text("knightfall","messages.knightfall-manager.message-3","ᴀбордᴀжный ᴋрюᴋ x","ɢʀᴀᴘᴘʟɪɴɢ ʜᴏᴏᴋ x") + usedCharges));
       bar.setProgress(Math.max(0.0, Math.min(1.0, 1.0 - timeRemainingRaw)));
    }
 
@@ -246,9 +247,9 @@ public class KnightfallManager {
 
       for (int i = 0; i <= points; i++) {
          Location point = startLoc.clone().add(dir.clone().multiply((double)i * step));
-         point.getWorld().spawnParticle(Particle.BLOCK_CRUMBLE, point, 1, 0.0, 0.0, 0.0, 0.0, chainData);
+         point.getWorld().spawnParticle(Particle.BLOCK_CRUMBLE, point,AltarTuning.particles("knightfall",1), 0.0, 0.0, 0.0, 0.0, chainData);
          if (i % 14 == 0) {
-            point.getWorld().spawnParticle(Particle.CRIT, point, 1, 0.0, 0.0, 0.0, 0.0);
+            point.getWorld().spawnParticle(Particle.CRIT, point,AltarTuning.particles("knightfall",1), 0.0, 0.0, 0.0, 0.0);
          }
       }
    }
@@ -266,17 +267,17 @@ public class KnightfallManager {
       if (loc != null && loc.getWorld() != null) {
          final World world = loc.getWorld();
          final Location baseLoc = loc.clone().add(0.0, 0.8, 0.0);
-         world.playSound(baseLoc, Sound.ENTITY_WITHER_SHOOT, 0.9F, 0.6F);
-         world.playSound(baseLoc, Sound.ENTITY_WARDEN_HEARTBEAT, 1.2F, 1.4F);
+         world.playSound(baseLoc,AltarTuning.sound("knightfall","visuals.sounds.entity-wither-shoot.sound",Sound.ENTITY_WITHER_SHOOT),AltarTuning.volume("knightfall","visuals.sounds.entity-wither-shoot",0.9F),AltarTuning.pitch("knightfall","visuals.sounds.entity-wither-shoot",0.6F));
+         world.playSound(baseLoc,AltarTuning.sound("knightfall","visuals.sounds.entity-warden-heartbeat.sound",Sound.ENTITY_WARDEN_HEARTBEAT),AltarTuning.volume("knightfall","visuals.sounds.entity-warden-heartbeat",1.2F),AltarTuning.pitch("knightfall","visuals.sounds.entity-warden-heartbeat",1.4F));
          final DustOptions coreBlackDust = new DustOptions(Color.fromRGB(15, 15, 20), 1.8F);
          final DustOptions voidPurpleDust = new DustOptions(Color.fromRGB(75, 10, 110), 1.5F);
          final DustOptions tailDust = new DustOptions(Color.fromRGB(30, 20, 40), 0.9F);
-         world.spawnParticle(Particle.DUST, baseLoc, 35, 0.4, 0.6, 0.4, 0.05, coreBlackDust);
-         world.spawnParticle(Particle.ELECTRIC_SPARK, baseLoc, 20, 0.3, 0.5, 0.3, 0.1);
+         world.spawnParticle(Particle.DUST, baseLoc,AltarTuning.particles("knightfall",35), 0.4, 0.6, 0.4, 0.05, coreBlackDust);
+         world.spawnParticle(Particle.ELECTRIC_SPARK, baseLoc,AltarTuning.particles("knightfall",20), 0.3, 0.5, 0.3, 0.1);
          (new BukkitRunnable() {
             int ticks = 0;
-            final int maxTicks = 35;
-            final int cometCount = 7;
+            final int maxTicks = AltarTuning.integer("knightfall","tuning.knightfall-manager.max-ticks",35,1,512);
+            final int cometCount = AltarTuning.integer("knightfall","tuning.knightfall-manager.comet-count",7,1,512);
             final List<Location> heads = new ArrayList<>();
             final List<Double> angles = new ArrayList<>();
             final List<Double> swirlSpeeds = new ArrayList<>();
@@ -314,10 +315,10 @@ public class KnightfallManager {
                      head.add(d.getX(), vy, d.getZ());
                      Location currentLoc = head.clone().add(Math.cos(angle) * r, 0.0, Math.sin(angle) * r);
                      DustOptions headDust = i % 2 == 0 ? coreBlackDust : voidPurpleDust;
-                     world.spawnParticle(Particle.DUST, currentLoc, 2, 0.04, 0.04, 0.04, headDust);
-                     world.spawnParticle(Particle.ELECTRIC_SPARK, currentLoc, 1, 0.02, 0.02, 0.02, 0.01);
+                     world.spawnParticle(Particle.DUST, currentLoc,AltarTuning.particles("knightfall",2), 0.04, 0.04, 0.04, headDust);
+                     world.spawnParticle(Particle.ELECTRIC_SPARK, currentLoc,AltarTuning.particles("knightfall",1), 0.02, 0.02, 0.02, 0.01);
                      Location tailLoc = currentLoc.clone().subtract(0.0, vy * 0.5, 0.0);
-                     world.spawnParticle(Particle.DUST, tailLoc, 1, 0.02, 0.02, 0.02, tailDust);
+                     world.spawnParticle(Particle.DUST, tailLoc,AltarTuning.particles("knightfall",1), 0.02, 0.02, 0.02, tailDust);
                   }
                }
             }
@@ -419,7 +420,7 @@ public class KnightfallManager {
                         this.playKillEffect(victim.getLocation());
                      }
 
-                     CombatUtils.runSyntheticDamage(() -> victim.damage(2.0, player));
+                     CombatUtils.runSyntheticDamage(() -> victim.damage(AltarTuning.number("knightfall","tuning.knightfall-manager.damage",2.0,0,128), player));
                   }
                }
             }
@@ -435,8 +436,8 @@ public class KnightfallManager {
                }
 
                player.swingMainHand();
-               player.getWorld().playSound(player.getLocation(), Sound.ENTITY_IRON_GOLEM_HURT, 1.0F, 2.0F);
-               player.getWorld().playSound(player.getLocation(), Sound.ITEM_ARMOR_EQUIP_CHAIN, 1.0F, 2.0F);
+               player.getWorld().playSound(player.getLocation(),AltarTuning.sound("knightfall","visuals.sounds.entity-iron-golem-hurt.sound",Sound.ENTITY_IRON_GOLEM_HURT),AltarTuning.volume("knightfall","visuals.sounds.entity-iron-golem-hurt",1.0F),AltarTuning.pitch("knightfall","visuals.sounds.entity-iron-golem-hurt",2.0F));
+               player.getWorld().playSound(player.getLocation(),AltarTuning.sound("knightfall","visuals.sounds.item-armor-equip-chain.sound",Sound.ITEM_ARMOR_EQUIP_CHAIN),AltarTuning.volume("knightfall","visuals.sounds.item-armor-equip-chain",1.0F),AltarTuning.pitch("knightfall","visuals.sounds.item-armor-equip-chain",2.0F));
                List<BlockDisplay> chainLinks = new ArrayList<>();
                this.updateDynamicChain(player, targetLoc, chainLinks);
                this.pullPlayer(player, targetLoc, chainLinks, isFloor);
@@ -446,8 +447,8 @@ public class KnightfallManager {
    }
 
    private void pullPlayer(final Player player, final Location target, final List<BlockDisplay> chainLinks, final boolean isFloor) {
-      target.getWorld().spawnParticle(Particle.BLOCK_CRUMBLE, target, 25, 0.25, 0.25, 0.25, 0.05, Material.IRON_CHAIN.createBlockData());
-      player.getWorld().playSound(target, Sound.BLOCK_CHAIN_BREAK, 1.0F, 1.5F);
+      target.getWorld().spawnParticle(Particle.BLOCK_CRUMBLE, target,AltarTuning.particles("knightfall",25), 0.25, 0.25, 0.25, 0.05, Material.IRON_CHAIN.createBlockData());
+      player.getWorld().playSound(target,AltarTuning.sound("knightfall","visuals.sounds.block-chain-break.sound",Sound.BLOCK_CHAIN_BREAK),AltarTuning.volume("knightfall","visuals.sounds.block-chain-break",1.0F),AltarTuning.pitch("knightfall","visuals.sounds.block-chain-break",1.5F));
       (new BukkitRunnable() {
          int ticks = 0;
          Location lastLoc = player.getLocation();
@@ -458,7 +459,7 @@ public class KnightfallManager {
             if (player.isOnline() && !player.isDead()) {
                KnightfallManager.this.updateDynamicChain(player, target, chainLinks);
                if (this.ticks % 1 == 0) {
-                  player.getWorld().playSound(player.getLocation(), Sound.BLOCK_CHAIN_STEP, 2.0F, 0.9F);
+                  player.getWorld().playSound(player.getLocation(),AltarTuning.sound("knightfall","visuals.sounds.block-chain-step.sound",Sound.BLOCK_CHAIN_STEP),AltarTuning.volume("knightfall","visuals.sounds.block-chain-step",2.0F),AltarTuning.pitch("knightfall","visuals.sounds.block-chain-step",0.9F));
                }
 
                if (!(player.getLocation().distanceSquared(target) < 2.5) && !(player.getEyeLocation().distanceSquared(target) < 2.5)) {
@@ -498,7 +499,7 @@ public class KnightfallManager {
 
                   this.ticks++;
                } else {
-                  player.getWorld().playSound(player.getLocation(), Sound.BLOCK_CHAIN_BREAK, 2.0F, 1.0F);
+                  player.getWorld().playSound(player.getLocation(),AltarTuning.sound("knightfall","visuals.sounds.block-chain-break.sound",Sound.BLOCK_CHAIN_BREAK),AltarTuning.volume("knightfall","visuals.sounds.block-chain-break",2.0F),AltarTuning.pitch("knightfall","visuals.sounds.block-chain-break",1.0F));
                   if (isFloor) {
                      Vector boost = player.getLocation().getDirection().setY(0).normalize().multiply(0.5).setY(1.1);
                      player.setVelocity(boost);
@@ -526,8 +527,8 @@ public class KnightfallManager {
          }
 
          player.getInventory().setItemInMainHand(null);
-         player.getWorld().playSound(player.getLocation(), Sound.ITEM_TRIDENT_THROW, 1.0F, 0.5F);
-         player.getWorld().playSound(player.getLocation(), Sound.ITEM_ARMOR_EQUIP_CHAIN, 1.0F, 2.0F);
+         player.getWorld().playSound(player.getLocation(),AltarTuning.sound("knightfall","visuals.sounds.item-trident-throw.sound",Sound.ITEM_TRIDENT_THROW),AltarTuning.volume("knightfall","visuals.sounds.item-trident-throw",1.0F),AltarTuning.pitch("knightfall","visuals.sounds.item-trident-throw",0.5F));
+         player.getWorld().playSound(player.getLocation(),AltarTuning.sound("knightfall","visuals.sounds.item-armor-equip-chain.sound",Sound.ITEM_ARMOR_EQUIP_CHAIN),AltarTuning.volume("knightfall","visuals.sounds.item-armor-equip-chain",1.0F),AltarTuning.pitch("knightfall","visuals.sounds.item-armor-equip-chain",2.0F));
          final Location start = player.getEyeLocation();
          final Vector dir = start.getDirection().normalize();
          final double maxDist = this.plugin.getWeaponsConfig().getDouble("knightfall.throw.range", 30.0);
@@ -569,7 +570,7 @@ public class KnightfallManager {
                      if (this.state == 0) {
                         LivingEntity targetVictim = null;
 
-                        for (Entity target : this.curr.getWorld().getNearbyEntities(this.curr, 1.4, 1.4, 1.4)) {
+                        for (Entity target : this.curr.getWorld().getNearbyEntities(this.curr,AltarTuning.number("knightfall","tuning.knightfall-manager.hit-radius-x",1.4,0,128),AltarTuning.number("knightfall","tuning.knightfall-manager.hit-radius-y",1.4,0,128),AltarTuning.number("knightfall","tuning.knightfall-manager.hit-radius-z",1.4,0,128))) {
                            if (!target.equals(player)
                               && !target.equals(display)
                               && !target.isDead()
@@ -614,7 +615,7 @@ public class KnightfallManager {
                            }
 
                            KnightfallManager.this.plugin.getCleanDamageManager().apply(targetVictim, player, configDmg);
-                           player.getWorld().playSound(this.curr, Sound.ENTITY_PLAYER_ATTACK_CRIT, 1.0F, 0.5F);
+                           player.getWorld().playSound(this.curr,AltarTuning.sound("knightfall","visuals.sounds.entity-player-attack-crit.sound",Sound.ENTITY_PLAYER_ATTACK_CRIT),AltarTuning.volume("knightfall","visuals.sounds.entity-player-attack-crit",1.0F),AltarTuning.pitch("knightfall","visuals.sounds.entity-player-attack-crit",0.5F));
                            this.caughtEntity = targetVictim;
                            this.state = 1;
                            this.stateTimer = turningDelayTicks;
@@ -636,7 +637,7 @@ public class KnightfallManager {
                            display.teleport(this.curr);
                         }
 
-                        this.curr.getWorld().spawnParticle(Particle.CRIT, this.curr, 2, 0.05, 0.05, 0.05, 0.0);
+                        this.curr.getWorld().spawnParticle(Particle.CRIT, this.curr,AltarTuning.particles("knightfall",2), 0.05, 0.05, 0.05, 0.0);
                         if (this.traveled >= maxDist && this.state == 0) {
                            this.state = 1;
                            this.stateTimer = turningDelayTicks;
@@ -658,7 +659,7 @@ public class KnightfallManager {
                               }
 
                               player.getInventory().addItem(new ItemStack[]{returnItem});
-                              player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1.0F, 1.0F);
+                              player.getWorld().playSound(player.getLocation(),AltarTuning.sound("knightfall","visuals.sounds.entity-item-pickup.sound",Sound.ENTITY_ITEM_PICKUP),AltarTuning.volume("knightfall","visuals.sounds.entity-item-pickup",1.0F),AltarTuning.pitch("knightfall","visuals.sounds.entity-item-pickup",1.0F));
                               display.remove();
                               this.cancel();
                               return;
@@ -676,14 +677,14 @@ public class KnightfallManager {
                               }
 
                               player.getWorld().dropItem(player.getLocation(), toDrop);
-                              player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1.0F, 0.6F);
+                              player.getWorld().playSound(player.getLocation(),AltarTuning.sound("knightfall","visuals.sounds.entity-item-pickup.sound",Sound.ENTITY_ITEM_PICKUP),AltarTuning.volume("knightfall","visuals.sounds.entity-item-pickup",1.0F),AltarTuning.pitch("knightfall","visuals.sounds.entity-item-pickup",0.6F));
                               display.remove();
                               this.cancel();
                               return;
                            }
 
-                           double orbitRadius = 0.8;
-                           double orbitSpeed = 0.4;
+                           double orbitRadius = AltarTuning.number("knightfall","tuning.knightfall-manager.orbit-radius",0.8,0.01,128);
+                           double orbitSpeed = AltarTuning.number("knightfall","tuning.knightfall-manager.orbit-speed",0.4,0.01,128);
                            double currentAngle = (double)(300 - this.stateTimer) * orbitSpeed;
                            this.curr = player.getLocation().add(Math.cos(currentAngle) * orbitRadius, 2.3, Math.sin(currentAngle) * orbitRadius);
                            display.setInterpolationDelay(0);
@@ -697,7 +698,7 @@ public class KnightfallManager {
                         }
                      } else {
                         if (this.caughtEntity != null && this.caughtEntity.getLocation().getBlock().getType() == Material.COBWEB) {
-                           player.getWorld().playSound(player.getLocation(), Sound.BLOCK_CHAIN_BREAK, 1.0F, 1.0F);
+                           player.getWorld().playSound(player.getLocation(),AltarTuning.sound("knightfall","visuals.sounds.block-chain-break.sound",Sound.BLOCK_CHAIN_BREAK),AltarTuning.volume("knightfall","visuals.sounds.block-chain-break",1.0F),AltarTuning.pitch("knightfall","visuals.sounds.block-chain-break",1.0F));
                            this.caughtEntity.setFallDistance(0.0F);
                            this.caughtEntity = null;
                         }
@@ -750,7 +751,7 @@ public class KnightfallManager {
                            transformation.getLeftRotation().set(new Quaternionf().rotateX((float) (Math.PI / 2)).rotateY((float) Math.PI + this.roll));
                            display.setTransformation(transformation);
                            display.teleport(this.curr);
-                           this.curr.getWorld().spawnParticle(Particle.CRIT, this.curr, 2, 0.05, 0.05, 0.05, 0.0);
+                           this.curr.getWorld().spawnParticle(Particle.CRIT, this.curr,AltarTuning.particles("knightfall",2), 0.05, 0.05, 0.05, 0.0);
                            if (this.caughtEntity != null && !this.caughtEntity.isDead()) {
                               Vector pullVector = this.curr.toVector().subtract(this.caughtEntity.getLocation().toVector());
                               this.caughtEntity.setVelocity(pullVector);
@@ -760,7 +761,7 @@ public class KnightfallManager {
                      }
                   } else {
                      if (player.isDead() && this.state == 3) {
-                        this.curr.getWorld().playSound(this.curr, Sound.ENTITY_ITEM_PICKUP, 1.0F, 0.6F);
+                        this.curr.getWorld().playSound(this.curr,AltarTuning.sound("knightfall","visuals.sounds.entity-item-pickup.sound",Sound.ENTITY_ITEM_PICKUP),AltarTuning.volume("knightfall","visuals.sounds.entity-item-pickup",1.0F),AltarTuning.pitch("knightfall","visuals.sounds.entity-item-pickup",0.6F));
                      }
 
                      ItemStack toDrop = item;
@@ -788,7 +789,7 @@ public class KnightfallManager {
    }
 
    private void startThrowCooldownBar(final Player player, final int seconds) {
-      final BossBar bar = dev.vaileks.runesaltarv.integration.AltarCooldowns.cooldownBar(this.yellowTitle(this.plugin.tr("броᴄоᴋ молоᴛᴀ", "ʜᴀᴍᴍᴇʀ ᴛʜʀᴏᴡ")), BarColor.YELLOW, BarStyle.SOLID);
+      final BossBar bar = dev.vaileks.runesaltarv.integration.AltarCooldowns.cooldownBar(this.yellowTitle(AltarTuning.text("knightfall","messages.knightfall-manager.message-4","броᴄоᴋ молоᴛᴀ","ʜᴀᴍᴍᴇʀ ᴛʜʀᴏᴡ")), BarColor.YELLOW, BarStyle.SOLID);
       bar.addPlayer(player);
       this.throwCooldownBars.put(player.getUniqueId(), bar);
       (new BukkitRunnable() {

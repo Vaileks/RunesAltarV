@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.vulcan.listeners;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.RunesAltarV;
 import dev.vaileks.runesaltarv.weapons.vulcan.managers.VulcanCooldownManager;
@@ -31,7 +32,7 @@ public class VulcanShootListener implements Listener {
                Vector dir = eyeLoc.getDirection().normalize();
                if (player.isSneaking() && !VulcanCooldownManager.isOnCooldown(player)) {
                   event.setCancelled(true);
-                  player.getWorld().playSound(eyeLoc, Sound.ENTITY_WARDEN_SONIC_BOOM, 2.0F, 1.0F);
+                  player.getWorld().playSound(eyeLoc,AltarTuning.sound("vulcan_crossbow","visuals.sounds.entity-warden-sonic-boom.sound",Sound.ENTITY_WARDEN_SONIC_BOOM),AltarTuning.volume("vulcan_crossbow","visuals.sounds.entity-warden-sonic-boom",2.0F),AltarTuning.pitch("vulcan_crossbow","visuals.sounds.entity-warden-sonic-boom",1.0F));
                   new MagmaProjectile(player, eyeLoc, dir.clone().multiply(1.5)).runTaskTimer(plugin, 0L, 1L);
                   Vector recoil = dir.clone().multiply(-1).normalize().multiply(0.8).setY(0.25);
                   player.setVelocity(recoil);
@@ -39,8 +40,8 @@ public class VulcanShootListener implements Listener {
                   VulcanCooldownManager.startCooldown(player, cooldownTime);
                } else if (event.getProjectile() instanceof Arrow arrow) {
                   arrow.getPersistentDataContainer().set(plugin.getArrowKey(), PersistentDataType.BYTE, (byte)1);
-                  player.getWorld().playSound(eyeLoc, Sound.ENTITY_WARDEN_SONIC_BOOM, 0.6F, 1.5F);
-                  player.getWorld().playSound(eyeLoc, Sound.BLOCK_FIRE_EXTINGUISH, 1.0F, 1.0F);
+                  player.getWorld().playSound(eyeLoc,AltarTuning.sound("vulcan_crossbow","visuals.sounds.entity-warden-sonic-boom.sound",Sound.ENTITY_WARDEN_SONIC_BOOM),AltarTuning.volume("vulcan_crossbow","visuals.sounds.entity-warden-sonic-boom",0.6F),AltarTuning.pitch("vulcan_crossbow","visuals.sounds.entity-warden-sonic-boom",1.5F));
+                  player.getWorld().playSound(eyeLoc,AltarTuning.sound("vulcan_crossbow","visuals.sounds.block-fire-extinguish.sound",Sound.BLOCK_FIRE_EXTINGUISH),AltarTuning.volume("vulcan_crossbow","visuals.sounds.block-fire-extinguish",1.0F),AltarTuning.pitch("vulcan_crossbow","visuals.sounds.block-fire-extinguish",1.0F));
                   Vector centerVec = player.getEyeLocation().getDirection().normalize().multiply(arrow.getVelocity().length());
                   Vector originalVelocity = arrow.getVelocity();
                   Vector newVec = originalVelocity.clone().multiply(0.25).add(centerVec.clone().multiply(0.75));

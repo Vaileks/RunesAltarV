@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.windweaver.listeners;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.RunesAltarV;
 import dev.vaileks.runesaltarv.utils.SpeedBuffUtils;
@@ -108,7 +109,7 @@ public class WindWeaverListener implements Listener {
          Vector dir = player.getLocation().getDirection().normalize();
          int cooldown = this.plugin.getWeaponsConfig().getInt("windweaver.wind-leap.cooldown", 10);
          double velocity = this.plugin.getWeaponsConfig().getDouble("windweaver.wind-leap.velocity", 1.25);
-         player.playSound(player.getLocation(), Sound.ENTITY_WIND_CHARGE_WIND_BURST, 1.0F, 0.8F);
+         player.playSound(player.getLocation(),AltarTuning.sound("windweaver","visuals.sounds.entity-wind-charge-wind-burst.sound",Sound.ENTITY_WIND_CHARGE_WIND_BURST),AltarTuning.volume("windweaver","visuals.sounds.entity-wind-charge-wind-burst",1.0F),AltarTuning.pitch("windweaver","visuals.sounds.entity-wind-charge-wind-burst",0.8F));
          player.setVelocity(dir.multiply(velocity));
          player.setFallDistance(0.0F);
          int duration = this.plugin.getWeaponsConfig().getInt("windweaver.wind-leap.speed-duration", 3) * 20;
@@ -118,11 +119,11 @@ public class WindWeaverListener implements Listener {
 
          for (int i = 0; i < 5; i++) {
             Location gust = start.clone().add((Math.random() - 0.5) * 0.5, (Math.random() - 0.5) * 0.5, (Math.random() - 0.5) * 0.5);
-            gust.getWorld().spawnParticle(Particle.GUST, gust, 1, 0.02, 0.02, 0.02, 0.0);
+            gust.getWorld().spawnParticle(Particle.GUST, gust,AltarTuning.particles("windweaver",1), 0.02, 0.02, 0.02, 0.0);
          }
 
          this.leapCooldowns.put(player.getUniqueId(), System.currentTimeMillis() + (long)cooldown * 1000L);
-         this.startCooldownBar(player, cooldown, this.plugin.tr("§eВетровой Прыжок", "§eᴡɪɴᴅ ʟᴇᴀᴘ"), this.leapCooldownBars, this.leapCooldowns);
+         this.startCooldownBar(player, cooldown, AltarTuning.text("windweaver","messages.wind-weaver-listener.message-1","§eВетровой Прыжок","§eᴡɪɴᴅ ʟᴇᴀᴘ"), this.leapCooldownBars, this.leapCooldowns);
          (new BukkitRunnable() {
             int elapsedTicks = 0;
 
@@ -137,8 +138,8 @@ public class WindWeaverListener implements Listener {
                   Location loc = player.getLocation().add(0.0, 0.95, 0.0);
                   Vector back = player.getLocation().getDirection().normalize().multiply(-0.3);
                   Location trail = loc.clone().add(back);
-                  trail.getWorld().spawnParticle(Particle.CLOUD, trail, 2, 0.15, 0.12, 0.15, 0.01);
-                  trail.getWorld().spawnParticle(Particle.SMALL_GUST, trail, 1, 0.1, 0.1, 0.1, 0.01);
+                  trail.getWorld().spawnParticle(Particle.CLOUD, trail,AltarTuning.particles("windweaver",2), 0.15, 0.12, 0.15, 0.01);
+                  trail.getWorld().spawnParticle(Particle.SMALL_GUST, trail,AltarTuning.particles("windweaver",1), 0.1, 0.1, 0.1, 0.01);
                }
             }
          }).runTaskTimer(this.plugin, 0L, 1L);
@@ -152,7 +153,7 @@ public class WindWeaverListener implements Listener {
          session.percent = 0;
          session.ticks = 0;
          this.burstSessions.put(id, session);
-         player.playSound(player.getLocation(), Sound.ENTITY_BREEZE_INHALE, 1.0F, 0.8F);
+         player.playSound(player.getLocation(),AltarTuning.sound("windweaver","visuals.sounds.entity-breeze-inhale.sound",Sound.ENTITY_BREEZE_INHALE),AltarTuning.volume("windweaver","visuals.sounds.entity-breeze-inhale",1.0F),AltarTuning.pitch("windweaver","visuals.sounds.entity-breeze-inhale",0.8F));
          session.task = new BukkitRunnable() {
             @Override
             public void run() {
@@ -162,7 +163,7 @@ public class WindWeaverListener implements Listener {
                      if (session.percent < 100) {
                         session.percent++;
                         if (session.ticks % 12 == 0) {
-                           player.playSound(player.getLocation(), Sound.ENTITY_BREEZE_IDLE_GROUND, 1.0F, 1.2F);
+                           player.playSound(player.getLocation(),AltarTuning.sound("windweaver","visuals.sounds.entity-breeze-idle-ground.sound",Sound.ENTITY_BREEZE_IDLE_GROUND),AltarTuning.volume("windweaver","visuals.sounds.entity-breeze-idle-ground",1.0F),AltarTuning.pitch("windweaver","visuals.sounds.entity-breeze-idle-ground",1.2F));
                         }
 
                         WindWeaverListener.this.spawnChargeParticles(player);
@@ -196,9 +197,9 @@ public class WindWeaverListener implements Listener {
       double upwardPower = this.plugin.getWeaponsConfig().getDouble("windweaver.wind-burst.upward-power", 1.2);
       double radius = this.plugin.getWeaponsConfig().getDouble("windweaver.wind-burst.radius", 25.0);
       this.burstCooldowns.put(id, System.currentTimeMillis() + (long)cooldown * 1000L);
-      this.startCooldownBar(player, cooldown, this.plugin.tr("§eПорыв Ветра", "§eᴡɪɴᴅ ʙᴜʀsᴛ"), this.burstCooldownBars, this.burstCooldowns);
+      this.startCooldownBar(player, cooldown, AltarTuning.text("windweaver","messages.wind-weaver-listener.message-2","§eПорыв Ветра","§eᴡɪɴᴅ ʙᴜʀsᴛ"), this.burstCooldownBars, this.burstCooldowns);
       Location center = player.getLocation().add(0.0, 1.0, 0.0);
-      player.playSound(center, Sound.ENTITY_WIND_CHARGE_WIND_BURST, 1.0F, 0.8F);
+      player.playSound(center,AltarTuning.sound("windweaver","visuals.sounds.entity-wind-charge-wind-burst.sound",Sound.ENTITY_WIND_CHARGE_WIND_BURST),AltarTuning.volume("windweaver","visuals.sounds.entity-wind-charge-wind-burst",1.0F),AltarTuning.pitch("windweaver","visuals.sounds.entity-wind-charge-wind-burst",0.8F));
       int cloudCount = Math.max(80, (int)(1200.0 * powerScale));
 
       for (int i = 0; i < cloudCount; i++) {
@@ -208,7 +209,7 @@ public class WindWeaverListener implements Listener {
          double dx = Math.sin(theta) * Math.cos(phi) * speed;
          double dy = Math.sin(theta) * Math.sin(phi) * speed;
          double dz = Math.cos(theta) * speed;
-         center.getWorld().spawnParticle(Particle.CLOUD, center, 0, dx, dy, dz, 1.0);
+         center.getWorld().spawnParticle(Particle.CLOUD, center,AltarTuning.particles("windweaver",0), dx, dy, dz, 1.0);
       }
 
       for (Entity entity : center.getWorld().getNearbyEntities(center, radius, radius, radius)) {
@@ -263,9 +264,9 @@ public class WindWeaverListener implements Listener {
          double y = radius * Math.sin(phi) * Math.sin(theta);
          double z = radius * Math.cos(phi);
          Location loc = base.clone().add(x, y, z);
-         loc.getWorld().spawnParticle(Particle.SMALL_GUST, loc, 1, 0.0, 0.0, 0.0, 0.0);
+         loc.getWorld().spawnParticle(Particle.SMALL_GUST, loc,AltarTuning.particles("windweaver",1), 0.0, 0.0, 0.0, 0.0);
          if (Math.random() < 0.08) {
-            loc.getWorld().spawnParticle(Particle.CLOUD, loc, 1, 0.0, 0.0, 0.0, 0.0);
+            loc.getWorld().spawnParticle(Particle.CLOUD, loc,AltarTuning.particles("windweaver",1), 0.0, 0.0, 0.0, 0.0);
          }
       }
    }

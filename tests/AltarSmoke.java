@@ -44,7 +44,7 @@ public class AltarSmoke extends JavaPlugin {
   zombie.remove();cancelled.remove();saved.remove();
 
   dev.vaileks.runesaltarv.utils.AltarActionBarTest.run();
-  AltarCooldownAudit.run(plugin);AltarBalanceTest.run(plugin);
+  AltarCooldownAudit.run(plugin);AltarBalanceTest.run(plugin);AltarConfigurationTest.run(plugin);
   getLogger().info("ALTAR_COUNTS weapons="+ids.size()+" languages=2");
  }
 }

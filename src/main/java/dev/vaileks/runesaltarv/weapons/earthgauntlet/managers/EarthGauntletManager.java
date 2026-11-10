@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.earthgauntlet.managers;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.RunesAltarV;
 import dev.vaileks.runesaltarv.utils.ParticleUtils;
@@ -54,7 +55,7 @@ public class EarthGauntletManager implements Listener {
    }
 
    public void playPassiveHitSound(Player p) {
-      p.getWorld().playSound(p.getLocation(), Sound.ITEM_SHIELD_BLOCK, SoundCategory.MASTER, 1.0F, 0.6F);
+      p.getWorld().playSound(p.getLocation(),AltarTuning.sound("earth_gauntlet","visuals.sounds.item-shield-block.sound",Sound.ITEM_SHIELD_BLOCK), SoundCategory.MASTER,AltarTuning.volume("earth_gauntlet","visuals.sounds.item-shield-block",1.0F),AltarTuning.pitch("earth_gauntlet","visuals.sounds.item-shield-block",0.6F));
    }
 
    @EventHandler
@@ -76,24 +77,24 @@ public class EarthGauntletManager implements Listener {
    public void activateMeteorStrike(final Player p) {
       if (!this.bossBarManager.isOnCooldown(p, "MeteorStrike")) {
          if (!this.activeMeteorStrikes.containsKey(p.getUniqueId())) {
-            p.getWorld().playSound(p.getLocation(), Sound.ENTITY_EVOKER_PREPARE_ATTACK, 1.0F, 1.0F);
-            p.getWorld().spawnParticle(Particle.FIREWORK, p.getLocation().add(0.0, 1.0, 0.0), 10, 0.5, 0.5, 0.5, 0.1);
-            p.getWorld().spawnParticle(Particle.BLOCK, p.getLocation().add(0.0, 1.0, 0.0), 20, 0.5, 1.0, 0.5, 1.0, this.packedMudBlockData);
-            p.getWorld().spawnParticle(Particle.DRAGON_BREATH, p.getLocation().add(0.0, 1.0, 0.0), 50, 1.0, 1.0, 1.0, 0.05, 1.0F);
+            p.getWorld().playSound(p.getLocation(),AltarTuning.sound("earth_gauntlet","visuals.sounds.entity-evoker-prepare-attack.sound",Sound.ENTITY_EVOKER_PREPARE_ATTACK),AltarTuning.volume("earth_gauntlet","visuals.sounds.entity-evoker-prepare-attack",1.0F),AltarTuning.pitch("earth_gauntlet","visuals.sounds.entity-evoker-prepare-attack",1.0F));
+            p.getWorld().spawnParticle(Particle.FIREWORK, p.getLocation().add(0.0, 1.0, 0.0),AltarTuning.particles("earth_gauntlet",10), 0.5, 0.5, 0.5, 0.1);
+            p.getWorld().spawnParticle(Particle.BLOCK, p.getLocation().add(0.0, 1.0, 0.0),AltarTuning.particles("earth_gauntlet",20), 0.5, 1.0, 0.5, 1.0, this.packedMudBlockData);
+            p.getWorld().spawnParticle(Particle.DRAGON_BREATH, p.getLocation().add(0.0, 1.0, 0.0),AltarTuning.particles("earth_gauntlet",50), 1.0, 1.0, 1.0, 0.05, 1.0F);
             final int activeWindow = this.plugin.getWeaponsConfig().getInt("earth-gauntlet.meteor_strike.active_window", 30);
-            this.bossBarManager.setActiveBar(p, "MeteorStrikeActive", this.plugin.tr("§a§lмᴇᴛᴇориᴛный удᴀр", "§a§lᴍᴇᴛᴇᴏʀ sᴛʀɪᴋᴇ"), activeWindow);
+            this.bossBarManager.setActiveBar(p, "MeteorStrikeActive", AltarTuning.text("earth_gauntlet","messages.earth-gauntlet-manager.message-1","§a§lмᴇᴛᴇориᴛный удᴀр","§a§lᴍᴇᴛᴇᴏʀ sᴛʀɪᴋᴇ"), activeWindow);
             BukkitTask task = (new BukkitRunnable() {
                   int ticks = 0;
 
                   @Override
                   public void run() {
                      if (p.isOnline() && this.ticks < activeWindow * 20) {
-                        p.getWorld().spawnParticle(Particle.FIREWORK, p.getLocation().add(0.0, 1.0, 0.0), 1, 0.3, 0.5, 0.3, 0.0);
+                        p.getWorld().spawnParticle(Particle.FIREWORK, p.getLocation().add(0.0, 1.0, 0.0),AltarTuning.particles("earth_gauntlet",1), 0.3, 0.5, 0.3, 0.0);
                         p.getWorld()
                            .spawnParticle(
-                              Particle.BLOCK, p.getLocation().add(0.0, 1.0, 0.0), 3, 0.3, 0.5, 0.3, 0.5, EarthGauntletManager.this.packedMudBlockData
+                              Particle.BLOCK, p.getLocation().add(0.0, 1.0, 0.0),AltarTuning.particles("earth_gauntlet",3), 0.3, 0.5, 0.3, 0.5, EarthGauntletManager.this.packedMudBlockData
                            );
-                        p.getWorld().spawnParticle(Particle.DRAGON_BREATH, p.getLocation().add(0.0, 1.0, 0.0), 5, 0.5, 0.5, 0.5, 0.01, 1.0F);
+                        p.getWorld().spawnParticle(Particle.DRAGON_BREATH, p.getLocation().add(0.0, 1.0, 0.0),AltarTuning.particles("earth_gauntlet",5), 0.5, 0.5, 0.5, 0.01, 1.0F);
                         this.ticks++;
                      } else {
                         EarthGauntletManager.this.cleanupMeteor(p);
@@ -102,7 +103,7 @@ public class EarthGauntletManager implements Listener {
                            .setCooldown(
                               p,
                               "MeteorStrike",
-                              EarthGauntletManager.this.plugin.tr("§e§lмᴇᴛᴇориᴛный удᴀр", "§e§lᴍᴇᴛᴇᴏʀ sᴛʀɪᴋᴇ"),
+                              AltarTuning.text("earth_gauntlet","messages.earth-gauntlet-manager.message-2","§e§lмᴇᴛᴇориᴛный удᴀр","§e§lᴍᴇᴛᴇᴏʀ sᴛʀɪᴋᴇ"),
                               EarthGauntletManager.this.plugin.getWeaponsConfig().getInt("earth-gauntlet.meteor_strike.cooldown", 35)
                            );
                      }
@@ -123,19 +124,19 @@ public class EarthGauntletManager implements Listener {
             .setCooldown(
                attacker,
                "MeteorStrike",
-               this.plugin.tr("§e§lмᴇᴛᴇориᴛный удᴀр", "§e§lᴍᴇᴛᴇᴏʀ sᴛʀɪᴋᴇ"),
+               AltarTuning.text("earth_gauntlet","messages.earth-gauntlet-manager.message-3","§e§lмᴇᴛᴇориᴛный удᴀр","§e§lᴍᴇᴛᴇᴏʀ sᴛʀɪᴋᴇ"),
                this.plugin.getWeaponsConfig().getInt("earth-gauntlet.meteor_strike.cooldown", 35)
             );
-         attacker.getWorld().playSound(victim.getLocation(), Sound.BLOCK_BEACON_DEACTIVATE, 1.0F, 1.0F);
-         attacker.getWorld().playSound(victim.getLocation(), Sound.ENTITY_WITHER_BREAK_BLOCK, 1.0F, 1.0F);
+         attacker.getWorld().playSound(victim.getLocation(),AltarTuning.sound("earth_gauntlet","visuals.sounds.block-beacon-deactivate.sound",Sound.BLOCK_BEACON_DEACTIVATE),AltarTuning.volume("earth_gauntlet","visuals.sounds.block-beacon-deactivate",1.0F),AltarTuning.pitch("earth_gauntlet","visuals.sounds.block-beacon-deactivate",1.0F));
+         attacker.getWorld().playSound(victim.getLocation(),AltarTuning.sound("earth_gauntlet","visuals.sounds.entity-wither-break-block.sound",Sound.ENTITY_WITHER_BREAK_BLOCK),AltarTuning.volume("earth_gauntlet","visuals.sounds.entity-wither-break-block",1.0F),AltarTuning.pitch("earth_gauntlet","visuals.sounds.entity-wither-break-block",1.0F));
 
          try {
-            attacker.getWorld().spawnParticle(Particle.valueOf("GUST_EMITTER_LARGE"), victim.getLocation().add(0.0, 1.0, 0.0), 1, 0.0, 0.0, 0.0, 0.0);
+            attacker.getWorld().spawnParticle(Particle.valueOf("GUST_EMITTER_LARGE"), victim.getLocation().add(0.0, 1.0, 0.0),AltarTuning.particles("earth_gauntlet",1), 0.0, 0.0, 0.0, 0.0);
          } catch (Exception var9) {
-            attacker.getWorld().spawnParticle(Particle.EXPLOSION_EMITTER, victim.getLocation().add(0.0, 1.0, 0.0), 1, 0.0, 0.0, 0.0, 0.0);
+            attacker.getWorld().spawnParticle(Particle.EXPLOSION_EMITTER, victim.getLocation().add(0.0, 1.0, 0.0),AltarTuning.particles("earth_gauntlet",1), 0.0, 0.0, 0.0, 0.0);
          }
 
-         attacker.getWorld().spawnParticle(Particle.DRAGON_BREATH, victim.getLocation().add(0.0, 1.0, 0.0), 80, 1.0, 1.0, 1.0, 0.1, 1.0F);
+         attacker.getWorld().spawnParticle(Particle.DRAGON_BREATH, victim.getLocation().add(0.0, 1.0, 0.0),AltarTuning.particles("earth_gauntlet",80), 1.0, 1.0, 1.0, 0.1, 1.0F);
          double dmg = this.plugin.getWeaponsConfig().getDouble("earth-gauntlet.meteor_strike.damage", 4.0);
          this.plugin.getCleanDamageManager().apply(victim, attacker, dmg);
          victim.playHurtAnimation(0.0F);
@@ -157,7 +158,7 @@ public class EarthGauntletManager implements Listener {
                   public void run() {
                      if (this.elapsedTicks < stunDurationTicks && victim.isValid() && !victim.isDead()) {
                         if (this.elapsedTicks % 20 == 0) {
-                           victim.getWorld().playSound(victim.getLocation(), Sound.ENTITY_ZOMBIE_ATTACK_IRON_DOOR, 1.0F, 0.8F);
+                           victim.getWorld().playSound(victim.getLocation(),AltarTuning.sound("earth_gauntlet","visuals.sounds.entity-zombie-attack-iron-door.sound",Sound.ENTITY_ZOMBIE_ATTACK_IRON_DOOR),AltarTuning.volume("earth_gauntlet","visuals.sounds.entity-zombie-attack-iron-door",1.0F),AltarTuning.pitch("earth_gauntlet","visuals.sounds.entity-zombie-attack-iron-door",0.8F));
                         }
 
                         this.elapsedTicks++;
@@ -179,8 +180,8 @@ public class EarthGauntletManager implements Listener {
    public void castMudslide(Player p) {
       if (!this.bossBarManager.isOnCooldown(p, "Mudslide")) {
          int cooldown = this.plugin.getWeaponsConfig().getInt("earth-gauntlet.mudslide.cooldown", 40);
-         this.bossBarManager.setCooldown(p, "Mudslide", this.plugin.tr("§e§lоползᴇнь", "§e§lᴍᴜᴅsʟɪᴅᴇ"), cooldown);
-         p.getWorld().playSound(p.getLocation(), Sound.ENTITY_BREEZE_INHALE, 1.0F, 1.0F);
+         this.bossBarManager.setCooldown(p, "Mudslide", AltarTuning.text("earth_gauntlet","messages.earth-gauntlet-manager.message-4","§e§lоползᴇнь","§e§lᴍᴜᴅsʟɪᴅᴇ"), cooldown);
+         p.getWorld().playSound(p.getLocation(),AltarTuning.sound("earth_gauntlet","visuals.sounds.entity-breeze-inhale.sound",Sound.ENTITY_BREEZE_INHALE),AltarTuning.volume("earth_gauntlet","visuals.sounds.entity-breeze-inhale",1.0F),AltarTuning.pitch("earth_gauntlet","visuals.sounds.entity-breeze-inhale",1.0F));
          Bukkit.getScheduler().runTaskLater(this.plugin, () -> {
             if (p.isOnline()) {
                this.launchMudBall(p);
@@ -218,7 +219,7 @@ public class EarthGauntletManager implements Listener {
             public void run() {
                if (p.isOnline() && display.isValid()) {
                   this.currentAngle += 0.35F;
-                  double stepSize = 0.25;
+                  double stepSize = AltarTuning.number("earth_gauntlet","tuning.earth-gauntlet-manager.step-size",0.25,0.01,128);
                   int steps = (int)Math.ceil(speed / stepSize);
                   double actualStep = speed / (double)steps;
 
@@ -418,9 +419,9 @@ public class EarthGauntletManager implements Listener {
    }
 
    public void playImpactBurst(Location center, Vector dir) {
-      center.getWorld().playSound(center, Sound.BLOCK_MUD_BREAK, 1.65F, 0.4F);
-      center.getWorld().playSound(center, Sound.BLOCK_MUD_BREAK, 1.5F, 0.01F);
-      center.getWorld().playSound(center, Sound.BLOCK_PACKED_MUD_BREAK, 1.2F, 0.4F);
+      center.getWorld().playSound(center,AltarTuning.sound("earth_gauntlet","visuals.sounds.block-mud-break.sound",Sound.BLOCK_MUD_BREAK),AltarTuning.volume("earth_gauntlet","visuals.sounds.block-mud-break",1.65F),AltarTuning.pitch("earth_gauntlet","visuals.sounds.block-mud-break",0.4F));
+      center.getWorld().playSound(center,AltarTuning.sound("earth_gauntlet","visuals.sounds.block-mud-break.sound",Sound.BLOCK_MUD_BREAK),AltarTuning.volume("earth_gauntlet","visuals.sounds.block-mud-break",1.5F),AltarTuning.pitch("earth_gauntlet","visuals.sounds.block-mud-break",0.01F));
+      center.getWorld().playSound(center,AltarTuning.sound("earth_gauntlet","visuals.sounds.block-packed-mud-break.sound",Sound.BLOCK_PACKED_MUD_BREAK),AltarTuning.volume("earth_gauntlet","visuals.sounds.block-packed-mud-break",1.2F),AltarTuning.pitch("earth_gauntlet","visuals.sounds.block-packed-mud-break",0.4F));
       Location baseLoc = center.clone().add(0.0, -0.2, 0.0);
       ParticleUtils.spawnBlockDispersion(this.plugin, baseLoc, this.mudBlockData, 4.8);
    }
@@ -429,7 +430,7 @@ public class EarthGauntletManager implements Listener {
       if (toInfect.getType().isSolid() && toInfect.getType() != Material.MUD && toInfect.getType() != Material.BEDROCK) {
          trail.add(toInfect.getState());
          toInfect.setType(Material.MUD);
-         toInfect.getWorld().playSound(toInfect.getLocation(), Sound.BLOCK_MUD_PLACE, 1.3F, 0.4F);
+         toInfect.getWorld().playSound(toInfect.getLocation(),AltarTuning.sound("earth_gauntlet","visuals.sounds.block-mud-place.sound",Sound.BLOCK_MUD_PLACE),AltarTuning.volume("earth_gauntlet","visuals.sounds.block-mud-place",1.3F),AltarTuning.pitch("earth_gauntlet","visuals.sounds.block-mud-place",0.4F));
          ParticleUtils.spawnBlockDispersion(this.plugin, toInfect.getLocation().add(0.5, 0.5, 0.5), this.mudBlockData, 1.2, 16);
       }
    }
@@ -439,16 +440,16 @@ public class EarthGauntletManager implements Listener {
          double mudDmg = this.plugin.getWeaponsConfig().getDouble("earth-gauntlet.mudslide.damage", 4.0);
          this.plugin.getCleanDamageManager().apply(victim, p, mudDmg);
          victim.playHurtAnimation(0.0F);
-         p.getWorld().playSound(victim.getLocation(), Sound.BLOCK_SPONGE_ABSORB, 1.0F, 0.3F);
-         p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, SoundCategory.MASTER, 1.0F, 0.7F);
-         victim.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 80, 2, false, false, true));
+         p.getWorld().playSound(victim.getLocation(),AltarTuning.sound("earth_gauntlet","visuals.sounds.block-sponge-absorb.sound",Sound.BLOCK_SPONGE_ABSORB),AltarTuning.volume("earth_gauntlet","visuals.sounds.block-sponge-absorb",1.0F),AltarTuning.pitch("earth_gauntlet","visuals.sounds.block-sponge-absorb",0.3F));
+         p.playSound(p.getLocation(),AltarTuning.sound("earth_gauntlet","visuals.sounds.entity-arrow-hit-player.sound",Sound.ENTITY_ARROW_HIT_PLAYER), SoundCategory.MASTER,AltarTuning.volume("earth_gauntlet","visuals.sounds.entity-arrow-hit-player",1.0F),AltarTuning.pitch("earth_gauntlet","visuals.sounds.entity-arrow-hit-player",0.7F));
+         victim.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, AltarTuning.integer("earth_gauntlet","tuning.earth-gauntlet-manager.effects.slowness.duration-ticks",80,1,72000), AltarTuning.integer("earth_gauntlet","tuning.earth-gauntlet-manager.effects.slowness.amplifier",2,0,10), false, false, true));
          ParticleUtils.spawnBlockDispersion(this.plugin, victim.getLocation().add(0.0, 0.5, 0.0), this.mudBlockData, 9.0, 170);
          int debuffTime = this.plugin.getWeaponsConfig().getInt("earth-gauntlet.mudslide.debuff_time_seconds", 4);
          if (victim instanceof Player pVictim) {
-            this.bossBarManager.setDebuffBar(pVictim, this.plugin.tr("§4§l!! §c§lзᴀляпᴀнный грязью §4§l!!", "§4§l!! §c§lᴍᴜᴅᴅᴇᴅ §4§l!!"), debuffTime);
+            this.bossBarManager.setDebuffBar(pVictim, AltarTuning.text("earth_gauntlet","messages.earth-gauntlet-manager.message-5","§4§l!! §c§lзᴀляпᴀнный грязью §4§l!!","§4§l!! §c§lᴍᴜᴅᴅᴇᴅ §4§l!!"), debuffTime);
          }
 
-         this.bossBarManager.setActiveBar(p, "PullPrompt", this.plugin.tr("§2§l!! §a§lприᴛянуᴛь цᴇль §2§l!!", "§2§l!! §a§lᴩᴜʟʟ ᴛᴀʀɢᴇᴛ §2§l!!"), debuffTime);
+         this.bossBarManager.setActiveBar(p, "PullPrompt", AltarTuning.text("earth_gauntlet","messages.earth-gauntlet-manager.message-6","§2§l!! §a§lприᴛянуᴛь цᴇль §2§l!!","§2§l!! §a§lᴩᴜʟʟ ᴛᴀʀɢᴇᴛ §2§l!!"), debuffTime);
          this.pullableTargets.put(p.getUniqueId(), victim.getUniqueId());
          this.activeMudTrails.put(p.getUniqueId(), trail);
          (new BukkitRunnable() {
@@ -518,14 +519,14 @@ public class EarthGauntletManager implements Listener {
 
                            for (double d = 0.0; d < beamDist; d += 0.4) {
                               Location point = currentVLoc.clone().add(0.0, 1.0, 0.0).add(directionStep.clone().multiply(d));
-                              point.getWorld().spawnParticle(Particle.BLOCK_CRUMBLE, point, 1, 0.0, 0.0, 0.0, 0.0, EarthGauntletManager.this.mudBlockData);
+                              point.getWorld().spawnParticle(Particle.BLOCK_CRUMBLE, point,AltarTuning.particles("earth_gauntlet",1), 0.0, 0.0, 0.0, 0.0, EarthGauntletManager.this.mudBlockData);
                            }
                         }
 
                         double hDistSquared = Math.pow(currentVLoc.getX() - targetPLoc.getX(), 2.0) + Math.pow(currentVLoc.getZ() - targetPLoc.getZ(), 2.0);
                         if (!(hDistSquared < 1.0) && !(currentVLoc.distanceSquared(targetPLoc) < 2.0) && this.ticks <= 60) {
                            if (this.ticks % 2 == 0) {
-                              victim.getWorld().playSound(currentVLoc, Sound.BLOCK_PACKED_MUD_BREAK, 1.0F, 0.4F);
+                              victim.getWorld().playSound(currentVLoc,AltarTuning.sound("earth_gauntlet","visuals.sounds.block-packed-mud-break.sound",Sound.BLOCK_PACKED_MUD_BREAK),AltarTuning.volume("earth_gauntlet","visuals.sounds.block-packed-mud-break",1.0F),AltarTuning.pitch("earth_gauntlet","visuals.sounds.block-packed-mud-break",0.4F));
                            }
 
                            Vector pullVec = targetPLoc.toVector().subtract(currentVLoc.toVector());
@@ -543,7 +544,7 @@ public class EarthGauntletManager implements Listener {
                         } else {
                            victim.setVelocity(new Vector(0.0, -0.1, 0.0));
                            victim.setFallDistance(0.0F);
-                           victim.getWorld().playSound(victim.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.5F, 1.2F);
+                           victim.getWorld().playSound(victim.getLocation(),AltarTuning.sound("earth_gauntlet","visuals.sounds.entity-generic-explode.sound",Sound.ENTITY_GENERIC_EXPLODE),AltarTuning.volume("earth_gauntlet","visuals.sounds.entity-generic-explode",0.5F),AltarTuning.pitch("earth_gauntlet","visuals.sounds.entity-generic-explode",1.2F));
                            this.cancel();
                         }
                      }
@@ -565,7 +566,7 @@ public class EarthGauntletManager implements Listener {
                } else {
                   BlockState state = trail.poll();
                   state.update(true, false);
-                  state.getBlock().getWorld().playSound(state.getLocation(), Sound.BLOCK_MUD_BREAK, 1.0F, 0.4F);
+                  state.getBlock().getWorld().playSound(state.getLocation(),AltarTuning.sound("earth_gauntlet","visuals.sounds.block-mud-break.sound",Sound.BLOCK_MUD_BREAK),AltarTuning.volume("earth_gauntlet","visuals.sounds.block-mud-break",1.0F),AltarTuning.pitch("earth_gauntlet","visuals.sounds.block-mud-break",0.4F));
                   ParticleUtils.spawnBlockDispersion(
                      EarthGauntletManager.this.plugin, state.getLocation().add(0.5, 0.5, 0.5), EarthGauntletManager.this.mudBlockData, 2.5
                   );

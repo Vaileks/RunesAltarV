@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.vulcan.tasks;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.RunesAltarV;
 import dev.vaileks.runesaltarv.utils.TextUtils;
@@ -81,7 +82,7 @@ public class VulcanRestoreTask {
       });
       (new BukkitRunnable() {
          int index = 0;
-         final int blocksPerTick = 5;
+         final int blocksPerTick = AltarTuning.integer("vulcan_crossbow","tuning.vulcan-restore-task.blocks-per-tick",5,1,512);
 
          @Override
          public void run() {
@@ -94,9 +95,9 @@ public class VulcanRestoreTask {
                   Material currentType = location.getBlock().getType();
                   if (currentType != oldMaterial) {
                      location.getBlock().setType(oldMaterial, false);
-                     location.getWorld().spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, location.clone().add(0.5, 0.5, 0.5), 3, 0.2, 0.2, 0.2, 0.05);
+                     location.getWorld().spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, location.clone().add(0.5, 0.5, 0.5),AltarTuning.particles("vulcan_crossbow",3), 0.2, 0.2, 0.2, 0.05);
                      if (Math.random() < 0.2) {
-                        location.getWorld().playSound(location, Sound.BLOCK_LAVA_EXTINGUISH, 0.3F, 1.5F);
+                        location.getWorld().playSound(location,AltarTuning.sound("vulcan_crossbow","visuals.sounds.block-lava-extinguish.sound",Sound.BLOCK_LAVA_EXTINGUISH),AltarTuning.volume("vulcan_crossbow","visuals.sounds.block-lava-extinguish",0.3F),AltarTuning.pitch("vulcan_crossbow","visuals.sounds.block-lava-extinguish",1.5F));
                      }
                   }
 

@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.shadowblade.managers;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.RunesAltarV;
 import dev.vaileks.runesaltarv.utils.TextUtils;
@@ -65,14 +66,14 @@ public class ShadowBladeManager {
 
    public void castShadowLeap(final Player p) {
       if (!this.isOnLeapCooldown(p) && !this.activeLeaps.contains(p.getUniqueId())) {
-         p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1.0F, 0.8F);
+         p.getWorld().playSound(p.getLocation(),AltarTuning.sound("shadow_blade","visuals.sounds.entity-enderman-teleport.sound",Sound.ENTITY_ENDERMAN_TELEPORT),AltarTuning.volume("shadow_blade","visuals.sounds.entity-enderman-teleport",1.0F),AltarTuning.pitch("shadow_blade","visuals.sounds.entity-enderman-teleport",0.8F));
          this.spawnBlackDust(p.getLocation());
          WorldBorder border = Bukkit.createWorldBorder();
          border.setCenter(p.getLocation());
          border.setSize(10000.0);
          border.setWarningDistance(10000);
          p.setWorldBorder(border);
-         p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 40, 0, false, false, false));
+         p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, AltarTuning.integer("shadow_blade","tuning.shadow-blade-manager.effects.invisibility.duration-ticks",40,1,72000), AltarTuning.integer("shadow_blade","tuning.shadow-blade-manager.effects.invisibility.amplifier",0,0,10), false, false, false));
 
          for (Player online : Bukkit.getOnlinePlayers()) {
             online.hidePlayer(this.plugin, p);
@@ -81,12 +82,12 @@ public class ShadowBladeManager {
          this.activeLeaps.add(p.getUniqueId());
          this.leapStartTimes.put(p.getUniqueId(), System.currentTimeMillis());
          final BossBar activeBar = TextUtils.bossBar(
-            this.plugin.tr("§7§l! §f§lнᴇʙидимоᴄᴛь §7§l!", "§7§l! §f§lɪɴᴠɪsɪʙɪʟɪᴛʏ §7§l!"), BarColor.WHITE, BarStyle.SOLID
+            AltarTuning.text("shadow_blade","messages.shadow-blade-manager.message-1","§7§l! §f§lнᴇʙидимоᴄᴛь §7§l!","§7§l! §f§lɪɴᴠɪsɪʙɪʟɪᴛʏ §7§l!"), BarColor.WHITE, BarStyle.SOLID
          );
          activeBar.addPlayer(p);
          (new BukkitRunnable() {
                int ticks = 0;
-               final int maxTicks = 30;
+               final int maxTicks = AltarTuning.integer("shadow_blade","tuning.shadow-blade-manager.max-ticks",30,1,512);
                Location actualTargetLoc = p.getEyeLocation().clone();
 
                @Override
@@ -117,16 +118,16 @@ public class ShadowBladeManager {
                            double ry = (Math.random() - 0.5) * 0.35;
                            double rz = (Math.random() - 0.5) * 0.35;
                            Location headLoc = this.actualTargetLoc.clone().add(rx, ry, rz);
-                           world.spawnParticle(Particle.DUST, headLoc, 1, 0.0, 0.0, 0.0, 0.0, blackDustHead);
+                           world.spawnParticle(Particle.DUST, headLoc,AltarTuning.particles("shadow_blade",1), 0.0, 0.0, 0.0, 0.0, blackDustHead);
                            Vector sparkVel = dir.clone()
                               .multiply(-0.2)
                               .add(new Vector((Math.random() - 0.5) * 0.03, (Math.random() - 0.5) * 0.03, (Math.random() - 0.5) * 0.03));
-                           world.spawnParticle(Particle.ELECTRIC_SPARK, headLoc, 0, sparkVel.getX(), sparkVel.getY(), sparkVel.getZ(), 0.12);
+                           world.spawnParticle(Particle.ELECTRIC_SPARK, headLoc,AltarTuning.particles("shadow_blade",0), sparkVel.getX(), sparkVel.getY(), sparkVel.getZ(), 0.12);
                         }
 
                         double tailLength = ShadowBladeManager.this.plugin.getWeaponsConfig().getDouble("shadow-blade.leap.tail-length", 2.5);
 
-                        for (double d = 0.05; d <= tailLength; d += 0.04) {
+                        for (double d = AltarTuning.number("shadow_blade","tuning.shadow-blade-manager.d",0.05,0.01,128); d <= tailLength; d += 0.04) {
                            double factor = 1.0 - d / tailLength;
                            double spread = 0.18 * Math.pow(factor, 1.5);
                            Location tailLoc = this.actualTargetLoc.clone().subtract(dir.clone().multiply(d));
@@ -137,11 +138,11 @@ public class ShadowBladeManager {
                               double oz = (Math.random() - 0.5) * spread;
                               Location pLoc = tailLoc.clone().add(ox, oy, oz);
                               Vector dustVel = dir.clone().multiply(-0.25 * factor);
-                              world.spawnParticle(Particle.DUST, pLoc, 0, dustVel.getX(), dustVel.getY(), dustVel.getZ(), 1.0, blackDustTail);
+                              world.spawnParticle(Particle.DUST, pLoc,AltarTuning.particles("shadow_blade",0), dustVel.getX(), dustVel.getY(), dustVel.getZ(), 1.0, blackDustTail);
                            }
 
                            if (Math.random() < 0.35) {
-                              world.spawnParticle(Particle.ELECTRIC_SPARK, tailLoc, 1, 0.02, 0.02, 0.02, 0.01);
+                              world.spawnParticle(Particle.ELECTRIC_SPARK, tailLoc,AltarTuning.particles("shadow_blade",1), 0.02, 0.02, 0.02, 0.01);
                            }
                         }
                      }
@@ -161,7 +162,7 @@ public class ShadowBladeManager {
                      tpLoc.setPitch(p.getLocation().getPitch());
                      p.teleport(tpLoc);
                      ShadowBladeManager.this.spawnBlackDust(p.getLocation());
-                     p.getWorld().playSound(p.getLocation(), Sound.ITEM_TRIDENT_THROW, 1.0F, 1.3F);
+                     p.getWorld().playSound(p.getLocation(),AltarTuning.sound("shadow_blade","visuals.sounds.item-trident-throw.sound",Sound.ITEM_TRIDENT_THROW),AltarTuning.volume("shadow_blade","visuals.sounds.item-trident-throw",1.0F),AltarTuning.pitch("shadow_blade","visuals.sounds.item-trident-throw",1.3F));
                      p.swingMainHand();
                      double endImpulse = ShadowBladeManager.this.plugin.getWeaponsConfig().getDouble("shadow-blade.leap.end-impulse", 0.85);
                      Vector dashImpulse = p.getLocation().getDirection().normalize().multiply(endImpulse).setY(0.2);
@@ -173,7 +174,7 @@ public class ShadowBladeManager {
                      ShadowBladeManager.this.startCooldownBar(
                         p,
                         cooldown,
-                        ShadowBladeManager.this.plugin.tr("§f§lᴛᴇнᴇʙой прыжоᴋ", "§f§lsʜᴀᴅᴏᴡ ʟᴇᴀᴘ"),
+                        AltarTuning.text("shadow_blade","messages.shadow-blade-manager.message-2","§f§lᴛᴇнᴇʙой прыжоᴋ","§f§lsʜᴀᴅᴏᴡ ʟᴇᴀᴘ"),
                         ShadowBladeManager.this.leapCooldownBars,
                         ShadowBladeManager.this.leapCooldowns
                      );
@@ -181,7 +182,7 @@ public class ShadowBladeManager {
                         @Override
                         public void run() {
                            if (p.isOnline()) {
-                              p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1.0F, 0.8F);
+                              p.getWorld().playSound(p.getLocation(),AltarTuning.sound("shadow_blade","visuals.sounds.entity-enderman-teleport.sound",Sound.ENTITY_ENDERMAN_TELEPORT),AltarTuning.volume("shadow_blade","visuals.sounds.entity-enderman-teleport",1.0F),AltarTuning.pitch("shadow_blade","visuals.sounds.entity-enderman-teleport",0.8F));
                            }
                         }
                      }).runTaskLater(ShadowBladeManager.this.plugin, 8L);
@@ -197,12 +198,12 @@ public class ShadowBladeManager {
       if (!this.isOnDaggersCooldown(p)) {
          int cooldown = this.plugin.getWeaponsConfig().getInt("shadow-blade.daggers.cooldown", 45);
          this.daggersCooldowns.put(p.getUniqueId(), System.currentTimeMillis() + (long)cooldown * 1000L);
-         this.startCooldownBar(p, cooldown, this.plugin.tr("§f§lᴛᴇнᴇʙыᴇ ᴋинжᴀлы", "§f§lsʜᴀᴅᴏᴡ ᴅᴀɢɢᴇʀs"), this.daggersCooldownBars, this.daggersCooldowns);
+         this.startCooldownBar(p, cooldown, AltarTuning.text("shadow_blade","messages.shadow-blade-manager.message-3","§f§lᴛᴇнᴇʙыᴇ ᴋинжᴀлы","§f§lsʜᴀᴅᴏᴡ ᴅᴀɢɢᴇʀs"), this.daggersCooldownBars, this.daggersCooldowns);
 
          for (long delay = 0L; delay <= 4L; delay += 2L) {
             Bukkit.getScheduler().runTaskLater(this.plugin, () -> {
                if (p.isOnline()) {
-                  p.getWorld().playSound(p.getLocation(), Sound.ITEM_TRIDENT_THROW, 1.0F, 1.2F);
+                  p.getWorld().playSound(p.getLocation(),AltarTuning.sound("shadow_blade","visuals.sounds.item-trident-throw.sound",Sound.ITEM_TRIDENT_THROW),AltarTuning.volume("shadow_blade","visuals.sounds.item-trident-throw",1.0F),AltarTuning.pitch("shadow_blade","visuals.sounds.item-trident-throw",1.2F));
                }
             }, delay);
          }
@@ -260,17 +261,17 @@ public class ShadowBladeManager {
 
                         for (int i = 0; i < sparkCount; i++) {
                            Location sparkLoc = handleLoc.clone().add(backStep.clone().multiply(i));
-                           sparkLoc.getWorld().spawnParticle(Particle.ELECTRIC_SPARK, sparkLoc, 0, flyVec.getX(), flyVec.getY(), flyVec.getZ(), 0.08);
+                           sparkLoc.getWorld().spawnParticle(Particle.ELECTRIC_SPARK, sparkLoc,AltarTuning.particles("shadow_blade",0), flyVec.getX(), flyVec.getY(), flyVec.getZ(), 0.08);
                         }
 
                         if (this.curr.getBlock().getType().isSolid()) {
                            DustOptions hitBlockDust = new DustOptions(Color.fromRGB(20, 20, 20), 0.8F);
-                           this.curr.getWorld().spawnParticle(Particle.DUST, this.curr, 15, 0.1, 0.1, 0.1, 0.0, hitBlockDust);
-                           this.curr.getWorld().spawnParticle(Particle.ELECTRIC_SPARK, this.curr, 6, 0.05, 0.05, 0.05, 0.05);
+                           this.curr.getWorld().spawnParticle(Particle.DUST, this.curr,AltarTuning.particles("shadow_blade",15), 0.1, 0.1, 0.1, 0.0, hitBlockDust);
+                           this.curr.getWorld().spawnParticle(Particle.ELECTRIC_SPARK, this.curr,AltarTuning.particles("shadow_blade",6), 0.05, 0.05, 0.05, 0.05);
                            dagger.remove();
                            this.cancel();
                         } else {
-                           for (Entity e : this.curr.getWorld().getNearbyEntities(this.curr, 0.8, 0.8, 0.8)) {
+                           for (Entity e : this.curr.getWorld().getNearbyEntities(this.curr,AltarTuning.number("shadow_blade","tuning.shadow-blade-manager.hit-radius-x",0.8,0,128),AltarTuning.number("shadow_blade","tuning.shadow-blade-manager.hit-radius-y",0.8,0,128),AltarTuning.number("shadow_blade","tuning.shadow-blade-manager.hit-radius-z",0.8,0,128))) {
                               if (e instanceof LivingEntity victim
                                  && !victim.equals(p)
                                  && (
@@ -279,15 +280,15 @@ public class ShadowBladeManager {
                                  )) {
                                  double dmg = ShadowBladeManager.this.plugin.getWeaponsConfig().getDouble("shadow-blade.daggers.damage", 2.0);
                                  ShadowBladeManager.this.plugin.getCleanDamageManager().apply(victim, p, dmg);
-                                 victim.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 60, 0, false, false));
-                                 victim.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 60, 1, false, false));
+                                 victim.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, AltarTuning.integer("shadow_blade","tuning.shadow-blade-manager.effects.blindness.duration-ticks",60,1,72000), AltarTuning.integer("shadow_blade","tuning.shadow-blade-manager.effects.blindness.amplifier",0,0,10), false, false));
+                                 victim.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, AltarTuning.integer("shadow_blade","tuning.shadow-blade-manager.effects.slowness.duration-ticks",60,1,72000), AltarTuning.integer("shadow_blade","tuning.shadow-blade-manager.effects.slowness.amplifier",1,0,10), false, false));
                                  Location hitPoint = this.curr.clone();
                                  DustOptions hitDust = new DustOptions(Color.fromRGB(0, 0, 0), 1.0F);
-                                 hitPoint.getWorld().spawnParticle(Particle.DUST, hitPoint, 35, 0.2, 0.2, 0.2, 0.0, hitDust);
-                                 hitPoint.getWorld().spawnParticle(Particle.ELECTRIC_SPARK, hitPoint, 10, 0.1, 0.1, 0.1, 0.05);
+                                 hitPoint.getWorld().spawnParticle(Particle.DUST, hitPoint,AltarTuning.particles("shadow_blade",35), 0.2, 0.2, 0.2, 0.0, hitDust);
+                                 hitPoint.getWorld().spawnParticle(Particle.ELECTRIC_SPARK, hitPoint,AltarTuning.particles("shadow_blade",10), 0.1, 0.1, 0.1, 0.05);
                                  if (!soundPlayed[0]) {
-                                    p.getWorld().playSound(victim.getLocation(), Sound.BLOCK_SPONGE_ABSORB, 1.0F, 0.8F);
-                                    p.getWorld().playSound(victim.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 3.0F, 0.7F);
+                                    p.getWorld().playSound(victim.getLocation(),AltarTuning.sound("shadow_blade","visuals.sounds.block-sponge-absorb.sound",Sound.BLOCK_SPONGE_ABSORB),AltarTuning.volume("shadow_blade","visuals.sounds.block-sponge-absorb",1.0F),AltarTuning.pitch("shadow_blade","visuals.sounds.block-sponge-absorb",0.8F));
+                                    p.getWorld().playSound(victim.getLocation(),AltarTuning.sound("shadow_blade","visuals.sounds.entity-experience-orb-pickup.sound",Sound.ENTITY_EXPERIENCE_ORB_PICKUP),AltarTuning.volume("shadow_blade","visuals.sounds.entity-experience-orb-pickup",3.0F),AltarTuning.pitch("shadow_blade","visuals.sounds.entity-experience-orb-pickup",0.7F));
                                     soundPlayed[0] = true;
                                  }
 
@@ -320,11 +321,11 @@ public class ShadowBladeManager {
          if (!(Math.random() > chance)) {
             long backstabCd = this.plugin.getWeaponsConfig().getLong("shadow-blade.passive.backstab-cooldown", 8L);
             this.backstabCooldowns.put(attacker.getUniqueId(), System.currentTimeMillis() + backstabCd * 1000L);
-            attacker.getWorld().playSound(mainVictim.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1.0F, 0.5F);
+            attacker.getWorld().playSound(mainVictim.getLocation(),AltarTuning.sound("shadow_blade","visuals.sounds.entity-enderman-teleport.sound",Sound.ENTITY_ENDERMAN_TELEPORT),AltarTuning.volume("shadow_blade","visuals.sounds.entity-enderman-teleport",1.0F),AltarTuning.pitch("shadow_blade","visuals.sounds.entity-enderman-teleport",0.5F));
             final List<LivingEntity> targets = new ArrayList<>();
             targets.add(mainVictim);
 
-            for (Entity e : mainVictim.getWorld().getNearbyEntities(mainVictim.getLocation(), 5.0, 5.0, 5.0)) {
+            for (Entity e : mainVictim.getWorld().getNearbyEntities(mainVictim.getLocation(),AltarTuning.number("shadow_blade","tuning.shadow-blade-manager.hit-radius-x-2",5.0,0,128),AltarTuning.number("shadow_blade","tuning.shadow-blade-manager.hit-radius-y-2",5.0,0,128),AltarTuning.number("shadow_blade","tuning.shadow-blade-manager.hit-radius-z-2",5.0,0,128))) {
                if (e instanceof LivingEntity) {
                   LivingEntity le = (LivingEntity)e;
                   if (!le.equals(attacker) && !le.equals(mainVictim)) {
@@ -367,7 +368,7 @@ public class ShadowBladeManager {
 
                                  for (double i = 0.0; i < dist; i += 0.3) {
                                     pLoc.add(step);
-                                    pLoc.getWorld().spawnParticle(Particle.DUST, pLoc, 1, 0.0, 0.0, 0.0, 0.0, black);
+                                    pLoc.getWorld().spawnParticle(Particle.DUST, pLoc,AltarTuning.particles("shadow_blade",1), 0.0, 0.0, 0.0, 0.0, black);
                                  }
                               }
                            }
@@ -398,21 +399,21 @@ public class ShadowBladeManager {
          Vector diagonalOne = up.clone().add(side).normalize();
          Vector diagonalTwo = up.clone().subtract(side).normalize();
          DustOptions blackDust = new DustOptions(Color.fromRGB(0, 0, 0), 2.0F);
-         double size = 1.6;
+         double size = AltarTuning.number("shadow_blade","tuning.shadow-blade-manager.size",1.6,0.01,128);
 
          for (double i = -size; i <= size; i += 0.2) {
             double bulge = Math.cos(i / size * (Math.PI / 2)) * 2.0;
             Location pointOne = center.clone().add(diagonalOne.clone().multiply(i)).add(direction.clone().multiply(bulge));
             Location pointTwo = center.clone().add(diagonalTwo.clone().multiply(i)).add(direction.clone().multiply(bulge));
-            world.spawnParticle(Particle.DUST, pointOne, 2, 0.05, 0.05, 0.05, 0.0, blackDust);
-            world.spawnParticle(Particle.DUST, pointTwo, 2, 0.05, 0.05, 0.05, 0.0, blackDust);
+            world.spawnParticle(Particle.DUST, pointOne,AltarTuning.particles("shadow_blade",2), 0.05, 0.05, 0.05, 0.0, blackDust);
+            world.spawnParticle(Particle.DUST, pointTwo,AltarTuning.particles("shadow_blade",2), 0.05, 0.05, 0.05, 0.0, blackDust);
          }
       }
    }
 
    private void spawnBlackDust(Location loc) {
       DustOptions blackDust = new DustOptions(Color.fromRGB(0, 0, 0), 2.5F);
-      loc.getWorld().spawnParticle(Particle.DUST, loc.clone().add(0.0, 1.0, 0.0), 60, 0.5, 1.0, 0.5, blackDust);
+      loc.getWorld().spawnParticle(Particle.DUST, loc.clone().add(0.0, 1.0, 0.0),AltarTuning.particles("shadow_blade",60), 0.5, 1.0, 0.5, blackDust);
    }
 
    private void startCooldownBar(final Player p, final int seconds, String title, final Map<UUID, BossBar> barMap, Map<UUID, Long> cdMap) {

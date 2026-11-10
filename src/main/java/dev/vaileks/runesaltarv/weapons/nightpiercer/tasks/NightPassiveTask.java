@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.nightpiercer.tasks;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.utils.WeaponFactory;
 import org.bukkit.Bukkit;
@@ -19,7 +20,7 @@ public class NightPassiveTask extends BukkitRunnable {
          if (this.isNightpiercer(p.getInventory().getItemInMainHand())) {
             long time = p.getWorld().getTime();
             if (time >= 13000L && time <= 23000L) {
-               p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 50, 0, false, false, false));
+               p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, AltarTuning.integer("nightpiercer","tuning.night-passive-task.effects.regeneration.duration-ticks",50,1,72000), AltarTuning.integer("nightpiercer","tuning.night-passive-task.effects.regeneration.amplifier",0,0,10), false, false, false));
             }
          }
       }

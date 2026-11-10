@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.shadowblade.tasks;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.utils.SpeedBuffUtils;
 import dev.vaileks.runesaltarv.utils.WeaponFactory;
@@ -38,7 +39,7 @@ public class ShadowBladePassiveTask extends BukkitRunnable {
             }
 
             if (curSpeed == null || isWeaponSpeed || curSpeed.getAmplifier() <= 1) {
-               p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 40, 1, false, false, true));
+               p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, AltarTuning.integer("shadow_blade","tuning.shadow-blade-passive-task.effects.speed.duration-ticks",40,1,72000), AltarTuning.integer("shadow_blade","tuning.shadow-blade-passive-task.effects.speed.amplifier",1,0,10), false, false, true));
             }
 
             this.wasHolding.put(p.getUniqueId(), true);
@@ -51,7 +52,7 @@ public class ShadowBladePassiveTask extends BukkitRunnable {
             }
 
             Location trailLoc = playerLoc.clone().add(0.0, 0.12, 0.0).subtract(facing.clone().multiply(0.4));
-            p.getWorld().spawnParticle(Particle.DUST, trailLoc, 8, 0.22, 0.1, 0.22, 0.0, this.subtleBlackDust);
+            p.getWorld().spawnParticle(Particle.DUST, trailLoc,AltarTuning.particles("shadow_blade",8), 0.22, 0.1, 0.22, 0.0, this.subtleBlackDust);
          } else {
             boolean heldBefore = this.wasHolding.getOrDefault(p.getUniqueId(), false);
             if (heldBefore) {

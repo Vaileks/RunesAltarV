@@ -1,15 +1,22 @@
-name: "Жажда крови"
+# Weapon settings. Damage: HP (2 HP = 1 heart). Durations ending in -ticks: 20 ticks = 1 second.
+# Existing ability durations/cooldowns retain their original units. Potion amplifiers are zero-based unless stated otherwise.
+# Tuning/visual fields keep original values by default. Reload with /al reload (integrated) or /rav reload (standalone).
+# Sounds: enum names, relative volume/pitch multipliers. Particle density: 0..4. Attributes: additive main-hand bonuses.
+
+name: Жажда крови
 lore-description:
-- "Меч из застывшей крови. Каждая победа пробуждает его голод и открывает новые силы."
+- Меч из застывшей крови. Каждая победа пробуждает его голод и открывает новые силы.
 lore-abilities:
-- "Удар — заразить противника кровотечением."
-- "Shift + F — кровавый след, доступен с 3 убийств."
-- "F — кровавый крюк, доступен с 5 убийств."
+- Удар — заразить противника кровотечением.
+- Shift + F — кровавый след, доступен с 3 убийств.
+- F — кровавый крюк, доступен с 5 убийств.
 item:
-  material: "NETHERITE_SWORD"
+  material: NETHERITE_SWORD
   custom-model-data: 3
-  item-model: ""
-  tooltip-style: "minecraft:red"
+  item-model: ''
+  tooltip-style: minecraft:red
+  attack-damage-bonus: 0.0
+  attack-speed-bonus: 0.0
 abilities:
   infection:
     cooldown: 15
@@ -26,10 +33,99 @@ abilities:
   passive:
     speed-amplifier: 0
     strength-amplifier: 0
-name-en: "Bloodlust"
+  progression:
+    speed-kills: 1.0
+    strength-kills: 4.0
+    infection-kills: 2.0
+    blood-trail-kills: 3.0
+    blood-hook-kills: 5.0
+name-en: Bloodlust
 lore-description-en:
-- "A sword of hardened blood. Every victory awakens its hunger and unlocks new power."
+- A sword of hardened blood. Every victory awakens its hunger and unlocks new power.
 lore-abilities-en:
-- "Hit — infect an enemy with bleeding."
-- "Shift + F — leave a blood trail after 3 kills."
-- "F — launch a blood hook after 5 kills."
+- Hit — infect an enemy with bleeding.
+- Shift + F — leave a blood trail after 3 kills.
+- F — launch a blood hook after 5 kills.
+tuning:
+  blood-ability-manager:
+    effects:
+      regeneration:
+        duration-ticks: 30.0
+        amplifier: 2.0
+      invisibility:
+        duration-ticks: 30.0
+        amplifier: 0.0
+      speed:
+        duration-ticks: 30.0
+        amplifier: 3.0
+      mining_fatigue:
+        duration-ticks: 30.0
+        amplifier: 3.0
+    num-comets: 6.0
+    hit-radius-x: 1.2
+    hit-radius-y: 1.2
+    hit-radius-z: 1.2
+  passive-aura-task:
+    effects:
+      speed:
+        duration-ticks: 40.0
+      strength:
+        duration-ticks: 40.0
+    min-dist: 80.0
+visuals:
+  sounds:
+    entity-player-hurt:
+      sound: ENTITY_PLAYER_HURT
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-player-burp:
+      sound: ENTITY_PLAYER_BURP
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-player-attack-crit:
+      sound: ENTITY_PLAYER_ATTACK_CRIT
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    block-nether-gold-ore-break:
+      sound: BLOCK_NETHER_GOLD_ORE_BREAK
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    block-chain-break:
+      sound: BLOCK_CHAIN_BREAK
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+  particle-density: 1.0
+messages:
+  blood-boss-bar-manager:
+    message-1:
+      ru: §4§lинɸᴇᴋция
+      en: §4§lɪɴꜰᴇᴄᴛɪᴏɴ
+    message-2:
+      ru: §4§lᴋроʙᴀʙый ᴄлᴇд
+      en: §4§lʙʟᴏᴏᴅ ᴛʀᴀɪʟ
+    message-3:
+      ru: §4§lᴋроʙᴀʙый ᴋрюᴋ
+      en: §4§lʙʟᴏᴏᴅ ʜᴏᴏᴋ
+    message-4:
+      ru: §4§l!ᴋроʙоᴛᴇчᴇниᴇ!
+      en: §4§l!ʙʟᴇᴇᴅɪɴɢ!
+  blood-ability-manager:
+    message-1:
+      ru: §4§lИнфекция
+      en: §4§lɪɴꜰᴇᴄᴛɪᴏɴ
+    message-2:
+      ru: §4§l! §c§lᴋроʙоᴛᴇчᴇниᴇ §4§l!
+      en: §4§l! §c§lʙʟᴇᴇᴅɪɴɢ §4§l!
+    message-3:
+      ru: §4§lᴋроʙᴀʙый ᴄлᴇд
+      en: §4§lʙʟᴏᴏᴅ ᴛʀᴀɪʟ
+    message-4:
+      ru: §cНажмите §e[ПРЫЖОК] §cдля выхода
+      en: §cPress §e[JUMP] §cto exit
+    message-5:
+      ru: §4§lᴋроʙᴀʙый ᴋрюᴋ
+      en: §4§lʙʟᴏᴏᴅ ʜᴏᴏᴋ
+  blood-lust-listener:
+    message-1:
+      ru: '&cЖажда крови пополняется новыми жертвами'
+      en: '&cʙʟᴏᴏᴅʟᴜsᴛ feeds on new victims'

@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.bloodlust.managers;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.RunesAltarV;
 import dev.vaileks.runesaltarv.utils.TextUtils;
@@ -131,14 +132,14 @@ public class BloodBossBarManager {
 
    private String resolveCooldownTitle(String ability, String fallback) {
       return switch (ability) {
-         case "Infection" -> this.plugin.tr("§4§lинɸᴇᴋция", "§4§lɪɴꜰᴇᴄᴛɪᴏɴ");
-         case "BloodTrail" -> this.plugin.tr("§4§lᴋроʙᴀʙый ᴄлᴇд", "§4§lʙʟᴏᴏᴅ ᴛʀᴀɪʟ");
-         case "BloodHook" -> this.plugin.tr("§4§lᴋроʙᴀʙый ᴋрюᴋ", "§4§lʙʟᴏᴏᴅ ʜᴏᴏᴋ");
+         case "Infection" -> AltarTuning.text("bloodlust","messages.blood-boss-bar-manager.message-1","§4§lинɸᴇᴋция","§4§lɪɴꜰᴇᴄᴛɪᴏɴ");
+         case "BloodTrail" -> AltarTuning.text("bloodlust","messages.blood-boss-bar-manager.message-2","§4§lᴋроʙᴀʙый ᴄлᴇд","§4§lʙʟᴏᴏᴅ ᴛʀᴀɪʟ");
+         case "BloodHook" -> AltarTuning.text("bloodlust","messages.blood-boss-bar-manager.message-3","§4§lᴋроʙᴀʙый ᴋрюᴋ","§4§lʙʟᴏᴏᴅ ʜᴏᴏᴋ");
          default -> fallback;
       };
    }
 
    private String resolveDebuffTitle(String id, String fallback) {
-      return "BloodInfection".equals(id) ? this.plugin.tr("§4§l!ᴋроʙоᴛᴇчᴇниᴇ!", "§4§l!ʙʟᴇᴇᴅɪɴɢ!") : fallback;
+      return "BloodInfection".equals(id) ? AltarTuning.text("bloodlust","messages.blood-boss-bar-manager.message-4","§4§l!ᴋроʙоᴛᴇчᴇниᴇ!","§4§l!ʙʟᴇᴇᴅɪɴɢ!") : fallback;
    }
 }

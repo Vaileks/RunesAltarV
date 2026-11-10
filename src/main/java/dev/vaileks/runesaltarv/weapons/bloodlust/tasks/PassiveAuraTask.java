@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.bloodlust.tasks;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.RunesAltarV;
 import dev.vaileks.runesaltarv.utils.SpeedBuffUtils;
@@ -53,22 +54,22 @@ public class PassiveAuraTask extends BukkitRunnable {
                }
             }
 
-            if (kills >= 1) {
+            if (kills >= AltarTuning.integer("bloodlust","abilities.progression.speed-kills",1,0,1000)) {
                PotionEffect curSpeedx = p.getPotionEffect(PotionEffectType.SPEED);
                if (curSpeedx == null || this.isBloodlustPassiveEffect(curSpeedx, speedAmp) || curSpeedx.getAmplifier() <= speedAmp) {
-                  p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 40, speedAmp, false, false, true));
+                  p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, AltarTuning.integer("bloodlust","tuning.passive-aura-task.effects.speed.duration-ticks",40,1,72000), speedAmp, false, false, true));
                }
             }
 
-            if (kills >= 4) {
+            if (kills >= AltarTuning.integer("bloodlust","abilities.progression.strength-kills",4,0,1000)) {
                PotionEffect curStr = p.getPotionEffect(PotionEffectType.STRENGTH);
                if (curStr == null || this.isBloodlustPassiveEffect(curStr, strAmp) || curStr.getAmplifier() <= strAmp) {
-                  p.addPotionEffect(new PotionEffect(PotionEffectType.STRENGTH, 40, strAmp, false, false, true));
+                  p.addPotionEffect(new PotionEffect(PotionEffectType.STRENGTH, AltarTuning.integer("bloodlust","tuning.passive-aura-task.effects.strength.duration-ticks",40,1,72000), strAmp, false, false, true));
                }
             }
 
             this.wasHolding.put(p.getUniqueId(), true);
-            if (kills >= 2) {
+            if (kills >= AltarTuning.integer("bloodlust","abilities.progression.infection-kills",2,0,1000)) {
                int cooldown = this.trackerCooldowns.getOrDefault(p.getUniqueId(), 0);
                if (cooldown > 0) {
                   this.trackerCooldowns.put(p.getUniqueId(), cooldown - 1);
@@ -138,7 +139,7 @@ public class PassiveAuraTask extends BukkitRunnable {
 
    private Player findNearestTarget(Player p) {
       Player nearest = null;
-      double minDist = 80.0;
+      double minDist = AltarTuning.number("bloodlust","tuning.passive-aura-task.min-dist",80.0,0.01,128);
 
       for (Player other : Bukkit.getOnlinePlayers()) {
          if (!other.equals(p)

@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.nightpiercer.listeners;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.RunesAltarV;
 import dev.vaileks.runesaltarv.utils.CombatUtils;
@@ -73,7 +74,7 @@ public class NightAbilityListener implements Listener {
                } else if (!this.isOnCooldown(player, this.biteCooldowns)) {
                   if (!this.preparedBites.contains(player.getUniqueId())) {
                      this.preparedBites.add(player.getUniqueId());
-                     player.playSound(player.getLocation(), Sound.ENTITY_PHANTOM_AMBIENT, 1.0F, 1.0F);
+                     player.playSound(player.getLocation(),AltarTuning.sound("nightpiercer","visuals.sounds.entity-phantom-ambient.sound",Sound.ENTITY_PHANTOM_AMBIENT),AltarTuning.volume("nightpiercer","visuals.sounds.entity-phantom-ambient",1.0F),AltarTuning.pitch("nightpiercer","visuals.sounds.entity-phantom-ambient",1.0F));
                   }
                }
             }
@@ -123,9 +124,9 @@ public class NightAbilityListener implements Listener {
       this.preparedBites.remove(player.getUniqueId());
       int cooldown = this.plugin.getWeaponsConfig().getInt("nightpiercer.bite.cooldown", 45);
       double damage = this.plugin.getWeaponsConfig().getDouble("nightpiercer.bite.damage", 4.0);
-      double range = 2.5;
+      double range = AltarTuning.number("nightpiercer","tuning.night-ability-listener.range",2.5,0.01,128);
       this.biteCooldowns.put(player.getUniqueId(), System.currentTimeMillis() + (long)cooldown * 1000L);
-      new NightBossBarCooldown(this.plugin, player, this.plugin.tr("багровый укус", "ᴄʀɪᴍsᴏɴ ʙɪᴛᴇ"), cooldown).start();
+      new NightBossBarCooldown(this.plugin, player, AltarTuning.text("nightpiercer","messages.night-ability-listener.message-1","багровый укус","ᴄʀɪᴍsᴏɴ ʙɪᴛᴇ"), cooldown).start();
       Vector viewDirection = player.getLocation().getDirection();
       Location effectLocation;
       if (target != null) {
@@ -158,7 +159,7 @@ public class NightAbilityListener implements Listener {
       }
 
       this.spawnMassiveCross(effectLocation, viewDirection);
-      player.getWorld().playSound(effectLocation, Sound.ENTITY_PHANTOM_BITE, 1.5F, 1.0F);
+      player.getWorld().playSound(effectLocation,AltarTuning.sound("nightpiercer","visuals.sounds.entity-phantom-bite.sound",Sound.ENTITY_PHANTOM_BITE),AltarTuning.volume("nightpiercer","visuals.sounds.entity-phantom-bite",1.5F),AltarTuning.pitch("nightpiercer","visuals.sounds.entity-phantom-bite",1.0F));
    }
 
    private void applyBiteEffects(Player attacker, LivingEntity victim, double damage) {
@@ -167,7 +168,7 @@ public class NightAbilityListener implements Listener {
       if (victim instanceof Player victimPlayer) {
          int durationSeconds = this.plugin.getWeaponsConfig().getInt("nightpiercer.bite.duration", 10);
          final int totalTicks = durationSeconds * 20;
-         final BossBar victimBar = TextUtils.bossBar(this.plugin.tr("§6§l!! §c§lУКУШЕН §6§l!!", "§6§l!! §c§lBITTEN §6§l!!"), BarColor.RED, BarStyle.SOLID);
+         final BossBar victimBar = TextUtils.bossBar(AltarTuning.text("nightpiercer","messages.night-ability-listener.message-2","§6§l!! §c§lУКУШЕН §6§l!!","§6§l!! §c§lBITTEN §6§l!!"), BarColor.RED, BarStyle.SOLID);
          victimBar.addPlayer(victimPlayer);
          (new BukkitRunnable() {
             int ticks = 0;
@@ -194,14 +195,14 @@ public class NightAbilityListener implements Listener {
          Vector up = side.clone().crossProduct(direction).normalize();
          Vector diagonalOne = up.clone().add(side).normalize();
          Vector diagonalTwo = up.clone().subtract(side).normalize();
-         double size = 2.5;
+         double size = AltarTuning.number("nightpiercer","tuning.night-ability-listener.size",2.5,0.01,128);
 
          for (double i = -size; i <= size; i += 0.2) {
             double bulge = Math.cos(i / size * (Math.PI / 2)) * 2.0;
             Location pointOne = center.clone().add(diagonalOne.clone().multiply(i)).add(direction.clone().multiply(bulge));
             Location pointTwo = center.clone().add(diagonalTwo.clone().multiply(i)).add(direction.clone().multiply(bulge));
-            world.spawnParticle(Particle.BLOCK, pointOne, 2, 0.05, 0.05, 0.05, 0.0, Bukkit.createBlockData(Material.REDSTONE_BLOCK));
-            world.spawnParticle(Particle.BLOCK, pointTwo, 2, 0.05, 0.05, 0.05, 0.0, Bukkit.createBlockData(Material.REDSTONE_BLOCK));
+            world.spawnParticle(Particle.BLOCK, pointOne,AltarTuning.particles("nightpiercer",2), 0.05, 0.05, 0.05, 0.0, Bukkit.createBlockData(Material.REDSTONE_BLOCK));
+            world.spawnParticle(Particle.BLOCK, pointTwo,AltarTuning.particles("nightpiercer",2), 0.05, 0.05, 0.05, 0.0, Bukkit.createBlockData(Material.REDSTONE_BLOCK));
          }
       }
    }
@@ -212,10 +213,10 @@ public class NightAbilityListener implements Listener {
       final double speed = this.plugin.getWeaponsConfig().getDouble("nightpiercer.transformation.speed", 1.0);
       final double damage = this.plugin.getWeaponsConfig().getDouble("nightpiercer.transformation.damage", 4.0);
       this.transformationCooldowns.put(player.getUniqueId(), System.currentTimeMillis() + (long)cooldown * 1000L);
-      new NightBossBarCooldown(this.plugin, player, this.plugin.tr("трансформация", "ᴛʀᴀɴsꜰᴏʀᴍᴀᴛɪᴏɴ"), cooldown).start();
-      player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ILLUSIONER_MIRROR_MOVE, 1.0F, 1.0F);
-      player.getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_LAUNCH, 1.0F, 1.0F);
-      player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR, 1.0F, 1.2F);
+      new NightBossBarCooldown(this.plugin, player, AltarTuning.text("nightpiercer","messages.night-ability-listener.message-3","трансформация","ᴛʀᴀɴsꜰᴏʀᴍᴀᴛɪᴏɴ"), cooldown).start();
+      player.getWorld().playSound(player.getLocation(),AltarTuning.sound("nightpiercer","visuals.sounds.entity-illusioner-mirror-move.sound",Sound.ENTITY_ILLUSIONER_MIRROR_MOVE),AltarTuning.volume("nightpiercer","visuals.sounds.entity-illusioner-mirror-move",1.0F),AltarTuning.pitch("nightpiercer","visuals.sounds.entity-illusioner-mirror-move",1.0F));
+      player.getWorld().playSound(player.getLocation(),AltarTuning.sound("nightpiercer","visuals.sounds.entity-firework-rocket-launch.sound",Sound.ENTITY_FIREWORK_ROCKET_LAUNCH),AltarTuning.volume("nightpiercer","visuals.sounds.entity-firework-rocket-launch",1.0F),AltarTuning.pitch("nightpiercer","visuals.sounds.entity-firework-rocket-launch",1.0F));
+      player.getWorld().playSound(player.getLocation(),AltarTuning.sound("nightpiercer","visuals.sounds.entity-zombie-break-wooden-door.sound",Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR),AltarTuning.volume("nightpiercer","visuals.sounds.entity-zombie-break-wooden-door",1.0F),AltarTuning.pitch("nightpiercer","visuals.sounds.entity-zombie-break-wooden-door",1.2F));
       this.spawnBlackDust(player.getLocation(), 140);
       final List<Bat> bats = new ArrayList<>();
 
@@ -236,7 +237,7 @@ public class NightAbilityListener implements Listener {
             @Override
             public void run() {
                if (this.ticks < maxTicks && player.isOnline() && NightAbilityListener.this.isNightpiercer(player.getInventory().getItemInMainHand())) {
-                  player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 5, 1, false, false, false));
+                  player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, AltarTuning.integer("nightpiercer","tuning.night-ability-listener.effects.invisibility.duration-ticks",5,1,72000), AltarTuning.integer("nightpiercer","tuning.night-ability-listener.effects.invisibility.amplifier",1,0,10), false, false, false));
 
                   for (Player online : Bukkit.getOnlinePlayers()) {
                      if (online.canSee(player)) {
@@ -246,7 +247,7 @@ public class NightAbilityListener implements Listener {
 
                   player.setVelocity(player.getLocation().getDirection().normalize().multiply(speed));
                   if (this.ticks == 0 || this.ticks == 5 || this.ticks == 15 || this.ticks == 25 || this.ticks == 35) {
-                     player.getWorld().playSound(player.getLocation(), Sound.ENTITY_BAT_AMBIENT, 0.8F, 1.0F);
+                     player.getWorld().playSound(player.getLocation(),AltarTuning.sound("nightpiercer","visuals.sounds.entity-bat-ambient.sound",Sound.ENTITY_BAT_AMBIENT),AltarTuning.volume("nightpiercer","visuals.sounds.entity-bat-ambient",0.8F),AltarTuning.pitch("nightpiercer","visuals.sounds.entity-bat-ambient",1.0F));
                   }
 
                   Location center = player.getLocation().add(0.0, 0.8, 0.0);
@@ -262,7 +263,7 @@ public class NightAbilityListener implements Listener {
                      }
                   }
 
-                  for (Entity entity : player.getNearbyEntities(1.5, 1.5, 1.5)) {
+                  for (Entity entity : player.getNearbyEntities(AltarTuning.number("nightpiercer","tuning.night-ability-listener.hit-radius-x",1.5,0,128),AltarTuning.number("nightpiercer","tuning.night-ability-listener.hit-radius-y",1.5,0,128),AltarTuning.number("nightpiercer","tuning.night-ability-listener.hit-radius-z",1.5,0,128))) {
                      if (entity instanceof LivingEntity) {
                         LivingEntity victim = (LivingEntity)entity;
                         if (!entity.equals(player) && !bats.contains(victim) && !hitEntities.contains(victim.getUniqueId())) {
@@ -276,7 +277,7 @@ public class NightAbilityListener implements Listener {
 
                            hitEntities.add(victim.getUniqueId());
                            NightAbilityListener.this.plugin.getCleanDamageManager().apply(victim, player, damage);
-                           victim.getWorld().playSound(victim.getLocation(), Sound.ENTITY_ZOMBIE_ATTACK_IRON_DOOR, 1.0F, 1.0F);
+                           victim.getWorld().playSound(victim.getLocation(),AltarTuning.sound("nightpiercer","visuals.sounds.entity-zombie-attack-iron-door.sound",Sound.ENTITY_ZOMBIE_ATTACK_IRON_DOOR),AltarTuning.volume("nightpiercer","visuals.sounds.entity-zombie-attack-iron-door",1.0F),AltarTuning.pitch("nightpiercer","visuals.sounds.entity-zombie-attack-iron-door",1.0F));
                         }
                      }
                   }
@@ -291,8 +292,8 @@ public class NightAbilityListener implements Listener {
                   }
 
                   NightAbilityListener.this.spawnBlackDust(player.getLocation(), 140);
-                  player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ILLUSIONER_MIRROR_MOVE, 1.0F, 1.0F);
-                  player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR, 1.0F, 1.2F);
+                  player.getWorld().playSound(player.getLocation(),AltarTuning.sound("nightpiercer","visuals.sounds.entity-illusioner-mirror-move.sound",Sound.ENTITY_ILLUSIONER_MIRROR_MOVE),AltarTuning.volume("nightpiercer","visuals.sounds.entity-illusioner-mirror-move",1.0F),AltarTuning.pitch("nightpiercer","visuals.sounds.entity-illusioner-mirror-move",1.0F));
+                  player.getWorld().playSound(player.getLocation(),AltarTuning.sound("nightpiercer","visuals.sounds.entity-zombie-break-wooden-door.sound",Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR),AltarTuning.volume("nightpiercer","visuals.sounds.entity-zombie-break-wooden-door",1.0F),AltarTuning.pitch("nightpiercer","visuals.sounds.entity-zombie-break-wooden-door",1.2F));
                   this.cancel();
                }
             }
@@ -302,7 +303,7 @@ public class NightAbilityListener implements Listener {
 
    private void spawnBlackDust(Location location, int count) {
       DustOptions blackDust = new DustOptions(Color.fromRGB(0, 0, 0), 2.8F);
-      location.getWorld().spawnParticle(Particle.DUST, location.clone().add(0.0, 1.0, 0.0), count, 0.7, 0.9, 0.7, blackDust);
+      location.getWorld().spawnParticle(Particle.DUST, location.clone().add(0.0, 1.0, 0.0),AltarTuning.particles("nightpiercer",count), 0.7, 0.9, 0.7, blackDust);
    }
 
    private boolean isOnCooldown(Player player, Map<UUID, Long> cooldownMap) {

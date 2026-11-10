@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.witherblade.managers;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.RunesAltarV;
 import dev.vaileks.runesaltarv.utils.TextUtils;
@@ -44,7 +45,7 @@ public class WitherManager {
          if (charges == 0) {
             final int cooldown = this.plugin.getWeaponsConfig().getInt("wither-blade.dash.cooldown", 30);
             this.dashCooldowns.put(player.getUniqueId(), System.currentTimeMillis() + (long)cooldown * 1000L);
-            final BossBar bar = dev.vaileks.runesaltarv.integration.AltarCooldowns.cooldownBar(this.yellowTitle(this.plugin.tr("иссушительный прыжок", "ᴡɪᴛʜᴇʀ ʟᴇᴀᴘ")), BarColor.YELLOW, BarStyle.SOLID);
+            final BossBar bar = dev.vaileks.runesaltarv.integration.AltarCooldowns.cooldownBar(this.yellowTitle(AltarTuning.text("wither_blade","messages.wither-manager.message-1","иссушительный прыжок","ᴡɪᴛʜᴇʀ ʟᴇᴀᴘ")), BarColor.YELLOW, BarStyle.SOLID);
             bar.addPlayer(player);
             this.dashBars.put(player.getUniqueId(), bar);
             (new BukkitRunnable() {
@@ -79,7 +80,7 @@ public class WitherManager {
    public void setAuraCooldown(final Player player) {
       final int cooldown = this.plugin.getWeaponsConfig().getInt("wither-blade.aura.cooldown", 50);
       this.auraCooldowns.put(player.getUniqueId(), System.currentTimeMillis() + (long)cooldown * 1000L);
-      final BossBar bar = dev.vaileks.runesaltarv.integration.AltarCooldowns.cooldownBar(this.yellowTitle(this.plugin.tr("иссушительное высвобождение", "ᴡɪᴛʜᴇʀ ʀᴇʟᴇᴀsᴇ")), BarColor.YELLOW, BarStyle.SOLID);
+      final BossBar bar = dev.vaileks.runesaltarv.integration.AltarCooldowns.cooldownBar(this.yellowTitle(AltarTuning.text("wither_blade","messages.wither-manager.message-2","иссушительное высвобождение","ᴡɪᴛʜᴇʀ ʀᴇʟᴇᴀsᴇ")), BarColor.YELLOW, BarStyle.SOLID);
       bar.addPlayer(player);
       this.auraBars.put(player.getUniqueId(), bar);
       (new BukkitRunnable() {

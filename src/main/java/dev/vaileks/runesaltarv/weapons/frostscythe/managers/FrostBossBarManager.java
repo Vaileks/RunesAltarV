@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.frostscythe.managers;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.RunesAltarV;
 import dev.vaileks.runesaltarv.utils.TextUtils;
@@ -91,8 +92,8 @@ public class FrostBossBarManager {
 
    private String resolveTitle(String ability, String fallback) {
       return switch (ability) {
-         case "ScytheThrow" -> this.plugin.tr("§b§lброᴄоᴋ ᴋоᴄы", "§b§lsᴄʏᴛʜᴇ ᴛʜʀᴏᴡ");
-         case "CommandOfIce" -> this.plugin.tr("§b§lпоʙᴇлᴇниᴇ льдᴀ", "§b§lᴄᴏᴍᴍᴀɴᴅ ᴏғ ɪᴄᴇ");
+         case "ScytheThrow" -> AltarTuning.text("frost_scythe","messages.frost-boss-bar-manager.message-1","§b§lброᴄоᴋ ᴋоᴄы","§b§lsᴄʏᴛʜᴇ ᴛʜʀᴏᴡ");
+         case "CommandOfIce" -> AltarTuning.text("frost_scythe","messages.frost-boss-bar-manager.message-2","§b§lпоʙᴇлᴇниᴇ льдᴀ","§b§lᴄᴏᴍᴍᴀɴᴅ ᴏғ ɪᴄᴇ");
          default -> fallback;
       };
    }

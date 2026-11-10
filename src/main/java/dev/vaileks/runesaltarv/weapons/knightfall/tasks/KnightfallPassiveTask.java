@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.knightfall.tasks;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.RunesAltarV;
 import dev.vaileks.runesaltarv.utils.SpeedBuffUtils;
@@ -46,7 +47,7 @@ public class KnightfallPassiveTask extends BukkitRunnable {
             boolean needsUpgrade = kills >= 4 && tier < 1 || kills >= 8 && tier < 2 || kills >= 10 && tier < 3;
             if (needsUpgrade) {
                TextUtils.sendActionBar(
-                  p, TextUtils.legacy(this.plugin.tr("&aНажмите &2[Смена руки] &aчтобы улучшить оружие.", "&aPress &2[OffHand] &ato upgrade the weapon."))
+                  p, TextUtils.legacy(AltarTuning.text("knightfall","messages.knightfall-passive-task.message-1","&aНажмите &2[Смена руки] &aчтобы улучшить оружие.","&aPress &2[OffHand] &ato upgrade the weapon."))
                );
             }
 
@@ -64,7 +65,7 @@ public class KnightfallPassiveTask extends BukkitRunnable {
             }
 
             if (curSpeed == null || isWeaponSpeed || curSpeed.getAmplifier() <= 1) {
-               p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 40, 1, false, false, true));
+               p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, AltarTuning.integer("knightfall","tuning.knightfall-passive-task.effects.speed.duration-ticks",40,1,72000), AltarTuning.integer("knightfall","tuning.knightfall-passive-task.effects.speed.amplifier",1,0,10), false, false, true));
             }
 
             this.wasHolding.put(p.getUniqueId(), true);

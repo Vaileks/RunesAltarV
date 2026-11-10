@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.commands.AltarLegendaryCommand;
 import dev.vaileks.runesaltarv.commands.FriendListCommand;
@@ -212,7 +213,7 @@ public class RunesAltarV extends JavaPlugin {
                            PersistentDataType.INTEGER,
                            Integer.valueOf(cmd >= 3003 || cmd == 3 ? 3 : (hasDensity ? 2 : (cmd < 3002 && cmd != 2 ? 0 : 1)))
                         );
-                     if (kills >= 4 && tier < 1 || kills >= 8 && tier < 2 || kills >= 10 && tier < 3) {
+                     if (kills >= AltarTuning.integer("knightfall","abilities.progression.tier-1-kills",4,1,1000) && tier < 1 || kills >= AltarTuning.integer("knightfall","abilities.progression.tier-2-kills",8,1,1000) && tier < 2 || kills >= AltarTuning.integer("knightfall","abilities.progression.tier-3-kills",10,1,1000) && tier < 3) {
                         TextUtils.sendActionBar(
                            p,
                            TextUtils.legacy(

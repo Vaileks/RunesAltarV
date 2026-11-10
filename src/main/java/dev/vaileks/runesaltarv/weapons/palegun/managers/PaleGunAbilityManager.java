@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.palegun.managers;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.RunesAltarV;
 import dev.vaileks.runesaltarv.utils.TextUtils;
@@ -52,7 +53,7 @@ public class PaleGunAbilityManager {
          this.activeRoots.add(task);
          task.runTaskTimer(this.plugin, 0L, 1L);
          this.startRootsCooldown(player, cooldownSeconds);
-         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_CREAKING_ATTACK, 1.0F, 0.8F);
+         player.getWorld().playSound(player.getLocation(),AltarTuning.sound("pale_gun","visuals.sounds.entity-creaking-attack.sound",Sound.ENTITY_CREAKING_ATTACK),AltarTuning.volume("pale_gun","visuals.sounds.entity-creaking-attack",1.0F),AltarTuning.pitch("pale_gun","visuals.sounds.entity-creaking-attack",0.8F));
          return true;
       }
    }
@@ -158,7 +159,7 @@ public class PaleGunAbilityManager {
          oldBar.removeAll();
       }
 
-      final BossBar bar = dev.vaileks.runesaltarv.integration.AltarCooldowns.cooldownBar(this.plugin.tr("§e§kБледные §r§eКорни", "§e§kᴘᴀʟᴇ §r§eʀᴏᴏᴛs"), BarColor.YELLOW, BarStyle.SOLID);
+      final BossBar bar = dev.vaileks.runesaltarv.integration.AltarCooldowns.cooldownBar(AltarTuning.text("pale_gun","messages.pale-gun-ability-manager.message-1","§e§kБледные §r§eКорни","§e§kᴘᴀʟᴇ §r§eʀᴏᴏᴛs"), BarColor.YELLOW, BarStyle.SOLID);
       bar.addPlayer(player);
       this.rootsBars.put(uuid, bar);
       (new BukkitRunnable() {
@@ -197,7 +198,7 @@ public class PaleGunAbilityManager {
             for (World world : Bukkit.getWorlds()) {
                for (LivingEntity entity : world.getLivingEntities()) {
                   if (entity.hasPotionEffect(PotionEffectType.LUCK)) {
-                     entity.getWorld().spawnParticle(Particle.INFESTED, entity.getLocation().add(0.0, 1.0, 0.0), 2, 0.3, 0.45, 0.3, 0.0);
+                     entity.getWorld().spawnParticle(Particle.INFESTED, entity.getLocation().add(0.0, 1.0, 0.0),AltarTuning.particles("pale_gun",2), 0.3, 0.45, 0.3, 0.0);
                   }
                }
             }

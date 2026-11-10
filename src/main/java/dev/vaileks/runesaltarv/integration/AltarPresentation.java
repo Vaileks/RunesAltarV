@@ -17,7 +17,8 @@ public final class AltarPresentation {
   var entry=AltarCatalog.find(item);if(entry==null)return item;
   var config=AltarPresets.get(entry.id());if(config==null)return item;
   var plugin=RunesAltarV.getInstance();boolean english=plugin.isEnglish();String suffix=english?"-en":"";
-  var meta=item.getItemMeta();meta.displayName(line(config.getString("name"+suffix,config.getString("name",entry.id())),NamedTextColor.GOLD));
+  var meta=item.getItemMeta();
+  applyAttributes(item,meta,entry.id());meta.displayName(line(config.getString("name"+suffix,config.getString("name",entry.id())),NamedTextColor.GOLD));
   List<Component> lore=new ArrayList<>();
   for(String value:config.getStringList("lore-description"+suffix))wrap(lore,value,NamedTextColor.GRAY);
   lore.add(line("",NamedTextColor.GRAY));
@@ -40,6 +41,19 @@ public final class AltarPresentation {
   double result=(base+add)*(1+scalar)*multiplier;
   int sharp=meta.getEnchantLevel(Enchantment.SHARPNESS);if(attribute.equals(Attribute.ATTACK_DAMAGE)&&sharp>0)result+=.5*sharp+.5;
   return result;
+ }
+ private static void applyAttributes(ItemStack item,org.bukkit.inventory.meta.ItemMeta meta,String id){
+  for(var attribute:new org.bukkit.attribute.Attribute[]{org.bukkit.attribute.Attribute.ATTACK_DAMAGE,org.bukkit.attribute.Attribute.ATTACK_SPEED}){
+   String suffix=attribute.equals(org.bukkit.attribute.Attribute.ATTACK_DAMAGE)?"damage":"speed";
+   var key=new org.bukkit.NamespacedKey("runesaltarv","configured_"+suffix);
+   var modifiers=meta.getAttributeModifiers(attribute);
+   if(modifiers!=null)for(var modifier:new java.util.ArrayList<>(modifiers))if(modifier.getKey().equals(key))meta.removeAttributeModifier(attribute,modifier);
+   double amount=AltarTuning.number(id,"item.attack-"+suffix+"-bonus",0,-20,100);
+   if(amount!=0){
+    if(meta.getAttributeModifiers(attribute)==null)for(var modifier:item.getType().getDefaultAttributeModifiers(org.bukkit.inventory.EquipmentSlot.HAND).get(attribute))meta.addAttributeModifier(attribute,modifier);
+    meta.addAttributeModifier(attribute,new org.bukkit.attribute.AttributeModifier(key,amount,org.bukkit.attribute.AttributeModifier.Operation.ADD_NUMBER,org.bukkit.inventory.EquipmentSlotGroup.MAINHAND));
+   }
+  }
  }
  private AltarPresentation(){}
 }

@@ -1,14 +1,22 @@
-name: "Абордажная сабля"
+# Weapon settings. Damage: HP (2 HP = 1 heart). Durations ending in -ticks: 20 ticks = 1 second.
+# Existing ability durations/cooldowns retain their original units. Potion amplifiers are zero-based unless stated otherwise.
+# Tuning/visual fields keep original values by default. Reload with /al reload (integrated) or /rav reload (standalone).
+# Sounds: enum names, relative volume/pitch multipliers. Particle density: 0..4. Attributes: additive main-hand bonuses.
+
+name: Абордажная сабля
 lore-description:
-- "Сабля капитана, не знавшего поражений. Её быстрые удары не оставляют времени на ответ."
+- Сабля капитана, не знавшего поражений. Её быстрые удары не оставляют времени на
+  ответ.
 lore-abilities:
-- "F — серия из тысячи порезов."
-- "Shift + F — парировать атаки и отбросить нападающего."
+- F — серия из тысячи порезов.
+- Shift + F — парировать атаки и отбросить нападающего.
 item:
-  material: "NETHERITE_SWORD"
+  material: NETHERITE_SWORD
   custom-model-data: 11
-  item-model: ""
-  tooltip-style: "minecraft:tidebreaker"
+  item-model: ''
+  tooltip-style: minecraft:tidebreaker
+  attack-damage-bonus: 0.0
+  attack-speed-bonus: 0.0
 abilities:
   thousand-cuts:
     cooldown: 45
@@ -24,9 +32,65 @@ abilities:
     max-charges: 2
     slowness-amplifier: 0
     knockback-power: 0.65
-name-en: "Cutlass"
+name-en: Cutlass
 lore-description-en:
-- "The blade of an undefeated captain. Its swift strikes leave no time to answer."
+- The blade of an undefeated captain. Its swift strikes leave no time to answer.
 lore-abilities-en:
-- "F — unleash a thousand cuts."
-- "Shift + F — parry attacks and knock the attacker back."
+- F — unleash a thousand cuts.
+- Shift + F — parry attacks and knock the attacker back.
+visuals:
+  sounds:
+    item-trident-return:
+      sound: ITEM_TRIDENT_RETURN
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    item-shield-block:
+      sound: ITEM_SHIELD_BLOCK
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-illusioner-prepare-mirror:
+      sound: ENTITY_ILLUSIONER_PREPARE_MIRROR
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    block-glass-break:
+      sound: BLOCK_GLASS_BREAK
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-illusioner-cast-spell:
+      sound: ENTITY_ILLUSIONER_CAST_SPELL
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-ender-dragon-flap:
+      sound: ENTITY_ENDER_DRAGON_FLAP
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    item-trident-throw:
+      sound: ITEM_TRIDENT_THROW
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-player-attack-sweep:
+      sound: ENTITY_PLAYER_ATTACK_SWEEP
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+  particle-density: 1.0
+tuning:
+  cutlass-manager:
+    radius: 2.0
+    points: 24.0
+    arc-half-width: 65.0
+    particle-count: 35.0
+    hit-radius-x: 1.5
+    hit-radius-y: 1.5
+    hit-radius-z: 1.5
+    parry-radius: 0.85
+messages:
+  cutlass-manager:
+    message-1:
+      ru: Пиратское отражение
+      en: Pɪʀᴀᴛᴇ's ᴘᴀʀʀʏ
+    message-2:
+      ru: Сто царапин
+      en: Hᴜɴᴅʀᴇᴅ ᴄᴜᴛs
+    message-3:
+      ru: ОТРАЖЕНИЕ
+      en: ᴘᴀʀʀʏ

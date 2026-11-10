@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.knightfall.listeners;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.RunesAltarV;
 import dev.vaileks.runesaltarv.utils.CombatUtils;
@@ -121,13 +122,13 @@ public class KnightfallListener implements Listener {
                TextUtils.legacy(this.plugin.tr("§cПадший Рыцарь теперь имеет " + newKills + " убийств(а/ов).", "§cknightfall now has " + newKills + " kills."))
             );
             if (newKills == 2) {
-               p.sendMessage(TextUtils.legacy(this.plugin.tr("§eПадший рыцарь теперь имеет чары Порыв Ветра I.", "§eknightfall now has Wind Burst I.")));
+               p.sendMessage(TextUtils.legacy(AltarTuning.text("knightfall","messages.knightfall-listener.message-1","§eПадший рыцарь теперь имеет чары Порыв Ветра I.","§eknightfall now has Wind Burst I.")));
             }
 
-            boolean needsUpgrade = newKills >= 4 && currentTier < 1 || newKills >= 8 && currentTier < 2 || newKills >= 10 && currentTier < 3;
+            boolean needsUpgrade = newKills >= AltarTuning.integer("knightfall","abilities.progression.tier-1-kills",4,1,1000) && currentTier < 1 || newKills >= AltarTuning.integer("knightfall","abilities.progression.tier-2-kills",8,1,1000) && currentTier < 2 || newKills >= AltarTuning.integer("knightfall","abilities.progression.tier-3-kills",10,1,1000) && currentTier < 3;
             if (needsUpgrade) {
                p.sendMessage(
-                  TextUtils.legacy(this.plugin.tr("§aНажмите §2[Смена руки] §aчтобы улучшить оружие.", "§aPress §2[OffHand] §ato upgrade the weapon."))
+                  TextUtils.legacy(AltarTuning.text("knightfall","messages.knightfall-listener.message-2","§aНажмите §2[Смена руки] §aчтобы улучшить оружие.","§aPress §2[OffHand] §ato upgrade the weapon."))
                );
             }
          }
@@ -144,16 +145,16 @@ public class KnightfallListener implements Listener {
             int kills = this.getKills(item);
             int currentTier = this.getTier(item);
             if (p.isSneaking()) {
-               if (kills >= 10 && currentTier >= 3) {
+               if (kills >= AltarTuning.integer("knightfall","abilities.progression.tier-3-kills",10,1,1000) && currentTier >= 3) {
                   this.manager.throwHammer(p, item);
                }
             } else {
                int targetTier = currentTier;
-               if (kills >= 10 && currentTier < 3) {
+               if (kills >= AltarTuning.integer("knightfall","abilities.progression.tier-3-kills",10,1,1000) && currentTier < 3) {
                   targetTier = 3;
-               } else if (kills >= 8 && currentTier < 2) {
+               } else if (kills >= AltarTuning.integer("knightfall","abilities.progression.tier-2-kills",8,1,1000) && currentTier < 2) {
                   targetTier = 2;
-               } else if (kills >= 4 && currentTier < 1) {
+               } else if (kills >= AltarTuning.integer("knightfall","abilities.progression.tier-1-kills",4,1,1000) && currentTier < 1) {
                   targetTier = 1;
                }
 
@@ -175,24 +176,24 @@ public class KnightfallListener implements Listener {
 
                   p.getInventory().setItemInMainHand(newWeapon);
                   p.updateInventory();
-                  p.getWorld().playSound(p.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1.0F, 1.0F);
-                  p.getWorld().playSound(p.getLocation(), Sound.BLOCK_END_PORTAL_SPAWN, 1.0F, 0.8F);
-                  p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_ATTACK_IRON_DOOR, 1.0F, 0.0F);
-                  p.getWorld().spawnParticle(Particle.PORTAL, p.getLocation().add(0.0, 1.0, 0.0), 100, 0.5, 1.0, 0.5);
-                  TextUtils.sendActionBar(p, TextUtils.legacy(this.plugin.tr("&6Оружие успешно улучшено.", "&6Weapon upgraded successfully.")));
-                  TextUtils.sendMessage(p, TextUtils.legacy(this.plugin.tr("§6Оружие успешно улучшено.", "§6Weapon upgraded successfully.")));
+                  p.getWorld().playSound(p.getLocation(),AltarTuning.sound("knightfall","visuals.sounds.block-enchantment-table-use.sound",Sound.BLOCK_ENCHANTMENT_TABLE_USE),AltarTuning.volume("knightfall","visuals.sounds.block-enchantment-table-use",1.0F),AltarTuning.pitch("knightfall","visuals.sounds.block-enchantment-table-use",1.0F));
+                  p.getWorld().playSound(p.getLocation(),AltarTuning.sound("knightfall","visuals.sounds.block-end-portal-spawn.sound",Sound.BLOCK_END_PORTAL_SPAWN),AltarTuning.volume("knightfall","visuals.sounds.block-end-portal-spawn",1.0F),AltarTuning.pitch("knightfall","visuals.sounds.block-end-portal-spawn",0.8F));
+                  p.getWorld().playSound(p.getLocation(),AltarTuning.sound("knightfall","visuals.sounds.entity-zombie-attack-iron-door.sound",Sound.ENTITY_ZOMBIE_ATTACK_IRON_DOOR),AltarTuning.volume("knightfall","visuals.sounds.entity-zombie-attack-iron-door",1.0F),AltarTuning.pitch("knightfall","visuals.sounds.entity-zombie-attack-iron-door",0.0F));
+                  p.getWorld().spawnParticle(Particle.PORTAL, p.getLocation().add(0.0, 1.0, 0.0),AltarTuning.particles("knightfall",100), 0.5, 1.0, 0.5);
+                  TextUtils.sendActionBar(p, TextUtils.legacy(AltarTuning.text("knightfall","messages.knightfall-listener.message-3","&6Оружие успешно улучшено.","&6Weapon upgraded successfully.")));
+                  TextUtils.sendMessage(p, TextUtils.legacy(AltarTuning.text("knightfall","messages.knightfall-listener.message-4","§6Оружие успешно улучшено.","§6Weapon upgraded successfully.")));
                   if (targetTier == 1) {
                      TextUtils.sendMessage(
                         p,
                         TextUtils.legacy(
-                           this.plugin.tr("§eТеперь вы можете использовать Абордажный Крюк Падшего Рыцаря.", "§eYou can now use knightfall's grappling hook.")
+                           AltarTuning.text("knightfall","messages.knightfall-listener.message-5","§eТеперь вы можете использовать Абордажный Крюк Падшего Рыцаря.","§eYou can now use knightfall's grappling hook.")
                         )
                      );
                   }
 
                   if (targetTier == 2) {
                      TextUtils.sendMessage(
-                        p, TextUtils.legacy(this.plugin.tr("§eПадший рыцарь теперь имеет чары Плотность II.", "§eknightfall now has Density II."))
+                        p, TextUtils.legacy(AltarTuning.text("knightfall","messages.knightfall-listener.message-6","§eПадший рыцарь теперь имеет чары Плотность II.","§eknightfall now has Density II."))
                      );
                   }
 
@@ -200,7 +201,7 @@ public class KnightfallListener implements Listener {
                      TextUtils.sendMessage(
                         p,
                         TextUtils.legacy(
-                           this.plugin.tr("§eТеперь вы можете использовать Бросок Молота Падшего Рыцаря.", "§eYou can now use knightfall's hammer throw.")
+                           AltarTuning.text("knightfall","messages.knightfall-listener.message-7","§eТеперь вы можете использовать Бросок Молота Падшего Рыцаря.","§eYou can now use knightfall's hammer throw.")
                         )
                      );
                   }
@@ -208,7 +209,7 @@ public class KnightfallListener implements Listener {
                   return;
                }
 
-               if (kills >= 4 && currentTier >= 1) {
+               if (kills >= AltarTuning.integer("knightfall","abilities.progression.tier-1-kills",4,1,1000) && currentTier >= 1) {
                   this.manager.useHook(p);
                }
             }

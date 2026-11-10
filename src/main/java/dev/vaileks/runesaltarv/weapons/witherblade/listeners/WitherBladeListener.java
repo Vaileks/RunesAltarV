@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.witherblade.listeners;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.RunesAltarV;
 import dev.vaileks.runesaltarv.utils.WeaponFactory;
@@ -86,9 +87,9 @@ public class WitherBladeListener implements Listener {
          if (this.isWitherBlade(item)) {
             this.manager.fillMaxCharge(killer);
             Location loc = victim.getLocation().add(0.0, 1.0, 0.0);
-            victim.getWorld().playSound(loc, Sound.ENTITY_WITHER_SKELETON_DEATH, 1.5F, 0.8F);
+            victim.getWorld().playSound(loc,AltarTuning.sound("wither_blade","visuals.sounds.entity-wither-skeleton-death.sound",Sound.ENTITY_WITHER_SKELETON_DEATH),AltarTuning.volume("wither_blade","visuals.sounds.entity-wither-skeleton-death",1.5F),AltarTuning.pitch("wither_blade","visuals.sounds.entity-wither-skeleton-death",0.8F));
             DustOptions blackDust = new DustOptions(Color.fromRGB(0, 0, 0), 2.5F);
-            victim.getWorld().spawnParticle(Particle.DUST, loc, 50, 0.5, 0.5, 0.5, 0.1, blackDust);
+            victim.getWorld().spawnParticle(Particle.DUST, loc,AltarTuning.particles("wither_blade",50), 0.5, 0.5, 0.5, 0.1, blackDust);
 
             for (int i = 0; i < 6; i++) {
                double angle = this.random.nextDouble() * 2.0 * Math.PI;

@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.boneblade.listeners;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import dev.vaileks.runesaltarv.RunesAltarV;
@@ -225,12 +226,12 @@ public class BladeListener implements Listener {
 
    private void castSkeletalLeap(final Player player) {
       this.plugin.getBoneCooldownManager().setDashCooldown(player, this.plugin.getWeaponsConfig().getInt("bone-blade.dash.cooldown", 15));
-      player.playSound(player.getLocation(), Sound.ENTITY_SKELETON_DEATH, 1.0F, 0.8F);
+      player.playSound(player.getLocation(),AltarTuning.sound("bone_blade","visuals.sounds.entity-skeleton-death.sound",Sound.ENTITY_SKELETON_DEATH),AltarTuning.volume("bone_blade","visuals.sounds.entity-skeleton-death",1.0F),AltarTuning.pitch("bone_blade","visuals.sounds.entity-skeleton-death",0.8F));
       (new BukkitRunnable() {
          @Override
          public void run() {
             if (player.isOnline()) {
-               player.playSound(player.getLocation(), Sound.ENTITY_SKELETON_DEATH, 1.0F, 1.2F);
+               player.playSound(player.getLocation(),AltarTuning.sound("bone_blade","visuals.sounds.entity-skeleton-death.sound",Sound.ENTITY_SKELETON_DEATH),AltarTuning.volume("bone_blade","visuals.sounds.entity-skeleton-death",1.0F),AltarTuning.pitch("bone_blade","visuals.sounds.entity-skeleton-death",1.2F));
             }
          }
       }).runTaskLater(this.plugin, 2L);
@@ -249,12 +250,12 @@ public class BladeListener implements Listener {
             public void run() {
                if (this.ticks <= 100 && player.isOnline() && (this.ticks <= 5 || !player.isOnGround())) {
                   Location loc = player.getLocation().add(0.0, 0.8, 0.0);
-                  player.getWorld().spawnParticle(Particle.DUST, loc, 5, 0.25, 0.25, 0.25, 0.02, BladeListener.this.BONE_COLOR);
+                  player.getWorld().spawnParticle(Particle.DUST, loc,AltarTuning.particles("bone_blade",5), 0.25, 0.25, 0.25, 0.02, BladeListener.this.BONE_COLOR);
                   BladeListener.this.spawnSmallFallingBone(
                      loc.clone().add(BladeListener.this.random.nextDouble() - 0.5, -0.2, BladeListener.this.random.nextDouble() - 0.5), false
                   );
 
-                  for (Entity entity : player.getWorld().getNearbyEntities(player.getLocation(), 1.5, 1.5, 1.5)) {
+                  for (Entity entity : player.getWorld().getNearbyEntities(player.getLocation(),AltarTuning.number("bone_blade","tuning.blade-listener.hit-radius-x",1.5,0,128),AltarTuning.number("bone_blade","tuning.blade-listener.hit-radius-y",1.5,0,128),AltarTuning.number("bone_blade","tuning.blade-listener.hit-radius-z",1.5,0,128))) {
                      if (entity instanceof LivingEntity) {
                         final LivingEntity target = (LivingEntity)entity;
                         if (target != player && !this.hitDuringDash.contains(target.getUniqueId())) {
@@ -269,7 +270,7 @@ public class BladeListener implements Listener {
                            this.hitDuringDash.add(target.getUniqueId());
                            CombatUtils.runSyntheticDamage(() -> target.damage(this.dashDamage, player));
                            target.setVelocity(target.getVelocity().add(new Vector(0.0, this.knockbackY, 0.0)));
-                           target.getWorld().playSound(target.getLocation(), Sound.ENTITY_SKELETON_HURT, 1.0F, 0.8F);
+                           target.getWorld().playSound(target.getLocation(),AltarTuning.sound("bone_blade","visuals.sounds.entity-skeleton-hurt.sound",Sound.ENTITY_SKELETON_HURT),AltarTuning.volume("bone_blade","visuals.sounds.entity-skeleton-hurt",1.0F),AltarTuning.pitch("bone_blade","visuals.sounds.entity-skeleton-hurt",0.8F));
                            (new BukkitRunnable() {
                                  int kTicks = 0;
 
@@ -277,7 +278,7 @@ public class BladeListener implements Listener {
                                  public void run() {
                                     if (this.kTicks <= 15 && target.isValid()) {
                                        Location tLoc = target.getLocation().add(0.0, 1.0, 0.0);
-                                       target.getWorld().spawnParticle(Particle.DUST, tLoc, 8, 0.4, 0.4, 0.4, 0.1, BladeListener.this.BONE_COLOR);
+                                       target.getWorld().spawnParticle(Particle.DUST, tLoc,AltarTuning.particles("bone_blade",8), 0.4, 0.4, 0.4, 0.1, BladeListener.this.BONE_COLOR);
                                        if (this.kTicks % 3 == 0) {
                                           BladeListener.this.spawnSmallFallingBone(
                                              tLoc.clone()
@@ -313,7 +314,7 @@ public class BladeListener implements Listener {
    private void castBoneCage(final Player player) {
       int fullCd = this.plugin.getWeaponsConfig().getInt("bone-blade.cage.cooldown", 45);
       this.plugin.getBoneCooldownManager().setCageCooldown(player, fullCd);
-      player.getWorld().playSound(player.getLocation(), Sound.ENTITY_SKELETON_DEATH, 1.0F, 0.8F);
+      player.getWorld().playSound(player.getLocation(),AltarTuning.sound("bone_blade","visuals.sounds.entity-skeleton-death.sound",Sound.ENTITY_SKELETON_DEATH),AltarTuning.volume("bone_blade","visuals.sounds.entity-skeleton-death",1.0F),AltarTuning.pitch("bone_blade","visuals.sounds.entity-skeleton-death",0.8F));
       final Location startLoc = player.getEyeLocation();
       final Vector dir = startLoc.getDirection().normalize().multiply(1.2);
       (new BukkitRunnable() {
@@ -327,7 +328,7 @@ public class BladeListener implements Listener {
                } else {
                   Location previousLoc = this.currentLoc.clone();
                   this.currentLoc.add(dir);
-                  this.currentLoc.getWorld().spawnParticle(Particle.DUST, this.currentLoc, 4, 0.2, 0.2, 0.2, 0.02, BladeListener.this.BONE_COLOR);
+                  this.currentLoc.getWorld().spawnParticle(Particle.DUST, this.currentLoc,AltarTuning.particles("bone_blade",4), 0.2, 0.2, 0.2, 0.02, BladeListener.this.BONE_COLOR);
 
                   for (int i = 0; i < 3; i++) {
                      BladeListener.this.spawnSmallFallingBone(
@@ -347,7 +348,7 @@ public class BladeListener implements Listener {
                      BladeListener.this.playImpactExplosion(ray.getHitPosition().toLocation(this.currentLoc.getWorld()));
                      this.cancel();
                   } else {
-                     for (Entity entity : this.currentLoc.getWorld().getNearbyEntities(this.currentLoc, 0.9, 0.9, 0.9)) {
+                     for (Entity entity : this.currentLoc.getWorld().getNearbyEntities(this.currentLoc,AltarTuning.number("bone_blade","tuning.blade-listener.hit-radius-x-2",0.9,0,128),AltarTuning.number("bone_blade","tuning.blade-listener.hit-radius-y-2",0.9,0,128),AltarTuning.number("bone_blade","tuning.blade-listener.hit-radius-z-2",0.9,0,128))) {
                         if (entity instanceof LivingEntity target
                            && target != player
                            && !BladeListener.this.stunnedEntities.contains(target.getUniqueId())
@@ -375,7 +376,7 @@ public class BladeListener implements Listener {
       target.setInvulnerable(false);
       target.setNoDamageTicks(0);
       if (target instanceof Player p) {
-         Component titleText = TextUtils.legacy(this.plugin.tr("&eОглушен!", "&eStunned!"));
+         Component titleText = TextUtils.legacy(AltarTuning.text("bone_blade","messages.blade-listener.message-1","&eОглушен!","&eStunned!"));
          Title title = Title.title(
             titleText, TextUtils.empty(), Title.Times.times(Duration.ofMillis(250L), Duration.ofMillis((long)stunTicks * 50L / 2L), Duration.ofMillis(250L))
          );
@@ -384,7 +385,7 @@ public class BladeListener implements Listener {
          target.setAI(false);
       }
 
-      target.getWorld().playSound(target.getLocation(), Sound.ENTITY_ZOMBIE_ATTACK_IRON_DOOR, 1.0F, 1.0F);
+      target.getWorld().playSound(target.getLocation(),AltarTuning.sound("bone_blade","visuals.sounds.entity-zombie-attack-iron-door.sound",Sound.ENTITY_ZOMBIE_ATTACK_IRON_DOOR),AltarTuning.volume("bone_blade","visuals.sounds.entity-zombie-attack-iron-door",1.0F),AltarTuning.pitch("bone_blade","visuals.sounds.entity-zombie-attack-iron-door",1.0F));
       final BlockDisplay[] blocks = new BlockDisplay[3];
       final Vector3f[] rotationSpeeds = new Vector3f[3];
 
@@ -421,9 +422,9 @@ public class BladeListener implements Listener {
                      target.setInvulnerable(false);
                   }
 
-                  double currentScale = 0.35;
-                  double targetRadius = 1.2;
-                  double heightY = 1.0;
+                  double currentScale = AltarTuning.number("bone_blade","tuning.blade-listener.current-scale",0.35,0.01,128);
+                  double targetRadius = AltarTuning.number("bone_blade","tuning.blade-listener.target-radius",1.2,0.01,128);
+                  double heightY = AltarTuning.number("bone_blade","tuning.blade-listener.height-y",1.0,0.01,128);
                   if (this.ticks < 10) {
                      currentScale = (double)this.ticks / 10.0 * 0.35;
                   } else if (this.ticks > stunTicks - 10) {
@@ -445,7 +446,7 @@ public class BladeListener implements Listener {
                         double px = Math.cos(pAngle) * radius;
                         double pz = Math.sin(pAngle) * radius;
                         target.getWorld()
-                           .spawnParticle(Particle.DUST, center.clone().add(px, heightY, pz), 1, 0.0, 0.0, 0.0, 0.0, BladeListener.this.RING_BONE_COLOR);
+                           .spawnParticle(Particle.DUST, center.clone().add(px, heightY, pz),AltarTuning.particles("bone_blade",1), 0.0, 0.0, 0.0, 0.0, BladeListener.this.RING_BONE_COLOR);
                      }
                   }
 
@@ -479,8 +480,8 @@ public class BladeListener implements Listener {
    }
 
    private void playImpactExplosion(Location loc) {
-      loc.getWorld().playSound(loc, Sound.ENTITY_SKELETON_STEP, 1.0F, 0.5F);
-      loc.getWorld().spawnParticle(Particle.DUST, loc, 15, 0.4, 0.4, 0.4, 0.1, this.BONE_COLOR);
+      loc.getWorld().playSound(loc,AltarTuning.sound("bone_blade","visuals.sounds.entity-skeleton-step.sound",Sound.ENTITY_SKELETON_STEP),AltarTuning.volume("bone_blade","visuals.sounds.entity-skeleton-step",1.0F),AltarTuning.pitch("bone_blade","visuals.sounds.entity-skeleton-step",0.5F));
+      loc.getWorld().spawnParticle(Particle.DUST, loc,AltarTuning.particles("bone_blade",15), 0.4, 0.4, 0.4, 0.1, this.BONE_COLOR);
 
       for (int i = 0; i < 45; i++) {
          final ItemDisplay bone = loc.getWorld().spawn(loc, ItemDisplay.class);
@@ -560,8 +561,8 @@ public class BladeListener implements Listener {
          ItemStack item = killer.getInventory().getItemInMainHand();
          if (this.isBoneBlade(item)) {
             Location loc = victim.getLocation().add(0.0, 1.0, 0.0);
-            victim.getWorld().playSound(loc, Sound.ENTITY_SKELETON_DEATH, 1.2F, 0.8F);
-            victim.getWorld().spawnParticle(Particle.DUST, loc, 20, 0.4, 0.4, 0.4, 0.1, this.BONE_COLOR);
+            victim.getWorld().playSound(loc,AltarTuning.sound("bone_blade","visuals.sounds.entity-skeleton-death.sound",Sound.ENTITY_SKELETON_DEATH),AltarTuning.volume("bone_blade","visuals.sounds.entity-skeleton-death",1.2F),AltarTuning.pitch("bone_blade","visuals.sounds.entity-skeleton-death",0.8F));
+            victim.getWorld().spawnParticle(Particle.DUST, loc,AltarTuning.particles("bone_blade",20), 0.4, 0.4, 0.4, 0.1, this.BONE_COLOR);
 
             for (int i = 0; i < 8; i++) {
                this.spawnSmallFallingBone(

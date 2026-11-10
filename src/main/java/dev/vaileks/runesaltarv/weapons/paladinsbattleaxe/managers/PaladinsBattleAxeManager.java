@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.paladinsbattleaxe.managers;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.RunesAltarV;
 import dev.vaileks.runesaltarv.utils.CombatUtils;
@@ -204,7 +205,7 @@ public class PaladinsBattleAxeManager {
                if (this.plugin.getWorldGuardManager() != null && !this.plugin.getWorldGuardManager().isLocationAllowed(resolvedTarget, player)) {
                   this.plugin.getWorldGuardManager().notifyDeniedChat(player);
                } else {
-                  this.applyCooldown(player, "earth_shatter", cdSec, this.plugin.tr("§6§lᴄоᴋрушᴇниᴇ зᴇмли", "§6§lᴇᴀʀᴛʜsʜᴀᴛᴛᴇʀ"));
+                  this.applyCooldown(player, "earth_shatter", cdSec, AltarTuning.text("paladins_battle_axe","messages.paladins-battle-axe-manager.message-1","§6§lᴄоᴋрушᴇниᴇ зᴇмли","§6§lᴇᴀʀᴛʜsʜᴀᴛᴛᴇʀ"));
                   player.swingMainHand();
                   ItemStack clayBall = new ItemStack(Material.CLAY_BALL);
                   ItemMeta meta = clayBall.getItemMeta();
@@ -213,19 +214,19 @@ public class PaladinsBattleAxeManager {
                      clayBall.setItemMeta(meta);
                   }
 
-                  double baseY = 4.0;
+                  double baseY = AltarTuning.number("paladins_battle_axe","tuning.paladins-battle-axe-manager.base-y",4.0,0.01,128);
                   Location spawnLoc = resolvedTarget.clone().add(0.0, 4.0, 0.0);
                   spawnLoc.setYaw(0.0F);
                   spawnLoc.setPitch(0.0F);
                   final World world = resolvedTarget.getWorld();
                   if (world != null) {
                      final double groundY = resolvedTarget.getY();
-                     world.playSound(resolvedTarget, Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1.0F, 0.5F);
-                     world.playSound(resolvedTarget, Sound.ENTITY_BREEZE_CHARGE, 1.0F, 0.1F);
-                     world.playSound(resolvedTarget, Sound.ENTITY_IRON_GOLEM_STEP, 1.0F, 0.6F);
-                     player.playSound(player.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1.0F, 0.5F);
-                     player.playSound(player.getLocation(), Sound.ENTITY_BREEZE_CHARGE, 1.0F, 0.1F);
-                     player.playSound(player.getLocation(), Sound.ENTITY_IRON_GOLEM_STEP, 1.0F, 0.6F);
+                     world.playSound(resolvedTarget,AltarTuning.sound("paladins_battle_axe","visuals.sounds.block-enchantment-table-use.sound",Sound.BLOCK_ENCHANTMENT_TABLE_USE),AltarTuning.volume("paladins_battle_axe","visuals.sounds.block-enchantment-table-use",1.0F),AltarTuning.pitch("paladins_battle_axe","visuals.sounds.block-enchantment-table-use",0.5F));
+                     world.playSound(resolvedTarget,AltarTuning.sound("paladins_battle_axe","visuals.sounds.entity-breeze-charge.sound",Sound.ENTITY_BREEZE_CHARGE),AltarTuning.volume("paladins_battle_axe","visuals.sounds.entity-breeze-charge",1.0F),AltarTuning.pitch("paladins_battle_axe","visuals.sounds.entity-breeze-charge",0.1F));
+                     world.playSound(resolvedTarget,AltarTuning.sound("paladins_battle_axe","visuals.sounds.entity-iron-golem-step.sound",Sound.ENTITY_IRON_GOLEM_STEP),AltarTuning.volume("paladins_battle_axe","visuals.sounds.entity-iron-golem-step",1.0F),AltarTuning.pitch("paladins_battle_axe","visuals.sounds.entity-iron-golem-step",0.6F));
+                     player.playSound(player.getLocation(),AltarTuning.sound("paladins_battle_axe","visuals.sounds.block-enchantment-table-use.sound",Sound.BLOCK_ENCHANTMENT_TABLE_USE),AltarTuning.volume("paladins_battle_axe","visuals.sounds.block-enchantment-table-use",1.0F),AltarTuning.pitch("paladins_battle_axe","visuals.sounds.block-enchantment-table-use",0.5F));
+                     player.playSound(player.getLocation(),AltarTuning.sound("paladins_battle_axe","visuals.sounds.entity-breeze-charge.sound",Sound.ENTITY_BREEZE_CHARGE),AltarTuning.volume("paladins_battle_axe","visuals.sounds.entity-breeze-charge",1.0F),AltarTuning.pitch("paladins_battle_axe","visuals.sounds.entity-breeze-charge",0.1F));
+                     player.playSound(player.getLocation(),AltarTuning.sound("paladins_battle_axe","visuals.sounds.entity-iron-golem-step.sound",Sound.ENTITY_IRON_GOLEM_STEP),AltarTuning.volume("paladins_battle_axe","visuals.sounds.entity-iron-golem-step",1.0F),AltarTuning.pitch("paladins_battle_axe","visuals.sounds.entity-iron-golem-step",0.6F));
                      Vector dirToOwner = player.getLocation().toVector().subtract(resolvedTarget.toVector()).setY(0);
                      if (dirToOwner.lengthSquared() < 0.001) {
                         dirToOwner = new Vector(0, 0, 1);
@@ -240,7 +241,7 @@ public class PaladinsBattleAxeManager {
                      });
                      this.plugin.getVisualCleanupManager().track(display);
                      this.spawnTargetPillar(world, resolvedTarget);
-                     double riseHeight = 10.5;
+                     double riseHeight = AltarTuning.number("paladins_battle_axe","tuning.paladins-battle-axe-manager.rise-height",10.5,0.01,128);
                      final int[] fallStart = new int[]{0, 6, 10};
                      final int[] fallDur = new int[]{6, 4, 2};
                      final float[] fallTarget = new float[]{8.5F, 4.0F, 0.0F};
@@ -251,10 +252,10 @@ public class PaladinsBattleAxeManager {
                            public void run() {
                               int curTick = this.tick++;
                               if (display.isValid() && !display.isDead()) {
-                                 int t1 = 18;
-                                 int t2 = 24;
-                                 int t3 = 36;
-                                 int t4 = 61;
+                                 int t1 = AltarTuning.integer("paladins_battle_axe","tuning.paladins-battle-axe-manager.t1",18,1,512);
+                                 int t2 = AltarTuning.integer("paladins_battle_axe","tuning.paladins-battle-axe-manager.t2",24,1,512);
+                                 int t3 = AltarTuning.integer("paladins_battle_axe","tuning.paladins-battle-axe-manager.t3",36,1,512);
+                                 int t4 = AltarTuning.integer("paladins_battle_axe","tuning.paladins-battle-axe-manager.t4",61,1,512);
 
                                  try {
                                     if (curTick < t1) {
@@ -290,7 +291,7 @@ public class PaladinsBattleAxeManager {
                                        PaladinsBattleAxeManager.this.spawnAxeDust(world, resolvedTarget, groundY + 4.0 + h);
                                     } else if (curTick == t3) {
                                        PaladinsBattleAxeManager.this.applyHammerTransform(display, 6.0F, yawToOwner, 0, 0.0F);
-                                       world.playSound(resolvedTarget, Sound.ITEM_TOTEM_USE, SoundCategory.PLAYERS, 3.5F, 0.1F);
+                                       world.playSound(resolvedTarget,AltarTuning.sound("paladins_battle_axe","visuals.sounds.item-totem-use.sound",Sound.ITEM_TOTEM_USE), SoundCategory.PLAYERS,AltarTuning.volume("paladins_battle_axe","visuals.sounds.item-totem-use",3.5F),AltarTuning.pitch("paladins_battle_axe","visuals.sounds.item-totem-use",0.1F));
                                        Set<UUID> directHit = new HashSet<>();
 
                                        try {
@@ -302,7 +303,7 @@ public class PaladinsBattleAxeManager {
                                              .getDouble("paladins-battle-axe.earth-shatter.direct-damage", 12.0);
                                           double topY = groundY + 4.0 + 3.0;
 
-                                          for (Entity ent : world.getNearbyEntities(resolvedTarget, directRadius + 0.5, 7.0, directRadius + 0.5)) {
+                                          for (Entity ent : world.getNearbyEntities(resolvedTarget, directRadius + 0.5,AltarTuning.number("paladins_battle_axe","tuning.paladins-battle-axe-manager.hit-radius-y",7.0,0,128), directRadius + 0.5)) {
                                              if (ent instanceof LivingEntity) {
                                                 LivingEntity target = (LivingEntity)ent;
                                                 if (!target.equals(player)
@@ -357,7 +358,7 @@ public class PaladinsBattleAxeManager {
                                     } else if (curTick >= t4) {
                                        if (display.isValid()) {
                                           (new BukkitRunnable() {
-                                             float scale = 6.0F;
+                                             float scale = (float)AltarTuning.number("paladins_battle_axe","tuning.paladins-battle-axe-manager.scale",6.0F,0.01,128);
                                              int count = 0;
 
                                              @Override
@@ -413,15 +414,15 @@ public class PaladinsBattleAxeManager {
       Color whiteColor = Color.fromRGB(255, 255, 255);
 
       try {
-         world.spawnParticle(Particle.FLASH, flashLoc, 9, 0.6, 1.5, 0.6, 0.0, whiteColor);
+         world.spawnParticle(Particle.FLASH, flashLoc,AltarTuning.particles("paladins_battle_axe",9), 0.6, 1.5, 0.6, 0.0, whiteColor);
          if (player != null && player.isOnline()) {
-            player.spawnParticle(Particle.FLASH, flashLoc, 9, 0.6, 1.5, 0.6, 0.0, whiteColor);
+            player.spawnParticle(Particle.FLASH, flashLoc,AltarTuning.particles("paladins_battle_axe",9), 0.6, 1.5, 0.6, 0.0, whiteColor);
          }
       } catch (Throwable var9) {
          try {
-            world.spawnParticle(Particle.FLASH, flashLoc, 9, 0.6, 1.5, 0.6, 0.0);
+            world.spawnParticle(Particle.FLASH, flashLoc,AltarTuning.particles("paladins_battle_axe",9), 0.6, 1.5, 0.6, 0.0);
             if (player != null && player.isOnline()) {
-               player.spawnParticle(Particle.FLASH, flashLoc, 9, 0.6, 1.5, 0.6, 0.0);
+               player.spawnParticle(Particle.FLASH, flashLoc,AltarTuning.particles("paladins_battle_axe",9), 0.6, 1.5, 0.6, 0.0);
             }
          } catch (Throwable var8) {
          }
@@ -448,13 +449,13 @@ public class PaladinsBattleAxeManager {
                vy = -0.15 - Math.random() * 0.3;
             }
 
-            world.spawnParticle(Particle.FIREWORK, origin, 0, vx, vy, vz, 1.0, null, true);
-            world.spawnParticle(Particle.END_ROD, origin, 0, vx * 0.85, vy * 0.85, vz * 0.85, 1.0, null, true);
-            world.spawnParticle(Particle.ELECTRIC_SPARK, origin, 0, vx * 1.15, vy * 1.15, vz * 1.15, 1.0, null, true);
+            world.spawnParticle(Particle.FIREWORK, origin,AltarTuning.particles("paladins_battle_axe",0), vx, vy, vz, 1.0, null, true);
+            world.spawnParticle(Particle.END_ROD, origin,AltarTuning.particles("paladins_battle_axe",0), vx * 0.85, vy * 0.85, vz * 0.85, 1.0, null, true);
+            world.spawnParticle(Particle.ELECTRIC_SPARK, origin,AltarTuning.particles("paladins_battle_axe",0), vx * 1.15, vy * 1.15, vz * 1.15, 1.0, null, true);
             if (player != null && player.isOnline()) {
-               player.spawnParticle(Particle.FIREWORK, origin, 0, vx, vy, vz, 1.0);
-               player.spawnParticle(Particle.END_ROD, origin, 0, vx * 0.85, vy * 0.85, vz * 0.85, 1.0);
-               player.spawnParticle(Particle.ELECTRIC_SPARK, origin, 0, vx * 1.15, vy * 1.15, vz * 1.15, 1.0);
+               player.spawnParticle(Particle.FIREWORK, origin,AltarTuning.particles("paladins_battle_axe",0), vx, vy, vz, 1.0);
+               player.spawnParticle(Particle.END_ROD, origin,AltarTuning.particles("paladins_battle_axe",0), vx * 0.85, vy * 0.85, vz * 0.85, 1.0);
+               player.spawnParticle(Particle.ELECTRIC_SPARK, origin,AltarTuning.particles("paladins_battle_axe",0), vx * 1.15, vy * 1.15, vz * 1.15, 1.0);
             }
          }
       }
@@ -463,13 +464,13 @@ public class PaladinsBattleAxeManager {
    private void spawnAxeDust(World world, Location targetLoc, double axeCenterY) {
       double bottomY = axeCenterY - 3.0;
       Location fx = new Location(world, targetLoc.getX(), bottomY, targetLoc.getZ());
-      world.spawnParticle(Particle.DUST, fx, 6, 0.35, 0.15, 0.35, 0.0, new DustOptions(Color.fromRGB(255, 215, 0), 1.4F));
+      world.spawnParticle(Particle.DUST, fx,AltarTuning.particles("paladins_battle_axe",6), 0.35, 0.15, 0.35, 0.0, new DustOptions(Color.fromRGB(255, 215, 0), 1.4F));
    }
 
    private void spawnTargetPillar(World world, Location targetLoc) {
       for (int i = 0; i < 10; i++) {
          double sy = 0.1 + (double)i * 0.22;
-         world.spawnParticle(Particle.ELECTRIC_SPARK, targetLoc.clone().add(0.0, sy, 0.0), 1, 0.0, 0.0, 0.0, 0.0);
+         world.spawnParticle(Particle.ELECTRIC_SPARK, targetLoc.clone().add(0.0, sy, 0.0),AltarTuning.particles("paladins_battle_axe",1), 0.0, 0.0, 0.0, 0.0);
       }
    }
 
@@ -525,7 +526,7 @@ public class PaladinsBattleAxeManager {
             double px = center.getX() + (double)r * Math.cos(angle);
             double pz = center.getZ() + (double)r * Math.sin(angle);
             Location pLoc = new Location(world, px, center.getY() + 0.2, pz);
-            world.spawnParticle(Particle.DUST, pLoc, 2, 0.0, 0.1, 0.0, 0.0, dustOpt);
+            world.spawnParticle(Particle.DUST, pLoc,AltarTuning.particles("paladins_battle_axe",2), 0.0, 0.1, 0.0, 0.0, dustOpt);
          }
       }
    }
@@ -602,7 +603,7 @@ public class PaladinsBattleAxeManager {
                               Bukkit.getScheduler().runTaskLater(this.plugin, () -> {
                                  if (blockDisplay.isValid()) {
                                     blockDisplay.teleport(targetUp);
-                                    world.spawnParticle(Particle.ELECTRIC_SPARK, targetUp.clone().add(0.0, 0.4, 0.0), 1, 0.05, 0.05, 0.05, 0.01);
+                                    world.spawnParticle(Particle.ELECTRIC_SPARK, targetUp.clone().add(0.0, 0.4, 0.0),AltarTuning.particles("paladins_battle_axe",1), 0.05, 0.05, 0.05, 0.01);
                                  }
                               }, 2L);
                               Bukkit.getScheduler().runTaskLater(this.plugin, () -> {
@@ -619,7 +620,7 @@ public class PaladinsBattleAxeManager {
                            }
                         }
 
-                        for (Entity ent : world.getNearbyEntities(center, (double)dist + 1.2, 4.0, (double)dist + 1.2)) {
+                        for (Entity ent : world.getNearbyEntities(center, (double)dist + 1.2,AltarTuning.number("paladins_battle_axe","tuning.paladins-battle-axe-manager.hit-radius-y-2",4.0,0,128), (double)dist + 1.2)) {
                            if (ent instanceof LivingEntity) {
                               LivingEntity victim = (LivingEntity)ent;
                               if (!victim.equals(player)
@@ -686,13 +687,13 @@ public class PaladinsBattleAxeManager {
          } else {
             final UUID uuid = player.getUniqueId();
             if (!this.absorbingPlayers.contains(uuid)) {
-               this.applyCooldown(player, "stalwart_absorption", cdSec, this.plugin.tr("§6§lᴄᴛойᴋоᴇ поглощᴇниᴇ", "§6§lsᴛᴀʟᴡᴀʀᴛ ᴀʙsᴏʀᴘᴛɪᴏɴ"));
-               player.getWorld().playSound(player.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, SoundCategory.PLAYERS, 1.5F, 2.0F);
+               this.applyCooldown(player, "stalwart_absorption", cdSec, AltarTuning.text("paladins_battle_axe","messages.paladins-battle-axe-manager.message-2","§6§lᴄᴛойᴋоᴇ поглощᴇниᴇ","§6§lsᴛᴀʟᴡᴀʀᴛ ᴀʙsᴏʀᴘᴛɪᴏɴ"));
+               player.getWorld().playSound(player.getLocation(),AltarTuning.sound("paladins_battle_axe","visuals.sounds.block-beacon-activate.sound",Sound.BLOCK_BEACON_ACTIVATE), SoundCategory.PLAYERS,AltarTuning.volume("paladins_battle_axe","visuals.sounds.block-beacon-activate",1.5F),AltarTuning.pitch("paladins_battle_axe","visuals.sounds.block-beacon-activate",2.0F));
                this.absorbingPlayers.add(uuid);
                this.absorbedDamage.put(uuid, 0.0);
                int durationSec = this.plugin.getWeaponsConfig().getInt("paladins-battle-axe.stalwart-absorption.duration-seconds", 5);
                final int durationTicks = durationSec * 20;
-               player.addPotionEffect(new PotionEffect(PotionEffectType.RESISTANCE, durationTicks, 0, false, true, true));
+               player.addPotionEffect(new PotionEffect(PotionEffectType.RESISTANCE, durationTicks, AltarTuning.integer("paladins_battle_axe","tuning.paladins-battle-axe-manager.effects.resistance.amplifier",0,0,10), false, true, true));
                (new BukkitRunnable() {
                      int a = 0;
 
@@ -706,7 +707,7 @@ public class PaladinsBattleAxeManager {
                               double oy = Math.random() * 1.85;
                               double oz = (Math.random() - 0.5) * 0.85;
                               Location auraLoc = pLoc.clone().add(ox, oy, oz);
-                              player.getWorld().spawnParticle(Particle.DUST, auraLoc, 1, 0.0, 0.0, 0.0, 0.0, new DustOptions(Color.fromRGB(255, 215, 0), 1.2F));
+                              player.getWorld().spawnParticle(Particle.DUST, auraLoc,AltarTuning.particles("paladins_battle_axe",1), 0.0, 0.0, 0.0, 0.0, new DustOptions(Color.fromRGB(255, 215, 0), 1.2F));
                            }
 
                            double absorbed = PaladinsBattleAxeManager.this.absorbedDamage.getOrDefault(uuid, 0.0);
@@ -752,10 +753,10 @@ public class PaladinsBattleAxeManager {
             double releaseDmg = this.getShockwaveDamage(absorbed);
             Location loc = player.getLocation();
             World world = player.getWorld();
-            world.playSound(loc, Sound.ENTITY_GENERIC_EXPLODE, 1.5F, 1.0F);
-            world.playSound(loc, Sound.BLOCK_BEACON_DEACTIVATE, 1.0F, 0.8F);
-            world.spawnParticle(Particle.EXPLOSION, loc.clone().add(0.0, 1.0, 0.0), 2, 0.8, 0.5, 0.8, 0.1);
-            world.spawnParticle(Particle.DUST, loc.clone().add(0.0, 0.5, 0.0), 70, 2.0, 0.5, 2.0, 0.1, new DustOptions(Color.fromRGB(255, 220, 50), 2.0F));
+            world.playSound(loc,AltarTuning.sound("paladins_battle_axe","visuals.sounds.entity-generic-explode.sound",Sound.ENTITY_GENERIC_EXPLODE),AltarTuning.volume("paladins_battle_axe","visuals.sounds.entity-generic-explode",1.5F),AltarTuning.pitch("paladins_battle_axe","visuals.sounds.entity-generic-explode",1.0F));
+            world.playSound(loc,AltarTuning.sound("paladins_battle_axe","visuals.sounds.block-beacon-deactivate.sound",Sound.BLOCK_BEACON_DEACTIVATE),AltarTuning.volume("paladins_battle_axe","visuals.sounds.block-beacon-deactivate",1.0F),AltarTuning.pitch("paladins_battle_axe","visuals.sounds.block-beacon-deactivate",0.8F));
+            world.spawnParticle(Particle.EXPLOSION, loc.clone().add(0.0, 1.0, 0.0),AltarTuning.particles("paladins_battle_axe",2), 0.8, 0.5, 0.8, 0.1);
+            world.spawnParticle(Particle.DUST, loc.clone().add(0.0, 0.5, 0.0),AltarTuning.particles("paladins_battle_axe",70), 2.0, 0.5, 2.0, 0.1, new DustOptions(Color.fromRGB(255, 220, 50), 2.0F));
             double radius = this.plugin.getWeaponsConfig().getDouble("paladins-battle-axe.stalwart-absorption.release-radius", 6.0);
 
             for (Entity ent : world.getNearbyEntities(loc, radius, radius, radius)) {

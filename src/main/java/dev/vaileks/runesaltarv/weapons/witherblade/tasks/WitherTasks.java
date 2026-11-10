@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.witherblade.tasks;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.RunesAltarV;
 import dev.vaileks.runesaltarv.utils.CombatUtils;
@@ -41,8 +42,8 @@ public class WitherTasks {
       if (manager.getDashCharges(p) > 0) {
          manager.useDashCharge(p);
          p.swingMainHand();
-         p.playSound(p.getLocation(), Sound.ENTITY_WITHER_SHOOT, 1.0F, 1.2F);
-         p.playSound(p.getLocation(), Sound.ENTITY_WITHER_SKELETON_HURT, 1.0F, 1.0F);
+         p.playSound(p.getLocation(),AltarTuning.sound("wither_blade","visuals.sounds.entity-wither-shoot.sound",Sound.ENTITY_WITHER_SHOOT),AltarTuning.volume("wither_blade","visuals.sounds.entity-wither-shoot",1.0F),AltarTuning.pitch("wither_blade","visuals.sounds.entity-wither-shoot",1.2F));
+         p.playSound(p.getLocation(),AltarTuning.sound("wither_blade","visuals.sounds.entity-wither-skeleton-hurt.sound",Sound.ENTITY_WITHER_SKELETON_HURT),AltarTuning.volume("wither_blade","visuals.sounds.entity-wither-skeleton-hurt",1.0F),AltarTuning.pitch("wither_blade","visuals.sounds.entity-wither-skeleton-hurt",1.0F));
          double velocity = plugin.getWeaponsConfig().getDouble("wither-blade.dash.velocity", 1.5);
          p.setVelocity(p.getLocation().getDirection().normalize().multiply(velocity));
          int duration = plugin.getWeaponsConfig().getInt("wither-blade.dash.speed-duration", 4) * 20;
@@ -56,9 +57,9 @@ public class WitherTasks {
                public void run() {
                   if (this.ticks <= 15 && p.isOnline() && (this.ticks <= 5 || !p.isOnGround())) {
                      Location loc = p.getLocation().add(0.0, 0.8, 0.0);
-                     loc.getWorld().spawnParticle(Particle.DUST, loc, 8, 0.3, 0.3, 0.3, 0.1, WitherTasks.BLACK_DUST);
+                     loc.getWorld().spawnParticle(Particle.DUST, loc,AltarTuning.particles("wither_blade",8), 0.3, 0.3, 0.3, 0.1, WitherTasks.BLACK_DUST);
 
-                     for (Entity entity : p.getWorld().getNearbyEntities(p.getLocation(), 1.5, 1.5, 1.5)) {
+                     for (Entity entity : p.getWorld().getNearbyEntities(p.getLocation(),AltarTuning.number("wither_blade","tuning.wither-tasks.hit-radius-x",1.5,0,128),AltarTuning.number("wither_blade","tuning.wither-tasks.hit-radius-y",1.5,0,128),AltarTuning.number("wither_blade","tuning.wither-tasks.hit-radius-z",1.5,0,128))) {
                         if (entity instanceof LivingEntity) {
                            LivingEntity target = (LivingEntity)entity;
                            if (target != p && !this.hitDuringDash.contains(target.getUniqueId())) {
@@ -71,7 +72,7 @@ public class WitherTasks {
                               }
 
                               this.hitDuringDash.add(target.getUniqueId());
-                              target.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 120, 3, false, false));
+                              target.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, AltarTuning.integer("wither_blade","tuning.wither-tasks.effects.wither.duration-ticks",120,1,72000), AltarTuning.integer("wither_blade","tuning.wither-tasks.effects.wither.amplifier",3,0,10), false, false));
                            }
                         }
                      }
@@ -122,13 +123,13 @@ public class WitherTasks {
    public static void castAura(RunesAltarV plugin, final Player p, WitherManager manager) {
       int charge = manager.getAttackCharge(p);
       if (charge <= 0) {
-         p.playSound(p.getLocation(), Sound.ENTITY_WITHER_BREAK_BLOCK, 0.7F, 1.2F);
+         p.playSound(p.getLocation(),AltarTuning.sound("wither_blade","visuals.sounds.entity-wither-break-block.sound",Sound.ENTITY_WITHER_BREAK_BLOCK),AltarTuning.volume("wither_blade","visuals.sounds.entity-wither-break-block",0.7F),AltarTuning.pitch("wither_blade","visuals.sounds.entity-wither-break-block",1.2F));
       } else {
          p.swingMainHand();
          manager.setAuraCooldown(p);
          manager.resetAttackCharge(p);
-         p.getWorld().playSound(p.getLocation(), Sound.ENTITY_WITHER_AMBIENT, 1.5F, 0.8F);
-         p.getWorld().playSound(p.getLocation(), Sound.ENTITY_SLIME_JUMP, 1.0F, 0.5F);
+         p.getWorld().playSound(p.getLocation(),AltarTuning.sound("wither_blade","visuals.sounds.entity-wither-ambient.sound",Sound.ENTITY_WITHER_AMBIENT),AltarTuning.volume("wither_blade","visuals.sounds.entity-wither-ambient",1.5F),AltarTuning.pitch("wither_blade","visuals.sounds.entity-wither-ambient",0.8F));
+         p.getWorld().playSound(p.getLocation(),AltarTuning.sound("wither_blade","visuals.sounds.entity-slime-jump.sound",Sound.ENTITY_SLIME_JUMP),AltarTuning.volume("wither_blade","visuals.sounds.entity-slime-jump",1.0F),AltarTuning.pitch("wither_blade","visuals.sounds.entity-slime-jump",0.5F));
          double maxDamage = plugin.getWeaponsConfig().getDouble("wither-blade.aura.max-damage", 10.0);
          final double range = Math.min(Math.max(1.0,(double)charge),plugin.getWeaponsConfig().getDouble("wither-blade.aura.radius",4.0));
          (new BukkitRunnable() {
@@ -152,7 +153,7 @@ public class WitherTasks {
                      double x = Math.cos(angle) * r;
                      double z = Math.sin(angle) * r;
                      double y = WitherTasks.random.nextDouble() * 2.0;
-                     p.getWorld().spawnParticle(Particle.DUST, p.getLocation().add(x, y, z), 2, 0.4, 0.4, 0.4, 0.0, WitherTasks.BLACK_DUST);
+                     p.getWorld().spawnParticle(Particle.DUST, p.getLocation().add(x, y, z),AltarTuning.particles("wither_blade",2), 0.4, 0.4, 0.4, 0.0, WitherTasks.BLACK_DUST);
                   }
                }
             }
@@ -181,8 +182,8 @@ public class WitherTasks {
                      int witherTicks = (int)(plugin.getWeaponsConfig().getInt("wither-blade.aura.wither-duration-ticks",60) * chargeFactor * distFactor);
                      plugin.getCleanDamageManager().apply(victim, p, finalDamage);
                      victim.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, witherTicks, plugin.getWeaponsConfig().getInt("wither-blade.aura.wither-amplifier",0), false, false));
-                     victim.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, witherTicks, 1, false, false));
-                     victim.getWorld().spawnParticle(Particle.EXPLOSION, victim.getLocation().add(0.0, 1.0, 0.0), 1);
+                     victim.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, witherTicks, AltarTuning.integer("wither_blade","tuning.wither-tasks.effects.slowness.amplifier",1,0,10), false, false));
+                     victim.getWorld().spawnParticle(Particle.EXPLOSION, victim.getLocation().add(0.0, 1.0, 0.0),AltarTuning.particles("wither_blade",1));
                   }
                }
             }
@@ -245,7 +246,7 @@ public class WitherTasks {
                   flyTransform.getLeftRotation().rotateXYZ(0.1F, 0.2F, 0.15F);
                   slime.setTransformation(flyTransform);
                   if (this.traveled % 1.0 < dir.length()) {
-                     this.curr.getWorld().spawnParticle(Particle.DUST, this.curr, 1, 0.1, 0.1, 0.1, 0.0, WitherTasks.BLACK_DUST);
+                     this.curr.getWorld().spawnParticle(Particle.DUST, this.curr,AltarTuning.particles("wither_blade",1), 0.1, 0.1, 0.1, 0.0, WitherTasks.BLACK_DUST);
                   }
 
                   RayTraceResult ray = this.curr.getWorld().rayTraceBlocks(prevLoc, dir.clone().normalize(), dir.length(), FluidCollisionMode.NEVER, true);
@@ -253,7 +254,7 @@ public class WitherTasks {
                      WitherTasks.createSlimeTrap(plugin, shooter, slime, ray.getHitPosition().toLocation(this.curr.getWorld()), ray.getHitBlockFace(), isDrip);
                      this.cancel();
                   } else {
-                     for (Entity e : this.curr.getWorld().getNearbyEntities(this.curr, 0.6, 0.6, 0.6)) {
+                     for (Entity e : this.curr.getWorld().getNearbyEntities(this.curr,AltarTuning.number("wither_blade","tuning.wither-tasks.hit-radius-x-2",0.6,0,128),AltarTuning.number("wither_blade","tuning.wither-tasks.hit-radius-y-2",0.6,0,128),AltarTuning.number("wither_blade","tuning.wither-tasks.hit-radius-z-2",0.6,0,128))) {
                         if (e instanceof LivingEntity victim
                            && !victim.equals(shooter)
                            && (
@@ -280,8 +281,8 @@ public class WitherTasks {
    ) {
       final Location offsetLoc = loc.clone().add(face.getDirection().multiply(0.01));
       slime.teleport(offsetLoc);
-      slime.getWorld().playSound(offsetLoc, Sound.ENTITY_SLIME_SQUISH, 1.0F, 0.8F);
-      slime.getWorld().spawnParticle(Particle.DUST, offsetLoc, 10, 0.15, 0.15, 0.15, 0.0, BLACK_DUST);
+      slime.getWorld().playSound(offsetLoc,AltarTuning.sound("wither_blade","visuals.sounds.entity-slime-squish.sound",Sound.ENTITY_SLIME_SQUISH),AltarTuning.volume("wither_blade","visuals.sounds.entity-slime-squish",1.0F),AltarTuning.pitch("wither_blade","visuals.sounds.entity-slime-squish",0.8F));
+      slime.getWorld().spawnParticle(Particle.DUST, offsetLoc,AltarTuning.particles("wither_blade",10), 0.15, 0.15, 0.15, 0.0, BLACK_DUST);
       slime.setInterpolationDelay(0);
       slime.setInterpolationDuration(6);
       Transformation t = slime.getTransformation();
@@ -317,10 +318,10 @@ public class WitherTasks {
             public void run() {
                if (this.life < 200 && slime.isValid()) {
                   if (this.life % 10 == 0) {
-                     offsetLoc.getWorld().spawnParticle(Particle.DUST, offsetLoc, 1, 0.2, 0.2, 0.2, 0.0, WitherTasks.BLACK_DUST);
+                     offsetLoc.getWorld().spawnParticle(Particle.DUST, offsetLoc,AltarTuning.particles("wither_blade",1), 0.2, 0.2, 0.2, 0.0, WitherTasks.BLACK_DUST);
                   }
 
-                  for (Entity e : offsetLoc.getWorld().getNearbyEntities(offsetLoc, 0.7, 0.7, 0.7)) {
+                  for (Entity e : offsetLoc.getWorld().getNearbyEntities(offsetLoc,AltarTuning.number("wither_blade","tuning.wither-tasks.hit-radius-x-3",0.7,0,128),AltarTuning.number("wither_blade","tuning.wither-tasks.hit-radius-y-3",0.7,0,128),AltarTuning.number("wither_blade","tuning.wither-tasks.hit-radius-z-3",0.7,0,128))) {
                      if (e instanceof LivingEntity victim
                         && !victim.equals(shooter)
                         && (
@@ -328,9 +329,9 @@ public class WitherTasks {
                               || targetPlayer.getGameMode() != GameMode.SPECTATOR
                                  && !plugin.getFriendManager().isFriend(shooter.getUniqueId(), targetPlayer.getUniqueId())
                         )) {
-                        victim.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 100, 1, false, false));
-                        victim.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 100, 1, false, false));
-                        victim.getWorld().playSound(victim.getLocation(), Sound.ENTITY_SLIME_HURT, 1.0F, 1.0F);
+                        victim.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, AltarTuning.integer("wither_blade","tuning.wither-tasks.effects.wither.duration-ticks-100",100,1,72000), AltarTuning.integer("wither_blade","tuning.wither-tasks.effects.wither.amplifier-1",1,0,10), false, false));
+                        victim.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, AltarTuning.integer("wither_blade","tuning.wither-tasks.effects.slowness.duration-ticks",100,1,72000), AltarTuning.integer("wither_blade","tuning.wither-tasks.effects.slowness.amplifier",1,0,10), false, false));
+                        victim.getWorld().playSound(victim.getLocation(),AltarTuning.sound("wither_blade","visuals.sounds.entity-slime-hurt.sound",Sound.ENTITY_SLIME_HURT),AltarTuning.volume("wither_blade","visuals.sounds.entity-slime-hurt",1.0F),AltarTuning.pitch("wither_blade","visuals.sounds.entity-slime-hurt",1.0F));
                         WitherTasks.activeSlimeTraps.remove(trapId);
                         slime.remove();
                         this.cancel();
@@ -350,7 +351,7 @@ public class WitherTasks {
    }
 
    private static void stickSlimeToEntity(RunesAltarV plugin, Player shooter, final ItemDisplay slime, final LivingEntity victim) {
-      victim.getWorld().playSound(victim.getLocation(), Sound.ENTITY_SLIME_ATTACK, 1.0F, 1.0F);
+      victim.getWorld().playSound(victim.getLocation(),AltarTuning.sound("wither_blade","visuals.sounds.entity-slime-attack.sound",Sound.ENTITY_SLIME_ATTACK),AltarTuning.volume("wither_blade","visuals.sounds.entity-slime-attack",1.0F),AltarTuning.pitch("wither_blade","visuals.sounds.entity-slime-attack",1.0F));
       (new BukkitRunnable() {
          int life = 0;
 
@@ -359,10 +360,10 @@ public class WitherTasks {
             if (this.life < 100 && victim.isValid() && !victim.isDead() && slime.isValid()) {
                slime.teleport(victim.getLocation().add(0.0, victim.getHeight() / 2.0, 0.0));
                if (this.life % 20 == 0) {
-                  victim.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 40, 1, false, false));
-                  victim.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 40, 1, false, false));
-                  victim.getWorld().playSound(victim.getLocation(), Sound.ENTITY_SLIME_SQUISH, 0.5F, 1.5F);
-                  victim.getWorld().spawnParticle(Particle.DUST, victim.getLocation().add(0.0, 1.0, 0.0), 5, 0.3, 0.3, 0.3, 0.0, WitherTasks.BLACK_DUST);
+                  victim.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, AltarTuning.integer("wither_blade","tuning.wither-tasks.effects.wither.duration-ticks-40",40,1,72000), AltarTuning.integer("wither_blade","tuning.wither-tasks.effects.wither.amplifier-1",1,0,10), false, false));
+                  victim.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, AltarTuning.integer("wither_blade","tuning.wither-tasks.effects.slowness.duration-ticks-40",40,1,72000), AltarTuning.integer("wither_blade","tuning.wither-tasks.effects.slowness.amplifier",1,0,10), false, false));
+                  victim.getWorld().playSound(victim.getLocation(),AltarTuning.sound("wither_blade","visuals.sounds.entity-slime-squish.sound",Sound.ENTITY_SLIME_SQUISH),AltarTuning.volume("wither_blade","visuals.sounds.entity-slime-squish",0.5F),AltarTuning.pitch("wither_blade","visuals.sounds.entity-slime-squish",1.5F));
+                  victim.getWorld().spawnParticle(Particle.DUST, victim.getLocation().add(0.0, 1.0, 0.0),AltarTuning.particles("wither_blade",5), 0.3, 0.3, 0.3, 0.0, WitherTasks.BLACK_DUST);
                }
 
                this.life++;

@@ -1,15 +1,23 @@
-name: "Земляная перчатка"
+# Weapon settings. Damage: HP (2 HP = 1 heart). Durations ending in -ticks: 20 ticks = 1 second.
+# Existing ability durations/cooldowns retain their original units. Potion amplifiers are zero-based unless stated otherwise.
+# Tuning/visual fields keep original values by default. Reload with /al reload (integrated) or /rav reload (standalone).
+# Sounds: enum names, relative volume/pitch multipliers. Particle density: 0..4. Attributes: additive main-hand bonuses.
+
+name: Земляная перчатка
 lore-description:
-- "Перчатка, несущая тяжесть гор. Под её ударом почва трескается, а вязкая земля удерживает врага."
+- Перчатка, несущая тяжесть гор. Под её ударом почва трескается, а вязкая земля удерживает
+  врага.
 lore-abilities:
-- "F — подготовить метеоритный удар; следующий удар оглушает и отбрасывает."
-- "Shift + F — оползень, замедляющий и помечающий цель."
-- "F по помеченной цели — притянуть её."
+- F — подготовить метеоритный удар; следующий удар оглушает и отбрасывает.
+- Shift + F — оползень, замедляющий и помечающий цель.
+- F по помеченной цели — притянуть её.
 item:
-  material: "NETHERITE_SWORD"
+  material: NETHERITE_SWORD
   custom-model-data: 8
-  item-model: ""
-  tooltip-style: "minecraft:earth"
+  item-model: ''
+  tooltip-style: minecraft:earth
+  attack-damage-bonus: 0.0
+  attack-speed-bonus: 0.0
 abilities:
   meteor_strike:
     cooldown: 35
@@ -26,10 +34,96 @@ abilities:
     knockback: 1.1
     debuff_time_seconds: 3
     pull_speed: 1.0
-name-en: "Earth Gauntlet"
+name-en: Earth Gauntlet
 lore-description-en:
-- "A gauntlet carrying the weight of mountains. Its blows crack the soil and hold enemies in the earth."
+- A gauntlet carrying the weight of mountains. Its blows crack the soil and hold enemies
+  in the earth.
 lore-abilities-en:
-- "F — prepare a meteor strike; your next hit stuns and knocks back."
-- "Shift + F — unleash a mudslide that slows and marks a target."
-- "F on a marked target — pull them towards you."
+- F — prepare a meteor strike; your next hit stuns and knocks back.
+- Shift + F — unleash a mudslide that slows and marks a target.
+- F on a marked target — pull them towards you.
+tuning:
+  earth-gauntlet-manager:
+    effects:
+      slowness:
+        duration-ticks: 80.0
+        amplifier: 2.0
+    step-size: 0.25
+visuals:
+  sounds:
+    item-shield-block:
+      sound: ITEM_SHIELD_BLOCK
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-evoker-prepare-attack:
+      sound: ENTITY_EVOKER_PREPARE_ATTACK
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    block-beacon-deactivate:
+      sound: BLOCK_BEACON_DEACTIVATE
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-wither-break-block:
+      sound: ENTITY_WITHER_BREAK_BLOCK
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-zombie-attack-iron-door:
+      sound: ENTITY_ZOMBIE_ATTACK_IRON_DOOR
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-breeze-inhale:
+      sound: ENTITY_BREEZE_INHALE
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    block-mud-break:
+      sound: BLOCK_MUD_BREAK
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    block-packed-mud-break:
+      sound: BLOCK_PACKED_MUD_BREAK
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    block-mud-place:
+      sound: BLOCK_MUD_PLACE
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    block-sponge-absorb:
+      sound: BLOCK_SPONGE_ABSORB
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-arrow-hit-player:
+      sound: ENTITY_ARROW_HIT_PLAYER
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-generic-explode:
+      sound: ENTITY_GENERIC_EXPLODE
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+  particle-density: 1.0
+messages:
+  earth-gauntlet-manager:
+    message-1:
+      ru: §a§lмᴇᴛᴇориᴛный удᴀр
+      en: §a§lᴍᴇᴛᴇᴏʀ sᴛʀɪᴋᴇ
+    message-2:
+      ru: §e§lмᴇᴛᴇориᴛный удᴀр
+      en: §e§lᴍᴇᴛᴇᴏʀ sᴛʀɪᴋᴇ
+    message-3:
+      ru: §e§lмᴇᴛᴇориᴛный удᴀр
+      en: §e§lᴍᴇᴛᴇᴏʀ sᴛʀɪᴋᴇ
+    message-4:
+      ru: §e§lоползᴇнь
+      en: §e§lᴍᴜᴅsʟɪᴅᴇ
+    message-5:
+      ru: §4§l!! §c§lзᴀляпᴀнный грязью §4§l!!
+      en: §4§l!! §c§lᴍᴜᴅᴅᴇᴅ §4§l!!
+    message-6:
+      ru: §2§l!! §a§lприᴛянуᴛь цᴇль §2§l!!
+      en: §2§l!! §a§lᴩᴜʟʟ ᴛᴀʀɢᴇᴛ §2§l!!
+  earth-boss-bar-manager:
+    message-1:
+      ru: §e§lмᴇᴛᴇориᴛный удᴀр
+      en: §e§lᴍᴇᴛᴇᴏʀ sᴛʀɪᴋᴇ
+    message-2:
+      ru: §e§lоползᴇнь
+      en: §e§lᴍᴜᴅsʟɪᴅᴇ

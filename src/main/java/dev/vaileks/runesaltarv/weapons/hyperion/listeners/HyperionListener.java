@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.hyperion.listeners;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.RunesAltarV;
 import dev.vaileks.runesaltarv.weapons.hyperion.managers.HyperionCooldownManager;
@@ -50,7 +51,7 @@ public class HyperionListener implements Listener {
    private void playHyperionSweep(Player p, LivingEntity victim) {
       Vector dir = p.getLocation().getDirection().normalize();
       Location center = victim.getLocation().add(0.0, 1.0, 0.0).subtract(dir.clone().multiply(0.8));
-      center.getWorld().playSound(center, Sound.ITEM_TRIDENT_THROW, 1.0F, 0.6F);
+      center.getWorld().playSound(center,AltarTuning.sound("hyperion","visuals.sounds.item-trident-throw.sound",Sound.ITEM_TRIDENT_THROW),AltarTuning.volume("hyperion","visuals.sounds.item-trident-throw",1.0F),AltarTuning.pitch("hyperion","visuals.sounds.item-trident-throw",0.6F));
       Vector right = dir.clone().crossProduct(new Vector(0, 1, 0)).normalize();
       if (right.lengthSquared() == 0.0) {
          right.copy(new Vector(1, 0, 0));
@@ -69,10 +70,10 @@ public class HyperionListener implements Listener {
          point.multiply(1.15);
          Location pLoc = center.clone().add(point);
          if (Math.random() > 0.5) {
-            center.getWorld().spawnParticle(Particle.FLAME, pLoc, 1, 0.0, 0.0, 0.0, 0.0);
+            center.getWorld().spawnParticle(Particle.FLAME, pLoc,AltarTuning.particles("hyperion",1), 0.0, 0.0, 0.0, 0.0);
          }
 
-         center.getWorld().spawnParticle(Particle.CRIT, pLoc, 1, 0.0, 0.0, 0.0, 0.0);
+         center.getWorld().spawnParticle(Particle.CRIT, pLoc,AltarTuning.particles("hyperion",1), 0.0, 0.0, 0.0, 0.0);
       }
    }
 

@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.palegun.tasks;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.RunesAltarV;
 import dev.vaileks.runesaltarv.utils.ParticleUtils;
@@ -93,7 +94,7 @@ public class PaleProjectileTask extends BukkitRunnable {
 
                   for (double d = 0.0; d < distance; d += step) {
                      Location trailLoc = previousLoc.clone().add(direction.clone().multiply(d));
-                     this.currentLoc.getWorld().spawnParticle(Particle.BLOCK_CRUMBLE, trailLoc, 2, 0.05, 0.05, 0.05, 0.0, this.resinData);
+                     this.currentLoc.getWorld().spawnParticle(Particle.BLOCK_CRUMBLE, trailLoc,AltarTuning.particles("pale_gun",2), 0.05, 0.05, 0.05, 0.0, this.resinData);
                   }
                }
             }
@@ -120,9 +121,9 @@ public class PaleProjectileTask extends BukkitRunnable {
          } else {
             float power = (float)this.plugin.getWeaponsConfig().getDouble("pale-gun.shoot.explosion-power", 2.0);
             world.createExplosion(loc, power, false, false, this.shooter);
-            world.spawnParticle(Particle.EXPLOSION_EMITTER, loc, 1);
-            world.playSound(loc, Sound.BLOCK_RESIN_BREAK, 1.0F, 0.8F);
-            world.playSound(loc, Sound.BLOCK_WOOD_BREAK, 1.0F, 0.5F);
+            world.spawnParticle(Particle.EXPLOSION_EMITTER, loc,AltarTuning.particles("pale_gun",1));
+            world.playSound(loc,AltarTuning.sound("pale_gun","visuals.sounds.block-resin-break.sound",Sound.BLOCK_RESIN_BREAK),AltarTuning.volume("pale_gun","visuals.sounds.block-resin-break",1.0F),AltarTuning.pitch("pale_gun","visuals.sounds.block-resin-break",0.8F));
+            world.playSound(loc,AltarTuning.sound("pale_gun","visuals.sounds.block-wood-break.sound",Sound.BLOCK_WOOD_BREAK),AltarTuning.volume("pale_gun","visuals.sounds.block-wood-break",1.0F),AltarTuning.pitch("pale_gun","visuals.sounds.block-wood-break",0.5F));
             Location baseLoc = loc.clone().add(0.0, 0.2, 0.0);
             ParticleUtils.spawnBlockDispersion(this.plugin, baseLoc, this.resinData, 8.0, 200);
             ParticleUtils.spawnBlockDispersion(this.plugin, baseLoc, this.paleOakData, 8.0, 100);

@@ -1,14 +1,22 @@
-name: "Бледный арбалет"
+# Weapon settings. Damage: HP (2 HP = 1 heart). Durations ending in -ticks: 20 ticks = 1 second.
+# Existing ability durations/cooldowns retain their original units. Potion amplifiers are zero-based unless stated otherwise.
+# Tuning/visual fields keep original values by default. Reload with /al reload (integrated) or /rav reload (standalone).
+# Sounds: enum names, relative volume/pitch multipliers. Particle density: 0..4. Attributes: additive main-hand bonuses.
+
+name: Бледный арбалет
 lore-description:
-- "Тихое оружие мёртвого леса. Его выстрелы несут туман, а земля отвечает бледными корнями."
+- Тихое оружие мёртвого леса. Его выстрелы несут туман, а земля отвечает бледными
+  корнями.
 lore-abilities:
-- "Выстрел — взрывной снаряд с облаком ослабления."
-- "F — выпустить цепь бледных корней."
+- Выстрел — взрывной снаряд с облаком ослабления.
+- F — выпустить цепь бледных корней.
 item:
-  material: "CROSSBOW"
+  material: CROSSBOW
   custom-model-data: 2
-  item-model: ""
-  tooltip-style: "minecraft:gold"
+  item-model: ''
+  tooltip-style: minecraft:gold
+  attack-damage-bonus: 0.0
+  attack-speed-bonus: 0.0
 abilities:
   shoot:
     cooldown: 10
@@ -30,9 +38,49 @@ abilities:
     step-distance: 1.05
     contact-hit-cooldown-ticks: 10
     max-hits-per-target: 3
-name-en: "Pale Gun"
+  backstab:
+    multiplier: 1.5
+name-en: Pale Gun
 lore-description-en:
-- "A silent weapon of the dead forest. Its shots carry mist as pale roots rise from the earth."
+- A silent weapon of the dead forest. Its shots carry mist as pale roots rise from
+  the earth.
 lore-abilities-en:
-- "Shoot — explosive projectile with a weakening cloud."
-- "F — release a chain of pale roots."
+- Shoot — explosive projectile with a weakening cloud.
+- F — release a chain of pale roots.
+visuals:
+  sounds:
+    entity-creaking-attack:
+      sound: ENTITY_CREAKING_ATTACK
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-generic-explode:
+      sound: ENTITY_GENERIC_EXPLODE
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    block-resin-break:
+      sound: BLOCK_RESIN_BREAK
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    block-wood-break:
+      sound: BLOCK_WOOD_BREAK
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    enchant-thorns-hit:
+      sound: ENCHANT_THORNS_HIT
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+  particle-density: 1.0
+tuning:
+  pale-roots-task:
+    effects:
+      luck:
+        duration-ticks: 600.0
+        amplifier: 1.0
+    hit-radius-x: 1.0
+    hit-radius-y: 1.0
+    hit-radius-z: 1.0
+messages:
+  pale-gun-ability-manager:
+    message-1:
+      ru: §e§kБледные §r§eКорни
+      en: §e§kᴘᴀʟᴇ §r§eʀᴏᴏᴛs

@@ -1,15 +1,23 @@
-name: "Теневой клинок"
+# Weapon settings. Damage: HP (2 HP = 1 heart). Durations ending in -ticks: 20 ticks = 1 second.
+# Existing ability durations/cooldowns retain their original units. Potion amplifiers are zero-based unless stated otherwise.
+# Tuning/visual fields keep original values by default. Reload with /al reload (integrated) or /rav reload (standalone).
+# Sounds: enum names, relative volume/pitch multipliers. Particle density: 0..4. Attributes: additive main-hand bonuses.
+
+name: Теневой клинок
 lore-description:
-- "Лезвие, выкованное на границе света. Его хозяин исчезает в рывке и возвращается за спиной врага."
+- Лезвие, выкованное на границе света. Его хозяин исчезает в рывке и возвращается
+  за спиной врага.
 lore-abilities:
-- "Shift + ПКМ — теневой рывок."
-- "F — метнуть теневые кинжалы."
-- "Удар в спину — шанс усиленной атаки."
+- Shift + ПКМ — теневой рывок.
+- F — метнуть теневые кинжалы.
+- Удар в спину — шанс усиленной атаки.
 item:
-  material: "NETHERITE_SWORD"
+  material: NETHERITE_SWORD
   custom-model-data: 10
-  item-model: ""
-  tooltip-style: "minecraft:pure"
+  item-model: ''
+  tooltip-style: minecraft:pure
+  attack-damage-bonus: 0.0
+  attack-speed-bonus: 0.0
 abilities:
   leap:
     cooldown: 30
@@ -23,17 +31,74 @@ abilities:
     damage: 2.0
     speed: 1.0
     gravity: 0.035
-    spin-speed: 0.10
+    spin-speed: 0.1
     interpolation-ticks: 3
     spark-count: 8
     trail-offset-back: 0.85
   passive:
     backstab-chance: 0.15
     backstab-cooldown: 4
-name-en: "Shadow Blade"
+name-en: Shadow Blade
 lore-description-en:
-- "Forged on the edge of light. Its wielder vanishes in a dash and returns behind the enemy."
+- Forged on the edge of light. Its wielder vanishes in a dash and returns behind the
+  enemy.
 lore-abilities-en:
-- "Shift + right click — perform a shadow leap."
-- "F — throw shadow daggers."
-- "Backstab — chance of an empowered strike."
+- Shift + right click — perform a shadow leap.
+- F — throw shadow daggers.
+- Backstab — chance of an empowered strike.
+visuals:
+  sounds:
+    item-trident-throw:
+      sound: ITEM_TRIDENT_THROW
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-enderman-teleport:
+      sound: ENTITY_ENDERMAN_TELEPORT
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    block-sponge-absorb:
+      sound: BLOCK_SPONGE_ABSORB
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+    entity-experience-orb-pickup:
+      sound: ENTITY_EXPERIENCE_ORB_PICKUP
+      volume-multiplier: 1.0
+      pitch-multiplier: 1.0
+  particle-density: 1.0
+tuning:
+  shadow-blade-manager:
+    effects:
+      invisibility:
+        duration-ticks: 40.0
+        amplifier: 0.0
+      blindness:
+        duration-ticks: 60.0
+        amplifier: 0.0
+      slowness:
+        duration-ticks: 60.0
+        amplifier: 1.0
+    max-ticks: 30.0
+    d: 0.05
+    size: 1.6
+    hit-radius-x: 0.8
+    hit-radius-y: 0.8
+    hit-radius-z: 0.8
+    hit-radius-x-2: 5.0
+    hit-radius-y-2: 5.0
+    hit-radius-z-2: 5.0
+  shadow-blade-passive-task:
+    effects:
+      speed:
+        duration-ticks: 40.0
+        amplifier: 1.0
+messages:
+  shadow-blade-manager:
+    message-1:
+      ru: §7§l! §f§lнᴇʙидимоᴄᴛь §7§l!
+      en: §7§l! §f§lɪɴᴠɪsɪʙɪʟɪᴛʏ §7§l!
+    message-2:
+      ru: §f§lᴛᴇнᴇʙой прыжоᴋ
+      en: §f§lsʜᴀᴅᴏᴡ ʟᴇᴀᴘ
+    message-3:
+      ru: §f§lᴛᴇнᴇʙыᴇ ᴋинжᴀлы
+      en: §f§lsʜᴀᴅᴏᴡ ᴅᴀɢɢᴇʀs

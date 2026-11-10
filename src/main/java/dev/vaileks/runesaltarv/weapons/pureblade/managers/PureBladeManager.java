@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.pureblade.managers;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.RunesAltarV;
 import dev.vaileks.runesaltarv.utils.CombatUtils;
@@ -52,7 +53,7 @@ public class PureBladeManager {
 
       Vector dir = p.getLocation().getDirection().normalize();
       Location center = victim.getLocation().add(0.0, 1.0, 0.0).subtract(dir.clone().multiply(0.8));
-      center.getWorld().playSound(center, Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1.0F, 1.8F);
+      center.getWorld().playSound(center,AltarTuning.sound("pure_blade","visuals.sounds.entity-player-attack-sweep.sound",Sound.ENTITY_PLAYER_ATTACK_SWEEP),AltarTuning.volume("pure_blade","visuals.sounds.entity-player-attack-sweep",1.0F),AltarTuning.pitch("pure_blade","visuals.sounds.entity-player-attack-sweep",1.8F));
       Vector right = dir.clone().crossProduct(new Vector(0, 1, 0)).normalize();
       Vector up = right.clone().crossProduct(dir).normalize();
       double rotAngle = Math.random() * Math.PI;
@@ -66,8 +67,8 @@ public class PureBladeManager {
          double z = -(i * i) * 0.25;
          Vector point = right.clone().multiply(x).add(up.clone().multiply(y)).add(dir.clone().multiply(z));
          Location sparkLoc = center.clone().add(point);
-         center.getWorld().spawnParticle(Particle.ELECTRIC_SPARK, sparkLoc, 1, 0.0, 0.0, 0.0, 0.0);
-         center.getWorld().spawnParticle(Particle.DUST, sparkLoc, 1, 0.0, 0.0, 0.0, 0.0, miniWhiteDust);
+         center.getWorld().spawnParticle(Particle.ELECTRIC_SPARK, sparkLoc,AltarTuning.particles("pure_blade",1), 0.0, 0.0, 0.0, 0.0);
+         center.getWorld().spawnParticle(Particle.DUST, sparkLoc,AltarTuning.particles("pure_blade",1), 0.0, 0.0, 0.0, 0.0, miniWhiteDust);
       }
    }
 
@@ -77,7 +78,7 @@ public class PureBladeManager {
             .setCooldown(
                p,
                "ShadeSoul",
-               this.plugin.tr("§f§lТень души", "§f§lsʜᴀᴅᴇ ᴏꜰ sᴏᴜʟ"),
+               AltarTuning.text("pure_blade","messages.pure-blade-manager.message-1","§f§lТень души","§f§lsʜᴀᴅᴇ ᴏꜰ sᴏᴜʟ"),
                this.plugin.getWeaponsConfig().getInt("pure-blade.shade-soul.cooldown", 45)
             );
          final ItemStack cubeItem = new ItemStack(Material.CLAY_BALL);
@@ -87,7 +88,7 @@ public class PureBladeManager {
             cubeItem.setItemMeta(meta);
          }
 
-         p.getWorld().playSound(p.getLocation(), Sound.ENTITY_WARDEN_SONIC_CHARGE, 1.0F, 1.0F);
+         p.getWorld().playSound(p.getLocation(),AltarTuning.sound("pure_blade","visuals.sounds.entity-warden-sonic-charge.sound",Sound.ENTITY_WARDEN_SONIC_CHARGE),AltarTuning.volume("pure_blade","visuals.sounds.entity-warden-sonic-charge",1.0F),AltarTuning.pitch("pure_blade","visuals.sounds.entity-warden-sonic-charge",1.0F));
          (new BukkitRunnable() {
             int ticks = 0;
 
@@ -140,15 +141,15 @@ public class PureBladeManager {
 
       try {
          Color whiteColor = Color.fromRGB(255, 255, 255);
-         p.getWorld().spawnParticle(Particle.FLASH, p.getLocation().add(0.0, 1.0, 0.0), 3, 0.2, 0.5, 0.2, 0.0, whiteColor);
+         p.getWorld().spawnParticle(Particle.FLASH, p.getLocation().add(0.0, 1.0, 0.0),AltarTuning.particles("pure_blade",3), 0.2, 0.5, 0.2, 0.0, whiteColor);
       } catch (Throwable var10) {
          try {
-            p.getWorld().spawnParticle(Particle.FLASH, p.getLocation().add(0.0, 1.0, 0.0), 3, 0.2, 0.5, 0.2, 0.0);
+            p.getWorld().spawnParticle(Particle.FLASH, p.getLocation().add(0.0, 1.0, 0.0),AltarTuning.particles("pure_blade",3), 0.2, 0.5, 0.2, 0.0);
          } catch (Throwable var9) {
          }
       }
 
-      p.getWorld().playSound(p.getLocation(), Sound.ENTITY_WARDEN_SONIC_BOOM, 1.0F, 1.0F);
+      p.getWorld().playSound(p.getLocation(),AltarTuning.sound("pure_blade","visuals.sounds.entity-warden-sonic-boom.sound",Sound.ENTITY_WARDEN_SONIC_BOOM),AltarTuning.volume("pure_blade","visuals.sounds.entity-warden-sonic-boom",1.0F),AltarTuning.pitch("pure_blade","visuals.sounds.entity-warden-sonic-boom",1.0F));
       final Location startLoc = p.getEyeLocation();
 
       for (int c = 0; c < 30; c++) {
@@ -156,12 +157,12 @@ public class PureBladeManager {
          int g = 220 + this.random.nextInt(35);
          int b = 220 + this.random.nextInt(35);
          DustOptions paleDust = new DustOptions(Color.fromRGB(r, g, b), 1.5F);
-         p.getWorld().spawnParticle(Particle.DUST, startLoc, 1, 0.5, 0.5, 0.5, paleDust);
+         p.getWorld().spawnParticle(Particle.DUST, startLoc,AltarTuning.particles("pure_blade",1), 0.5, 0.5, 0.5, paleDust);
       }
 
       final Vector dir = startLoc.getDirection().normalize();
       final Set<UUID> hitTargets = new HashSet<>();
-      final int numCubes = 20;
+      final int numCubes = AltarTuning.integer("pure_blade","tuning.pure-blade-manager.num-cubes",20,1,512);
       (new BukkitRunnable() {
          int spawned = 0;
 
@@ -232,7 +233,7 @@ public class PureBladeManager {
                      display.setTeleportDuration(3);
                      display.teleport(currentLoc);
                      if (Math.random() > 0.5) {
-                        currentLoc.getWorld().spawnParticle(Particle.DUST, currentLoc, 1, 0.3, 0.3, 0.3, blackDust);
+                        currentLoc.getWorld().spawnParticle(Particle.DUST, currentLoc,AltarTuning.particles("pure_blade",1), 0.3, 0.3, 0.3, blackDust);
                      }
                   } else {
                      this.scale -= 0.05F;
@@ -248,7 +249,7 @@ public class PureBladeManager {
                      display.setTransformation(trans);
                   }
 
-                  for (Entity e : currentLoc.getWorld().getNearbyEntities(currentLoc, 1.2, 1.2, 1.2)) {
+                  for (Entity e : currentLoc.getWorld().getNearbyEntities(currentLoc,AltarTuning.number("pure_blade","tuning.pure-blade-manager.hit-radius-x",1.2,0,128),AltarTuning.number("pure_blade","tuning.pure-blade-manager.hit-radius-y",1.2,0,128),AltarTuning.number("pure_blade","tuning.pure-blade-manager.hit-radius-z",1.2,0,128))) {
                      if (e instanceof LivingEntity) {
                         LivingEntity victim = (LivingEntity)e;
                         if (!victim.equals(p) && !hitTargets.contains(victim.getUniqueId())) {
@@ -265,9 +266,9 @@ public class PureBladeManager {
                            );
                            int durationTicks = PureBladeManager.this.plugin.getWeaponsConfig().getInt("pure-blade.shade-soul.effect-duration", 5) * 20;
                            int slowAmp = PureBladeManager.this.plugin.getWeaponsConfig().getInt("pure-blade.shade-soul.slowness-amplifier", 1);
-                           victim.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, durationTicks, 0, false, false));
+                           victim.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, durationTicks, AltarTuning.integer("pure_blade","tuning.pure-blade-manager.effects.glowing.amplifier",0,0,10), false, false));
                            victim.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, durationTicks, slowAmp, false, false));
-                           p.getWorld().playSound(victim.getLocation(), Sound.ENTITY_VEX_HURT, 1.0F, 0.5F);
+                           p.getWorld().playSound(victim.getLocation(),AltarTuning.sound("pure_blade","visuals.sounds.entity-vex-hurt.sound",Sound.ENTITY_VEX_HURT),AltarTuning.volume("pure_blade","visuals.sounds.entity-vex-hurt",1.0F),AltarTuning.pitch("pure_blade","visuals.sounds.entity-vex-hurt",0.5F));
                            hitTargets.add(victim.getUniqueId());
                         }
                      }
@@ -290,10 +291,10 @@ public class PureBladeManager {
             .setCooldown(
                p,
                "CycloneSlash",
-               this.plugin.tr("§f§lВихревой Разрез", "§f§lᴄʏᴄʟᴏɴᴇ sʟᴀsʜ"),
+               AltarTuning.text("pure_blade","messages.pure-blade-manager.message-2","§f§lВихревой Разрез","§f§lᴄʏᴄʟᴏɴᴇ sʟᴀsʜ"),
                this.plugin.getWeaponsConfig().getInt("pure-blade.cyclone-slash.cooldown", 30)
             );
-         p.getWorld().playSound(p.getLocation(), Sound.BLOCK_TRIAL_SPAWNER_OMINOUS_ACTIVATE, 1.0F, 1.0F);
+         p.getWorld().playSound(p.getLocation(),AltarTuning.sound("pure_blade","visuals.sounds.block-trial-spawner-ominous-activate.sound",Sound.BLOCK_TRIAL_SPAWNER_OMINOUS_ACTIVATE),AltarTuning.volume("pure_blade","visuals.sounds.block-trial-spawner-ominous-activate",1.0F),AltarTuning.pitch("pure_blade","visuals.sounds.block-trial-spawner-ominous-activate",1.0F));
          int duration = this.plugin.getWeaponsConfig().getInt("pure-blade.cyclone-slash.speed-duration", 5) * 20;
          int amplifier = this.plugin.getWeaponsConfig().getInt("pure-blade.cyclone-slash.speed-amplifier", 10);
          SpeedBuffUtils.applyBurstSpeed(p, duration, amplifier, this.plugin);
@@ -322,17 +323,17 @@ public class PureBladeManager {
          (new BukkitRunnable() {
                int ticks = 0;
                float entityYaw = 0.0F;
-               float currentScale = 12.0F;
-               float minScale = 3.0F;
-               int shrinkDuration = 40;
-               int totalDuration = 50;
+               float currentScale = (float)AltarTuning.number("pure_blade","tuning.pure-blade-manager.current-scale",12.0F,0.01,128);
+               float minScale = (float)AltarTuning.number("pure_blade","tuning.pure-blade-manager.min-scale",3.0F,0.01,128);
+               int shrinkDuration = AltarTuning.integer("pure_blade","tuning.pure-blade-manager.shrink-duration",40,1,512);
+               int totalDuration = AltarTuning.integer("pure_blade","tuning.pure-blade-manager.total-duration",50,1,512);
 
                @Override
                public void run() {
                   if (p.isOnline() && !p.isDead() && this.ticks <= this.totalDuration && display.isValid()) {
                      if (this.ticks % 2 == 0) {
                         float randomPitch = 0.8F + (float)(Math.random() * 0.3F);
-                        p.getWorld().playSound(p.getLocation(), Sound.ENTITY_BREEZE_CHARGE, 1.0F, randomPitch);
+                        p.getWorld().playSound(p.getLocation(),AltarTuning.sound("pure_blade","visuals.sounds.entity-breeze-charge.sound",Sound.ENTITY_BREEZE_CHARGE),AltarTuning.volume("pure_blade","visuals.sounds.entity-breeze-charge",1.0F),AltarTuning.pitch("pure_blade","visuals.sounds.entity-breeze-charge",randomPitch));
                      }
 
                      if (this.ticks <= this.shrinkDuration) {
@@ -358,7 +359,7 @@ public class PureBladeManager {
                      double fixedParticleY = baseLoc.getY() + 1.25;
                      double curA = -Math.toRadians((double)this.entityYaw) + 0.0;
                      double sweep = Math.toRadians(65.0);
-                     int trailSteps = 14;
+                     int trailSteps = AltarTuning.integer("pure_blade","tuning.pure-blade-manager.trail-steps",14,1,512);
 
                      for (int side = 0; side < 2; side++) {
                         double tipA = curA + (double)side * Math.PI;
@@ -378,12 +379,12 @@ public class PureBladeManager {
                            double vx = sin * tangential + cos * outward;
                            double vz = -cos * tangential + sin * outward;
                            if (s == 0) {
-                              p.getWorld().spawnParticle(Particle.ELECTRIC_SPARK, trailLoc, 1, 0.0, 0.0, 0.0, 0.0);
-                              p.getWorld().spawnParticle(Particle.CRIT, trailLoc, 1, 0.0, 0.0, 0.0, 0.0);
+                              p.getWorld().spawnParticle(Particle.ELECTRIC_SPARK, trailLoc,AltarTuning.particles("pure_blade",1), 0.0, 0.0, 0.0, 0.0);
+                              p.getWorld().spawnParticle(Particle.CRIT, trailLoc,AltarTuning.particles("pure_blade",1), 0.0, 0.0, 0.0, 0.0);
                            } else if (s % 2 == 0) {
-                              p.getWorld().spawnParticle(Particle.ELECTRIC_SPARK, trailLoc, 1, vx * 0.3, 0.01, vz * 0.3, 0.01);
+                              p.getWorld().spawnParticle(Particle.ELECTRIC_SPARK, trailLoc,AltarTuning.particles("pure_blade",1), vx * 0.3, 0.01, vz * 0.3, 0.01);
                            } else {
-                              p.getWorld().spawnParticle(Particle.CRIT, trailLoc, 1, vx * 0.3, 0.01, vz * 0.3, 0.01);
+                              p.getWorld().spawnParticle(Particle.CRIT, trailLoc,AltarTuning.particles("pure_blade",1), vx * 0.3, 0.01, vz * 0.3, 0.01);
                            }
                         }
                      }
@@ -395,7 +396,7 @@ public class PureBladeManager {
                         double cy = fixedParticleY + (Math.random() - 0.45) * 1.2;
                         double cz = baseLoc.getZ() + Math.sin(randAngle) * randR;
                         Location cloudLoc = new Location(p.getWorld(), cx, cy, cz);
-                        p.getWorld().spawnParticle(Particle.CLOUD, cloudLoc, 1, 0.08, 0.05, 0.08, 0.02);
+                        p.getWorld().spawnParticle(Particle.CLOUD, cloudLoc,AltarTuning.particles("pure_blade",1), 0.08, 0.05, 0.08, 0.02);
                      }
 
                      if (this.ticks % 2 == 0) {
@@ -415,7 +416,7 @@ public class PureBladeManager {
                      }
 
                      if (this.ticks % 10 == 0) {
-                        for (Entity e : p.getWorld().getNearbyEntities(baseLoc.clone().add(0.0, 1.1, 0.0), particleRadius + 1.0, 2.0, particleRadius + 1.0)) {
+                        for (Entity e : p.getWorld().getNearbyEntities(baseLoc.clone().add(0.0, 1.1, 0.0), particleRadius + 1.0,AltarTuning.number("pure_blade","tuning.pure-blade-manager.hit-radius-y-2",2.0,0,128), particleRadius + 1.0)) {
                            if (e instanceof LivingEntity) {
                               LivingEntity victim = (LivingEntity)e;
                               if (!victim.equals(p)) {
@@ -441,7 +442,7 @@ public class PureBladeManager {
                      PureBladeManager.this.plugin.getVisualCleanupManager().untrack(display);
                      display.remove();
                      if (p.isOnline()) {
-                        p.getWorld().playSound(p.getLocation(), Sound.ENTITY_BREEZE_CHARGE, 1.0F, 1.0F);
+                        p.getWorld().playSound(p.getLocation(),AltarTuning.sound("pure_blade","visuals.sounds.entity-breeze-charge.sound",Sound.ENTITY_BREEZE_CHARGE),AltarTuning.volume("pure_blade","visuals.sounds.entity-breeze-charge",1.0F),AltarTuning.pitch("pure_blade","visuals.sounds.entity-breeze-charge",1.0F));
                      }
 
                      this.cancel();

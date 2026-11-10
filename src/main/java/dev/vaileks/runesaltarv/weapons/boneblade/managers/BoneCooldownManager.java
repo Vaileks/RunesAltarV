@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.boneblade.managers;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.RunesAltarV;
 import dev.vaileks.runesaltarv.utils.TextUtils;
@@ -34,7 +35,7 @@ public class BoneCooldownManager {
    public void setDashCooldown(Player player, int seconds) {
       this.dashCooldowns.put(player.getUniqueId(), System.currentTimeMillis() + (long)seconds * 1000L);
       if (!this.dashBars.containsKey(player.getUniqueId())) {
-         BossBar bar = dev.vaileks.runesaltarv.integration.AltarCooldowns.cooldownBar("§e" + this.plugin.tr("Скелетный прыжок", "Sᴋᴇʟᴇᴛᴏɴ ʟᴇᴀᴘ"), BarColor.YELLOW, BarStyle.SOLID);
+         BossBar bar = dev.vaileks.runesaltarv.integration.AltarCooldowns.cooldownBar("§e" + AltarTuning.text("bone_blade","messages.bone-cooldown-manager.message-1","Скелетный прыжок","Sᴋᴇʟᴇᴛᴏɴ ʟᴇᴀᴘ"), BarColor.YELLOW, BarStyle.SOLID);
          bar.addPlayer(player);
          this.dashBars.put(player.getUniqueId(), bar);
       }
@@ -43,7 +44,7 @@ public class BoneCooldownManager {
    public void setCageCooldown(Player player, int seconds) {
       this.cageCooldowns.put(player.getUniqueId(), System.currentTimeMillis() + (long)seconds * 1000L);
       if (!this.cageBars.containsKey(player.getUniqueId())) {
-         BossBar bar = dev.vaileks.runesaltarv.integration.AltarCooldowns.cooldownBar("§e" + this.plugin.tr("Костяная клетка", "Bᴏɴᴇ ᴄᴀɢᴇ"), BarColor.YELLOW, BarStyle.SOLID);
+         BossBar bar = dev.vaileks.runesaltarv.integration.AltarCooldowns.cooldownBar("§e" + AltarTuning.text("bone_blade","messages.bone-cooldown-manager.message-2","Костяная клетка","Bᴏɴᴇ ᴄᴀɢᴇ"), BarColor.YELLOW, BarStyle.SOLID);
          bar.addPlayer(player);
          this.cageBars.put(player.getUniqueId(), bar);
       }

@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.paladinsbattleaxe.listeners;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.RunesAltarV;
 import dev.vaileks.runesaltarv.weapons.paladinsbattleaxe.managers.PaladinsBattleAxeManager;
@@ -65,18 +66,18 @@ public class PaladinsBattleAxeListener implements Listener {
             center.setDirection(dir);
             Vector right = dir.clone().crossProduct(new Vector(0, 1, 0)).normalize();
             this.spawnSlashArc(attacker.getWorld(), center, right, true, Color.fromRGB(255, 200, 50));
-            attacker.getWorld().playSound(attacker.getLocation(), Sound.ITEM_TRIDENT_THROW, 1.0F, 0.6F);
+            attacker.getWorld().playSound(attacker.getLocation(),AltarTuning.sound("paladins_battle_axe","visuals.sounds.item-trident-throw.sound",Sound.ITEM_TRIDENT_THROW),AltarTuning.volume("paladins_battle_axe","visuals.sounds.item-trident-throw",1.0F),AltarTuning.pitch("paladins_battle_axe","visuals.sounds.item-trident-throw",0.6F));
             if (this.manager.isAbsorbing(attacker.getUniqueId())) {
-               attacker.getWorld().playSound(attacker.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.6F, 1.8F);
+               attacker.getWorld().playSound(attacker.getLocation(),AltarTuning.sound("paladins_battle_axe","visuals.sounds.block-anvil-land.sound",Sound.BLOCK_ANVIL_LAND),AltarTuning.volume("paladins_battle_axe","visuals.sounds.block-anvil-land",0.6F),AltarTuning.pitch("paladins_battle_axe","visuals.sounds.block-anvil-land",1.8F));
             }
          }
       }
    }
 
    private void spawnSlashArc(World world, Location center, Vector right, boolean flip, Color color) {
-      int points = 22;
-      double width = 2.2;
-      double height = 1.5;
+      int points = AltarTuning.integer("paladins_battle_axe","tuning.paladins-battle-axe-listener.points",22,1,512);
+      double width = AltarTuning.number("paladins_battle_axe","tuning.paladins-battle-axe-listener.width",2.2,0.01,128);
+      double height = AltarTuning.number("paladins_battle_axe","tuning.paladins-battle-axe-listener.height",1.5,0.01,128);
       Vector forward = center.getDirection();
 
       for (int i = 0; i < points; i++) {
@@ -88,9 +89,9 @@ public class PaladinsBattleAxeListener implements Listener {
          double zOffset = Math.sin(progress * Math.PI) * 0.4;
          Location pLoc = center.clone().add(right.clone().multiply(xOffset)).add(forward.clone().multiply(zOffset)).add(0.0, yOffset, 0.0);
          float particleSize = i % 2 == 0 ? 0.6F : 0.8F;
-         world.spawnParticle(Particle.DUST, pLoc, 1, 0.02, 0.02, 0.02, 0.0, new DustOptions(color, particleSize));
+         world.spawnParticle(Particle.DUST, pLoc,AltarTuning.particles("paladins_battle_axe",1), 0.02, 0.02, 0.02, 0.0, new DustOptions(color, particleSize));
          if (i % 2 == 0) {
-            world.spawnParticle(Particle.CRIT, pLoc, 1, 0.0, 0.0, 0.0, 0.0);
+            world.spawnParticle(Particle.CRIT, pLoc,AltarTuning.particles("paladins_battle_axe",1), 0.0, 0.0, 0.0, 0.0);
          }
       }
    }
@@ -105,9 +106,9 @@ public class PaladinsBattleAxeListener implements Listener {
             double damage = event.getDamage();
             this.manager.recordAbsorbedDamage(victim.getUniqueId(), damage);
             event.setDamage(0.0);
-            victim.getWorld().playSound(victim.getLocation(), Sound.ITEM_SHIELD_BLOCK, 0.8F, 1.2F);
+            victim.getWorld().playSound(victim.getLocation(),AltarTuning.sound("paladins_battle_axe","visuals.sounds.item-shield-block.sound",Sound.ITEM_SHIELD_BLOCK),AltarTuning.volume("paladins_battle_axe","visuals.sounds.item-shield-block",0.8F),AltarTuning.pitch("paladins_battle_axe","visuals.sounds.item-shield-block",1.2F));
             victim.getWorld()
-               .spawnParticle(Particle.DUST, victim.getLocation().add(0.0, 1.0, 0.0), 10, 0.3, 0.5, 0.3, 0.0, new DustOptions(Color.YELLOW, 1.5F));
+               .spawnParticle(Particle.DUST, victim.getLocation().add(0.0, 1.0, 0.0),AltarTuning.particles("paladins_battle_axe",10), 0.3, 0.5, 0.3, 0.0, new DustOptions(Color.YELLOW, 1.5F));
          }
       }
    }

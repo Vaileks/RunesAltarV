@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.bloodlust.managers;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.RunesAltarV;
 import dev.vaileks.runesaltarv.utils.CombatUtils;
@@ -74,13 +75,13 @@ public class BloodAbilityManager {
                   Location targetLoc = target.getLocation().add(0.0, 1.0, 0.0);
                   Vector dir = targetLoc.toVector().subtract(current.toVector());
                   if (dir.length() < 0.6) {
-                     source.spawnParticle(Particle.ENTITY_EFFECT, current, 1, 0.0, 0.0, 0.0, 0.0, Color.RED);
+                     source.spawnParticle(Particle.ENTITY_EFFECT, current,AltarTuning.particles("bloodlust",1), 0.0, 0.0, 0.0, 0.0, Color.RED);
                      this.cancel();
                   } else {
                      dir.normalize().multiply(0.5);
                      current.add(dir);
-                     source.spawnParticle(Particle.ELECTRIC_SPARK, current, 1, 0.0, 0.0, 0.0, 0.0);
-                     source.spawnParticle(Particle.DUST, current, 1, 0.0, 0.0, 0.0, 0.0, redDust);
+                     source.spawnParticle(Particle.ELECTRIC_SPARK, current,AltarTuning.particles("bloodlust",1), 0.0, 0.0, 0.0, 0.0);
+                     source.spawnParticle(Particle.DUST, current,AltarTuning.particles("bloodlust",1), 0.0, 0.0, 0.0, 0.0, redDust);
                      this.life++;
                   }
                } else {
@@ -103,14 +104,14 @@ public class BloodAbilityManager {
                   .setCooldown(
                      attacker,
                      "Infection",
-                     this.plugin.tr("§4§lИнфекция", "§4§lɪɴꜰᴇᴄᴛɪᴏɴ"),
+                     AltarTuning.text("bloodlust","messages.blood-ability-manager.message-1","§4§lИнфекция","§4§lɪɴꜰᴇᴄᴛɪᴏɴ"),
                      this.plugin.getWeaponsConfig().getInt("bloodlust.infection.cooldown")
                   );
                final int maxHits = this.plugin.getWeaponsConfig().getInt("bloodlust.infection.hits", 6);
                final double bleedDamage = this.plugin.getWeaponsConfig().getDouble("bloodlust.infection.damage", 2.0);
                final String barId = "BloodInfection";
                if (victim instanceof Player pVictim) {
-                  this.bossBarManager.setDebuffBar(pVictim, barId, this.plugin.tr("§4§l! §c§lᴋроʙоᴛᴇчᴇниᴇ §4§l!", "§4§l! §c§lʙʟᴇᴇᴅɪɴɢ §4§l!"), maxHits);
+                  this.bossBarManager.setDebuffBar(pVictim, barId, AltarTuning.text("bloodlust","messages.blood-ability-manager.message-2","§4§l! §c§lᴋроʙоᴛᴇчᴇниᴇ §4§l!","§4§l! §c§lʙʟᴇᴇᴅɪɴɢ §4§l!"), maxHits);
                }
 
                final DustOptions redDust = new DustOptions(Color.RED, 1.5F);
@@ -122,7 +123,7 @@ public class BloodAbilityManager {
                      if (this.currentHit < maxHits && !target.isDead() && target.isValid()) {
                         CombatUtils.runSyntheticDamage(() -> victim.damage(bleedDamage, attacker));
                         victim.getWorld().playSound(victim.getLocation(), "bloodlust.hit", 1.0F, 1.0F);
-                        victim.getWorld().playSound(victim.getLocation(), Sound.ENTITY_PLAYER_HURT, 1.0F, 0.5F);
+                        victim.getWorld().playSound(victim.getLocation(),AltarTuning.sound("bloodlust","visuals.sounds.entity-player-hurt.sound",Sound.ENTITY_PLAYER_HURT),AltarTuning.volume("bloodlust","visuals.sounds.entity-player-hurt",1.0F),AltarTuning.pitch("bloodlust","visuals.sounds.entity-player-hurt",0.5F));
                         if (victim.isDead()) {
                            BloodAbilityManager.this.playKillVisual(attacker);
                            if (victim instanceof Player pVictim) {
@@ -137,10 +138,10 @@ public class BloodAbilityManager {
                               double angle = (Math.PI / 10) * (double)i;
                               double yOff = 0.2 + (double)i / 20.0 * 1.6;
                               Location swirl = victim.getLocation().add(Math.cos(angle) * 0.65, yOff, Math.sin(angle) * 0.65);
-                              victim.getWorld().spawnParticle(Particle.DUST, swirl, 2, 0.05, 0.05, 0.05, 0.0, redDust);
+                              victim.getWorld().spawnParticle(Particle.DUST, swirl,AltarTuning.particles("bloodlust",2), 0.05, 0.05, 0.05, 0.0, redDust);
                            }
 
-                           victim.getWorld().spawnParticle(Particle.DUST, effectLoc, 35, 0.35, 0.45, 0.35, 0.0, redDust);
+                           victim.getWorld().spawnParticle(Particle.DUST, effectLoc,AltarTuning.particles("bloodlust",35), 0.35, 0.45, 0.35, 0.0, redDust);
                            BloodAbilityManager.this.launchBloodSteal(effectLoc, attacker);
                            this.currentHit++;
                            if (victim instanceof Player pVictim && !victim.isDead()) {
@@ -176,8 +177,8 @@ public class BloodAbilityManager {
                Location targetLoc = attacker.getLocation().add(0.0, 1.2, 0.0);
                Vector dir = targetLoc.toVector().subtract(this.current.toVector());
                if (dir.lengthSquared() < 1.0) {
-                  attacker.getWorld().playSound(attacker.getLocation(), Sound.ENTITY_PLAYER_BURP, 1.0F, 1.2F);
-                  attacker.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 30, 2, false, false, true));
+                  attacker.getWorld().playSound(attacker.getLocation(),AltarTuning.sound("bloodlust","visuals.sounds.entity-player-burp.sound",Sound.ENTITY_PLAYER_BURP),AltarTuning.volume("bloodlust","visuals.sounds.entity-player-burp",1.0F),AltarTuning.pitch("bloodlust","visuals.sounds.entity-player-burp",1.2F));
+                  attacker.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, AltarTuning.integer("bloodlust","tuning.blood-ability-manager.effects.regeneration.duration-ticks",30,1,72000), AltarTuning.integer("bloodlust","tuning.blood-ability-manager.effects.regeneration.amplifier",2,0,10), false, false, true));
                   this.cancel();
                } else {
                   Location prev = this.current.clone();
@@ -190,7 +191,7 @@ public class BloodAbilityManager {
 
                   for (int s = 0; s <= steps; s++) {
                      Location pt = prev.clone().add(subStep.clone().multiply(s));
-                     pt.getWorld().spawnParticle(Particle.BLOCK_CRUMBLE, pt, 1, 0.0, 0.0, 0.0, 0.0, BloodAbilityManager.this.bloodBlockData);
+                     pt.getWorld().spawnParticle(Particle.BLOCK_CRUMBLE, pt,AltarTuning.particles("bloodlust",1), 0.0, 0.0, 0.0, 0.0, BloodAbilityManager.this.bloodBlockData);
                   }
 
                   this.life++;
@@ -206,7 +207,7 @@ public class BloodAbilityManager {
       if (!this.bossBarManager.isOnCooldown(p, "BloodTrail")) {
          this.bossBarManager
             .setCooldown(
-               p, "BloodTrail", this.plugin.tr("§4§lᴋроʙᴀʙый ᴄлᴇд", "§4§lʙʟᴏᴏᴅ ᴛʀᴀɪʟ"), this.plugin.getWeaponsConfig().getInt("bloodlust.blood-trail.cooldown")
+               p, "BloodTrail", AltarTuning.text("bloodlust","messages.blood-ability-manager.message-3","§4§lᴋроʙᴀʙый ᴄлᴇд","§4§lʙʟᴏᴏᴅ ᴛʀᴀɪʟ"), this.plugin.getWeaponsConfig().getInt("bloodlust.blood-trail.cooldown")
             );
          final int maxTicks = this.plugin.getWeaponsConfig().getInt("bloodlust.blood-trail.duration", 20) * 20;
          this.activePuddles.add(p.getUniqueId());
@@ -243,11 +244,11 @@ public class BloodAbilityManager {
                   if (BloodAbilityManager.this.activePuddles.contains(p.getUniqueId()) && p.isOnline() && this.ticks < maxTicks) {
                      if (this.ticks % 20 == 0) {
                         TextUtils.sendActionBar(
-                           p, TextUtils.legacy(BloodAbilityManager.this.plugin.tr("§cНажмите §e[ПРЫЖОК] §cдля выхода", "§cPress §e[JUMP] §cto exit"))
+                           p, TextUtils.legacy(AltarTuning.text("bloodlust","messages.blood-ability-manager.message-4","§cНажмите §e[ПРЫЖОК] §cдля выхода","§cPress §e[JUMP] §cto exit"))
                         );
-                        p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 30, 0, false, false));
-                        p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 30, 3, false, false));
-                        p.addPotionEffect(new PotionEffect(PotionEffectType.MINING_FATIGUE, 30, 3, false, false));
+                        p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, AltarTuning.integer("bloodlust","tuning.blood-ability-manager.effects.invisibility.duration-ticks",30,1,72000), AltarTuning.integer("bloodlust","tuning.blood-ability-manager.effects.invisibility.amplifier",0,0,10), false, false));
+                        p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, AltarTuning.integer("bloodlust","tuning.blood-ability-manager.effects.speed.duration-ticks",30,1,72000), AltarTuning.integer("bloodlust","tuning.blood-ability-manager.effects.speed.amplifier",3,0,10), false, false));
+                        p.addPotionEffect(new PotionEffect(PotionEffectType.MINING_FATIGUE, AltarTuning.integer("bloodlust","tuning.blood-ability-manager.effects.mining_fatigue.duration-ticks",30,1,72000), AltarTuning.integer("bloodlust","tuning.blood-ability-manager.effects.mining_fatigue.amplifier",3,0,10), false, false));
                      }
 
                      Location loc = p.getLocation();
@@ -256,7 +257,7 @@ public class BloodAbilityManager {
                         double angle = Math.random() * 2.0 * Math.PI;
                         double radius = Math.random() * 0.8;
                         Location partLoc = loc.clone().add(Math.cos(angle) * radius, 0.1, Math.sin(angle) * radius);
-                        loc.getWorld().spawnParticle(Particle.BLOCK, partLoc, 1, 0.0, 0.0, 0.0, 0.0, BloodAbilityManager.this.bloodBlockData);
+                        loc.getWorld().spawnParticle(Particle.BLOCK, partLoc,AltarTuning.particles("bloodlust",1), 0.0, 0.0, 0.0, 0.0, BloodAbilityManager.this.bloodBlockData);
                      }
 
                      this.ticks++;
@@ -311,7 +312,7 @@ public class BloodAbilityManager {
 
          if (forceJump) {
             p.setVelocity(p.getVelocity().setY(0.55));
-            p.getWorld().spawnParticle(Particle.BLOCK, p.getLocation().add(0.0, 0.2, 0.0), 20, 0.3, 0.1, 0.3, 0.0, this.bloodBlockData);
+            p.getWorld().spawnParticle(Particle.BLOCK, p.getLocation().add(0.0, 0.2, 0.0),AltarTuning.particles("bloodlust",20), 0.3, 0.1, 0.3, 0.0, this.bloodBlockData);
          }
       }
    }
@@ -332,7 +333,7 @@ public class BloodAbilityManager {
             : attacker.getLocation().add(attacker.getLocation().getDirection().multiply(2.5)).add(0.0, 1.0, 0.0);
          final DustOptions crimsonDust = new DustOptions(Color.fromRGB(220, 20, 20), 1.5F);
          final DustOptions tailDust = new DustOptions(Color.fromRGB(160, 10, 10), 0.9F);
-         int numComets = 6;
+         int numComets = AltarTuning.integer("bloodlust","tuning.blood-ability-manager.num-comets",6,1,512);
          final List<Location> cometLocs = new ArrayList<>();
          final List<Double> phases = new ArrayList<>();
          final List<Double> spiralSpeeds = new ArrayList<>();
@@ -373,16 +374,16 @@ public class BloodAbilityManager {
                         double swirlR = Math.max(0.08, 0.45 * Math.sin(Math.min(1.0, (double)this.ticks / 20.0) * Math.PI));
                         Vector swirlOffset = right.multiply(Math.cos(phase) * swirlR).add(up.multiply(Math.sin(phase) * swirlR));
                         comet.add(step).add(swirlOffset.multiply(0.35));
-                        comet.getWorld().spawnParticle(Particle.DUST, comet, 3, 0.05, 0.05, 0.05, 0.0, crimsonDust);
-                        comet.getWorld().spawnParticle(Particle.BLOCK, comet, 1, 0.02, 0.02, 0.02, 0.0, BloodAbilityManager.this.bloodBlockData);
+                        comet.getWorld().spawnParticle(Particle.DUST, comet,AltarTuning.particles("bloodlust",3), 0.05, 0.05, 0.05, 0.0, crimsonDust);
+                        comet.getWorld().spawnParticle(Particle.BLOCK, comet,AltarTuning.particles("bloodlust",1), 0.02, 0.02, 0.02, 0.0, BloodAbilityManager.this.bloodBlockData);
                         Location tailLoc = comet.clone().subtract(step.clone().multiply(0.4));
-                        comet.getWorld().spawnParticle(Particle.DUST, tailLoc, 2, 0.04, 0.04, 0.04, 0.0, tailDust);
+                        comet.getWorld().spawnParticle(Particle.DUST, tailLoc,AltarTuning.particles("bloodlust",2), 0.04, 0.04, 0.04, 0.0, tailDust);
                      }
                   }
 
                   if (allReached) {
-                     attacker.getWorld().playSound(attacker.getLocation(), Sound.ENTITY_PLAYER_BURP, 0.8F, 1.2F);
-                     attacker.getWorld().spawnParticle(Particle.DUST, target, 35, 0.4, 0.4, 0.4, 0.0, crimsonDust);
+                     attacker.getWorld().playSound(attacker.getLocation(),AltarTuning.sound("bloodlust","visuals.sounds.entity-player-burp.sound",Sound.ENTITY_PLAYER_BURP),AltarTuning.volume("bloodlust","visuals.sounds.entity-player-burp",0.8F),AltarTuning.pitch("bloodlust","visuals.sounds.entity-player-burp",1.2F));
+                     attacker.getWorld().spawnParticle(Particle.DUST, target,AltarTuning.particles("bloodlust",35), 0.4, 0.4, 0.4, 0.0, crimsonDust);
                      this.cancel();
                   }
 
@@ -399,7 +400,7 @@ public class BloodAbilityManager {
       if (!this.bossBarManager.isOnCooldown(p, "BloodHook")) {
          this.bossBarManager
             .setCooldown(
-               p, "BloodHook", this.plugin.tr("§4§lᴋроʙᴀʙый ᴋрюᴋ", "§4§lʙʟᴏᴏᴅ ʜᴏᴏᴋ"), this.plugin.getWeaponsConfig().getInt("bloodlust.blood-hook.cooldown")
+               p, "BloodHook", AltarTuning.text("bloodlust","messages.blood-ability-manager.message-5","§4§lᴋроʙᴀʙый ᴋрюᴋ","§4§lʙʟᴏᴏᴅ ʜᴏᴏᴋ"), this.plugin.getWeaponsConfig().getInt("bloodlust.blood-hook.cooldown")
             );
          p.swingMainHand();
          p.getWorld().playSound(p.getLocation(), "bloodlust.resurface", 1.0F, 1.5F);
@@ -426,7 +427,7 @@ public class BloodAbilityManager {
                      nextLoc.setYaw(this.flightYaw);
                      nextLoc.setPitch(0.0F);
                      if (!(this.distanceTraveled >= this.maxDist) && !nextLoc.getBlock().getType().isSolid()) {
-                        for (Entity e : nextLoc.getWorld().getNearbyEntities(nextLoc, 1.2, 1.2, 1.2)) {
+                        for (Entity e : nextLoc.getWorld().getNearbyEntities(nextLoc,AltarTuning.number("bloodlust","tuning.blood-ability-manager.hit-radius-x",1.2,0,128),AltarTuning.number("bloodlust","tuning.blood-ability-manager.hit-radius-y",1.2,0,128),AltarTuning.number("bloodlust","tuning.blood-ability-manager.hit-radius-z",1.2,0,128))) {
                            if (e instanceof LivingEntity victim
                               && !victim.equals(p)
                               && (
@@ -434,7 +435,7 @@ public class BloodAbilityManager {
                                     || targetPlayer.getGameMode() != GameMode.SPECTATOR
                                        && !BloodAbilityManager.this.plugin.getFriendManager().isFriend(p.getUniqueId(), targetPlayer.getUniqueId())
                               )) {
-                              p.getWorld().playSound(nextLoc, Sound.ENTITY_PLAYER_ATTACK_CRIT, 1.0F, 0.5F);
+                              p.getWorld().playSound(nextLoc,AltarTuning.sound("bloodlust","visuals.sounds.entity-player-attack-crit.sound",Sound.ENTITY_PLAYER_ATTACK_CRIT),AltarTuning.volume("bloodlust","visuals.sounds.entity-player-attack-crit",1.0F),AltarTuning.pitch("bloodlust","visuals.sounds.entity-player-attack-crit",0.5F));
                               BloodAbilityManager.this.plugin.getVisualCleanupManager().untrack(display);
                               display.remove();
                               BloodAbilityManager.this.playImpactBurst(victim.getLocation().add(0.0, 1.0, 0.0));
@@ -458,8 +459,8 @@ public class BloodAbilityManager {
                         this.distanceTraveled = this.distanceTraveled + this.speed;
                         this.currentAngle += 0.5F;
                      } else {
-                        p.getWorld().playSound(nextLoc, Sound.BLOCK_NETHER_GOLD_ORE_BREAK, 1.0F, 0.5F);
-                        p.getWorld().playSound(nextLoc, Sound.BLOCK_CHAIN_BREAK, 1.0F, 1.2F);
+                        p.getWorld().playSound(nextLoc,AltarTuning.sound("bloodlust","visuals.sounds.block-nether-gold-ore-break.sound",Sound.BLOCK_NETHER_GOLD_ORE_BREAK),AltarTuning.volume("bloodlust","visuals.sounds.block-nether-gold-ore-break",1.0F),AltarTuning.pitch("bloodlust","visuals.sounds.block-nether-gold-ore-break",0.5F));
+                        p.getWorld().playSound(nextLoc,AltarTuning.sound("bloodlust","visuals.sounds.block-chain-break.sound",Sound.BLOCK_CHAIN_BREAK),AltarTuning.volume("bloodlust","visuals.sounds.block-chain-break",1.0F),AltarTuning.pitch("bloodlust","visuals.sounds.block-chain-break",1.2F));
                         BloodAbilityManager.this.playImpactBurst(nextLoc);
                         BloodAbilityManager.this.plugin.getVisualCleanupManager().untrack(display);
                         display.remove();
@@ -522,14 +523,14 @@ public class BloodAbilityManager {
 
       for (double i = 0.0; i < dist; i += 0.35) {
          pLoc.add(step);
-         pLoc.getWorld().spawnParticle(Particle.BLOCK_CRUMBLE, pLoc, 1, 0.0, 0.0, 0.0, 0.0, this.bloodBlockData);
+         pLoc.getWorld().spawnParticle(Particle.BLOCK_CRUMBLE, pLoc,AltarTuning.particles("bloodlust",1), 0.0, 0.0, 0.0, 0.0, this.bloodBlockData);
       }
    }
 
    public void playImpactBurst(Location center) {
       Location baseLoc = center.clone().add(0.0, 0.2, 0.0);
       DustOptions crimson = new DustOptions(Color.fromRGB(220, 20, 20), 1.5F);
-      center.getWorld().spawnParticle(Particle.DUST, baseLoc, 25, 0.4, 0.4, 0.4, 0.05, crimson);
+      center.getWorld().spawnParticle(Particle.DUST, baseLoc,AltarTuning.particles("bloodlust",25), 0.4, 0.4, 0.4, 0.05, crimson);
       ParticleUtils.spawnBlockDispersion(this.plugin, baseLoc, this.bloodBlockData, 4.8);
    }
 

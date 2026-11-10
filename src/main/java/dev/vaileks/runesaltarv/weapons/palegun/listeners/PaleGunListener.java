@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.palegun.listeners;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.RunesAltarV;
 import dev.vaileks.runesaltarv.utils.CombatUtils;
@@ -111,8 +112,8 @@ public class PaleGunListener implements Listener {
                      if (dot < -0.3) {
                         double multiplier = this.plugin.getWeaponsConfig().getDouble("pale-gun.backstab.multiplier", 1.5);
                         event.setDamage(event.getDamage() * multiplier);
-                        victim.getWorld().playSound(victim.getLocation(), Sound.ENTITY_CREAKING_ATTACK, 0.8F, 1.05F);
-                        victim.getWorld().spawnParticle(Particle.INFESTED, victim.getLocation().add(0.0, 1.0, 0.0), 20, 0.3, 0.5, 0.3, 0.01);
+                        victim.getWorld().playSound(victim.getLocation(),AltarTuning.sound("pale_gun","visuals.sounds.entity-creaking-attack.sound",Sound.ENTITY_CREAKING_ATTACK),AltarTuning.volume("pale_gun","visuals.sounds.entity-creaking-attack",0.8F),AltarTuning.pitch("pale_gun","visuals.sounds.entity-creaking-attack",1.05F));
+                        victim.getWorld().spawnParticle(Particle.INFESTED, victim.getLocation().add(0.0, 1.0, 0.0),AltarTuning.particles("pale_gun",20), 0.3, 0.5, 0.3, 0.01);
                      }
                   }
                }
@@ -129,7 +130,7 @@ public class PaleGunListener implements Listener {
    private void shoot(Player player, ItemStack item) {
       Location eyeLoc = player.getEyeLocation();
       Vector direction = eyeLoc.getDirection().normalize();
-      player.getWorld().playSound(eyeLoc, Sound.ENTITY_GENERIC_EXPLODE, 1.0F, 2.0F);
+      player.getWorld().playSound(eyeLoc,AltarTuning.sound("pale_gun","visuals.sounds.entity-generic-explode.sound",Sound.ENTITY_GENERIC_EXPLODE),AltarTuning.volume("pale_gun","visuals.sounds.entity-generic-explode",1.0F),AltarTuning.pitch("pale_gun","visuals.sounds.entity-generic-explode",2.0F));
       Vector recoil = direction.clone().multiply(-1).normalize().multiply(0.8).setY(0.25);
       player.setVelocity(recoil);
       double speed = this.plugin.getWeaponsConfig().getDouble("pale-gun.shoot.projectile-speed", 1.8);

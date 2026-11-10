@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.cutlass.listeners;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.RunesAltarV;
 import dev.vaileks.runesaltarv.utils.CombatUtils;
@@ -87,7 +88,7 @@ public class CutlassListener implements Listener {
                      if (ThreadLocalRandom.current().nextInt(100) < 20) {
                         Vector pull = player.getLocation().toVector().subtract(target.getLocation().toVector()).normalize().multiply(0.55).setY(0.2);
                         target.setVelocity(pull);
-                        player.playSound(player.getLocation(), Sound.ITEM_TRIDENT_RETURN, 0.8F, 1.5F);
+                        player.playSound(player.getLocation(),AltarTuning.sound("cutlass","visuals.sounds.item-trident-return.sound",Sound.ITEM_TRIDENT_RETURN),AltarTuning.volume("cutlass","visuals.sounds.item-trident-return",0.8F),AltarTuning.pitch("cutlass","visuals.sounds.item-trident-return",1.5F));
                      }
                   }
                }
@@ -125,7 +126,7 @@ public class CutlassListener implements Listener {
             if (data != null) {
                data.lastHitTime = System.currentTimeMillis();
                data.charges--;
-               victim.getWorld().playSound(victim.getLocation(), Sound.ITEM_SHIELD_BLOCK, 1.0F, 0.8F);
+               victim.getWorld().playSound(victim.getLocation(),AltarTuning.sound("cutlass","visuals.sounds.item-shield-block.sound",Sound.ITEM_SHIELD_BLOCK),AltarTuning.volume("cutlass","visuals.sounds.item-shield-block",1.0F),AltarTuning.pitch("cutlass","visuals.sounds.item-shield-block",0.8F));
                if (event instanceof EntityDamageByEntityEvent damageEvent && damageEvent.getDamager() instanceof LivingEntity attacker) {
                   double knockbackPower = RunesAltarV.getInstance().getWeaponsConfig().getDouble("cutlass.parry.knockback-power", 0.8);
                   Vector knockback = attacker.getLocation().toVector().subtract(victim.getLocation().toVector()).normalize().multiply(knockbackPower).setY(0.3);

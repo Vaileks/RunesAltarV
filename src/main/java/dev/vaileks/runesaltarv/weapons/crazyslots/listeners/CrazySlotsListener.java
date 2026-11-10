@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.crazyslots.listeners;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.RunesAltarV;
 import dev.vaileks.runesaltarv.weapons.crazyslots.managers.CrazySlotsManager;
@@ -252,7 +253,7 @@ public class CrazySlotsListener implements Listener {
                            player.updateInventory();
                            this.manager.endTransformationAndApplyCooldown(player, instanceId);
                         } else {
-                           player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASS, 1.0F, 0.5F);
+                           player.playSound(player.getLocation(),AltarTuning.sound("crazyslots","visuals.sounds.block-note-block-bass.sound",Sound.BLOCK_NOTE_BLOCK_BASS),AltarTuning.volume("crazyslots","visuals.sounds.block-note-block-bass",1.0F),AltarTuning.pitch("crazyslots","visuals.sounds.block-note-block-bass",0.5F));
                         }
 
                         return;

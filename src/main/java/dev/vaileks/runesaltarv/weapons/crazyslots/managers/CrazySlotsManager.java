@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.crazyslots.managers;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.RunesAltarV;
 import dev.vaileks.runesaltarv.utils.TextUtils;
@@ -199,8 +200,8 @@ public class CrazySlotsManager {
 
       if (player != null && player.isOnline()) {
          this.playerToInstance.remove(player.getUniqueId());
-         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1.0F, 1.2F);
-         player.getWorld().playSound(player.getLocation(), Sound.ITEM_ARMOR_EQUIP_GENERIC, 1.0F, 1.0F);
+         player.getWorld().playSound(player.getLocation(),AltarTuning.sound("crazyslots","visuals.sounds.entity-enderman-teleport.sound",Sound.ENTITY_ENDERMAN_TELEPORT),AltarTuning.volume("crazyslots","visuals.sounds.entity-enderman-teleport",1.0F),AltarTuning.pitch("crazyslots","visuals.sounds.entity-enderman-teleport",1.2F));
+         player.getWorld().playSound(player.getLocation(),AltarTuning.sound("crazyslots","visuals.sounds.item-armor-equip-generic.sound",Sound.ITEM_ARMOR_EQUIP_GENERIC),AltarTuning.volume("crazyslots","visuals.sounds.item-armor-equip-generic",1.0F),AltarTuning.pitch("crazyslots","visuals.sounds.item-armor-equip-generic",1.0F));
          player.updateInventory();
          int cooldownSec = this.plugin.getWeaponsConfig().getInt("crazy-slots.cooldown", 60);
          this.setCooldown(player, cooldownSec);
@@ -230,7 +231,7 @@ public class CrazySlotsManager {
          old.removeAll();
       }
 
-      String title = ChatColor.YELLOW + this.plugin.tr("бᴇзумныᴇ ᴄлоᴛы", "ᴄʀᴀᴢʏ sʟᴏᴛs");
+      String title = ChatColor.YELLOW + AltarTuning.text("crazyslots","messages.crazy-slots-manager.message-1","бᴇзумныᴇ ᴄлоᴛы","ᴄʀᴀᴢʏ sʟᴏᴛs");
       final BossBar bar = dev.vaileks.runesaltarv.integration.AltarCooldowns.cooldownBar(title, BarColor.YELLOW, BarStyle.SOLID);
       bar.addPlayer(player);
       bar.setProgress(1.0);
@@ -265,9 +266,9 @@ public class CrazySlotsManager {
             } else {
                Location loc = player.getLocation();
                World world = player.getWorld();
-               world.playSound(loc, Sound.BLOCK_NOTE_BLOCK_PLING, 1.0F, 0.8F);
-               world.playSound(loc, Sound.UI_BUTTON_CLICK, 1.0F, 1.2F);
-               world.spawnParticle(Particle.PORTAL, loc.clone().add(0.0, 1.0, 0.0), 30, 0.4, 0.4, 0.4, 0.2);
+               world.playSound(loc,AltarTuning.sound("crazyslots","visuals.sounds.block-note-block-pling.sound",Sound.BLOCK_NOTE_BLOCK_PLING),AltarTuning.volume("crazyslots","visuals.sounds.block-note-block-pling",1.0F),AltarTuning.pitch("crazyslots","visuals.sounds.block-note-block-pling",0.8F));
+               world.playSound(loc,AltarTuning.sound("crazyslots","visuals.sounds.ui-button-click.sound",Sound.UI_BUTTON_CLICK),AltarTuning.volume("crazyslots","visuals.sounds.ui-button-click",1.0F),AltarTuning.pitch("crazyslots","visuals.sounds.ui-button-click",1.2F));
+               world.spawnParticle(Particle.PORTAL, loc.clone().add(0.0, 1.0, 0.0),AltarTuning.particles("crazyslots",30), 0.4, 0.4, 0.4, 0.2);
                ItemStack rolledWeapon = this.rollRandomWeapon();
                if (rolledWeapon == null || rolledWeapon.getType().isAir()) {
                   rolledWeapon = WeaponFactory.getBloodLust(0);
@@ -285,9 +286,9 @@ public class CrazySlotsManager {
                this.instanceToPlayer.put(instanceId, player.getUniqueId());
                player.getInventory().setItemInMainHand(rolledWeapon);
                player.updateInventory();
-               world.playSound(loc, Sound.ENTITY_PLAYER_LEVELUP, 1.0F, 1.3F);
-               world.playSound(loc, Sound.ENTITY_ENDERMAN_TELEPORT, 1.0F, 1.0F);
-               world.spawnParticle(Particle.FIREWORK, loc.clone().add(0.0, 1.2, 0.0), 20, 0.3, 0.4, 0.3, 0.05);
+               world.playSound(loc,AltarTuning.sound("crazyslots","visuals.sounds.entity-player-levelup.sound",Sound.ENTITY_PLAYER_LEVELUP),AltarTuning.volume("crazyslots","visuals.sounds.entity-player-levelup",1.0F),AltarTuning.pitch("crazyslots","visuals.sounds.entity-player-levelup",1.3F));
+               world.playSound(loc,AltarTuning.sound("crazyslots","visuals.sounds.entity-enderman-teleport.sound",Sound.ENTITY_ENDERMAN_TELEPORT),AltarTuning.volume("crazyslots","visuals.sounds.entity-enderman-teleport",1.0F),AltarTuning.pitch("crazyslots","visuals.sounds.entity-enderman-teleport",1.0F));
+               world.spawnParticle(Particle.FIREWORK, loc.clone().add(0.0, 1.2, 0.0),AltarTuning.particles("crazyslots",20), 0.3, 0.4, 0.3, 0.05);
                final int duration = this.plugin.getWeaponsConfig().getInt("crazy-slots.transform-duration", 30);
                BukkitTask task = (new BukkitRunnable() {
                   int elapsed = 0;
@@ -531,8 +532,8 @@ public class CrazySlotsManager {
          }
 
          if (playerToCooldown != null && playerToCooldown.isOnline()) {
-            playerToCooldown.getWorld().playSound(playerToCooldown.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1.0F, 1.2F);
-            playerToCooldown.getWorld().playSound(playerToCooldown.getLocation(), Sound.ITEM_ARMOR_EQUIP_GENERIC, 1.0F, 1.0F);
+            playerToCooldown.getWorld().playSound(playerToCooldown.getLocation(),AltarTuning.sound("crazyslots","visuals.sounds.entity-enderman-teleport.sound",Sound.ENTITY_ENDERMAN_TELEPORT),AltarTuning.volume("crazyslots","visuals.sounds.entity-enderman-teleport",1.0F),AltarTuning.pitch("crazyslots","visuals.sounds.entity-enderman-teleport",1.2F));
+            playerToCooldown.getWorld().playSound(playerToCooldown.getLocation(),AltarTuning.sound("crazyslots","visuals.sounds.item-armor-equip-generic.sound",Sound.ITEM_ARMOR_EQUIP_GENERIC),AltarTuning.volume("crazyslots","visuals.sounds.item-armor-equip-generic",1.0F),AltarTuning.pitch("crazyslots","visuals.sounds.item-armor-equip-generic",1.0F));
             playerToCooldown.updateInventory();
             if (applyCooldown) {
                int cooldownSec = this.plugin.getWeaponsConfig().getInt("crazy-slots.cooldown", 60);
@@ -543,8 +544,8 @@ public class CrazySlotsManager {
    }
 
    private void handlePlayerReverted(Player player) {
-      player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1.0F, 1.2F);
-      player.getWorld().playSound(player.getLocation(), Sound.ITEM_ARMOR_EQUIP_GENERIC, 1.0F, 1.0F);
+      player.getWorld().playSound(player.getLocation(),AltarTuning.sound("crazyslots","visuals.sounds.entity-enderman-teleport.sound",Sound.ENTITY_ENDERMAN_TELEPORT),AltarTuning.volume("crazyslots","visuals.sounds.entity-enderman-teleport",1.0F),AltarTuning.pitch("crazyslots","visuals.sounds.entity-enderman-teleport",1.2F));
+      player.getWorld().playSound(player.getLocation(),AltarTuning.sound("crazyslots","visuals.sounds.item-armor-equip-generic.sound",Sound.ITEM_ARMOR_EQUIP_GENERIC),AltarTuning.volume("crazyslots","visuals.sounds.item-armor-equip-generic",1.0F),AltarTuning.pitch("crazyslots","visuals.sounds.item-armor-equip-generic",1.0F));
       player.updateInventory();
       int cooldownSec = this.plugin.getWeaponsConfig().getInt("crazy-slots.cooldown", 60);
       this.setCooldown(player, cooldownSec);

@@ -1,4 +1,5 @@
 package dev.vaileks.runesaltarv.weapons.frostscythe.tasks;
+import dev.vaileks.runesaltarv.integration.AltarTuning;
 
 import dev.vaileks.runesaltarv.RunesAltarV;
 import dev.vaileks.runesaltarv.utils.CombatUtils;
@@ -110,7 +111,7 @@ public class FrostScytheTask extends BukkitRunnable {
          if (current.getWorld() == null) {
             this.forceFinish();
          } else {
-            current.getWorld().spawnParticle(Particle.SNOWFLAKE, current, 6, 0.22, 0.22, 0.22, 0.03);
+            current.getWorld().spawnParticle(Particle.SNOWFLAKE, current,AltarTuning.particles("frost_scythe",6), 0.22, 0.22, 0.22, 0.03);
             if (this.returning) {
                this.handleReturn(current);
             } else {
@@ -187,7 +188,7 @@ public class FrostScytheTask extends BukkitRunnable {
          Vector toOwner = target.toVector().subtract(current.toVector());
          double distance = toOwner.length();
 
-         for (Entity entity : current.getWorld().getNearbyEntities(current, 1.5, 1.5, 1.5)) {
+         for (Entity entity : current.getWorld().getNearbyEntities(current,AltarTuning.number("frost_scythe","tuning.frost-scythe-task.hit-radius-x",1.5,0,128),AltarTuning.number("frost_scythe","tuning.frost-scythe-task.hit-radius-y",1.5,0,128),AltarTuning.number("frost_scythe","tuning.frost-scythe-task.hit-radius-z",1.5,0,128))) {
             if (entity instanceof LivingEntity) {
                LivingEntity victim = (LivingEntity)entity;
                if (!victim.equals(this.owner) && this.isValidTarget(victim) && !this.hitOnReturn.contains(victim.getUniqueId())) {
@@ -246,7 +247,7 @@ public class FrostScytheTask extends BukkitRunnable {
 
          if (this.owner.getInventory().firstEmpty() != -1) {
             this.owner.getInventory().addItem(new ItemStack[]{returnItem});
-            this.owner.playSound(this.owner.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1.0F, 1.2F);
+            this.owner.playSound(this.owner.getLocation(),AltarTuning.sound("frost_scythe","visuals.sounds.entity-item-pickup.sound",Sound.ENTITY_ITEM_PICKUP),AltarTuning.volume("frost_scythe","visuals.sounds.entity-item-pickup",1.0F),AltarTuning.pitch("frost_scythe","visuals.sounds.entity-item-pickup",1.2F));
          } else {
             this.owner.getWorld().dropItemNaturally(this.owner.getLocation(), returnItem);
          }
@@ -287,7 +288,7 @@ public class FrostScytheTask extends BukkitRunnable {
          }
 
          loc.getWorld().dropItemNaturally(loc, drop);
-         loc.getWorld().playSound(loc, Sound.ENTITY_ITEM_PICKUP, 1.0F, 0.6F);
+         loc.getWorld().playSound(loc,AltarTuning.sound("frost_scythe","visuals.sounds.entity-item-pickup.sound",Sound.ENTITY_ITEM_PICKUP),AltarTuning.volume("frost_scythe","visuals.sounds.entity-item-pickup",1.0F),AltarTuning.pitch("frost_scythe","visuals.sounds.entity-item-pickup",0.6F));
          this.cleanup();
       } else {
          this.cleanup();

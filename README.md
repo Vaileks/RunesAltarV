@@ -39,3 +39,8 @@ The `tests/` directory contains integration checks intended for a disposable Pap
 ## Attribution
 
 RunesAltarV is a standalone derivative of [AltarLegendaryWH by WHersss](https://modrinth.com/plugin/altarlegendarywh), published under the MIT license. This version removes the framework and pedestal integrations, adds independent configuration and administration, and adapts presentation and cooldown feedback. It is maintained separately and is not an official release of the original project. See `LICENSE` and `NOTICE`.
+
+## Weapon configuration
+
+Each weapon file is the single configuration home for its abilities, progression, models, attribute bonuses, visual parameters and sound settings. Existing ability fields are now fully written out instead of relying on hidden Java defaults. The `tuning` section exposes additional effect durations/amplifiers, targeting radii, animation sizes and projectile parameters; `visuals.sounds` configures individual vanilla or resource-pack sounds and relative volume/pitch, and `visuals.particle-density` adjusts particle counts. `item.attack-damage-bonus` and `item.attack-speed-bonus` add main-hand attributes without replacing progression modifiers. Bounds reject non-finite/extreme values in the additional tuning fields. New fields are appended on reload/startup; existing administrator values are preserved.
+
